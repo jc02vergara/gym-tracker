@@ -1,0 +1,7 @@
+/* App specific styles will go here or in modules */
+.app-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: var(--space-sm);
+  padding-bottom: 5rem; /* Space for bottom nav if needed */
+}
