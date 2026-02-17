@@ -11,7 +11,7 @@ export function LoginView() {
         if (!username.trim()) return;
         login(username);
     };
-
+console.log(username);
     return (
         <div style={{
             height: '100vh',
