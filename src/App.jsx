@@ -5,6 +5,7 @@ import { WorkoutView } from './components/WorkoutView'
 import { ProgressView } from './components/ProgressView'
 import { LoginView } from './components/LoginView'
 import { useStore } from './hooks/useStore'
+import { Toaster } from 'sonner'
 
 function App() {
   const { user, logout } = useStore();
@@ -16,6 +17,7 @@ function App() {
 
   return (
     <div className="app-container">
+      <Toaster richColors position="top-center" theme="dark" />
       <header style={{ marginBottom: '2rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <h1 style={{ fontSize: '1.5rem', fontWeight: '800', background: 'linear-gradient(to right, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: 0 }}>
           GYM TRACKER
@@ -51,9 +53,11 @@ function App() {
       {/* Bottom Navigation */}
       <nav style={{
         position: 'fixed',
-        bottom: '1.5rem',
-        left: '50%',
-        transform: 'translateX(-50%)',
+        bottom: 'calc(1.5rem + env(safe-area-inset-bottom))',
+        left: 0,
+        right: 0,
+        width: 'fit-content',
+        margin: '0 auto',
         display: 'flex',
         gap: '1rem',
         background: 'rgba(15, 23, 42, 0.8)',
@@ -61,7 +65,9 @@ function App() {
         borderRadius: 'var(--radius-lg)',
         border: '1px solid rgba(255, 255, 255, 0.1)',
         backdropFilter: 'blur(12px)',
-        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.1)'
+        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+        zIndex: 9999,
+        transform: 'translate3d(0,0,100px)' // Force hardware acceleration and z-position
       }}>
         <button
           onClick={() => setView('workout')}

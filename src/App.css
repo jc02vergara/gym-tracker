@@ -3,5 +3,31 @@
   max-width: 600px;
   margin: 0 auto;
   padding: var(--space-sm);
-  padding-bottom: 5rem; /* Space for bottom nav if needed */
+  padding-top: calc(var(--space-sm) + env(safe-area-inset-top));
+  padding-bottom: calc(5rem + env(safe-area-inset-bottom)); /* Space for bottom nav + safe area */
+  padding-left: calc(var(--space-sm) + env(safe-area-inset-left));
+  padding-right: calc(var(--space-sm) + env(safe-area-inset-right));
+}
+
+/* Responsive Grids */
+.grid-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1rem;
+}
+
+.measurements-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+@media (max-width: 600px) {
+  .grid-inputs {
+    grid-template-columns: 1fr;
+  }
+  
+  .measurements-grid {
+    grid-template-columns: 1fr;
+  }
 }

@@ -111,9 +111,21 @@ export function StoreProvider({ children }) {
             const { data: logsData } = await supabase.from('logs').select('*').eq('user_id', userId);
             const { data: measureData } = await supabase.from('measurements').select('*').eq('user_id', userId);
 
-            if (routinesData) setRoutines(routinesData);
+            if (routinesData) {
+                const sorted = routinesData.map(r => ({
+                    ...r,
+                    exercises: r.exercises ? r.exercises.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)) : []
+                })).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
+                setRoutines(sorted);
+            }
             if (logsData) {
-                const normalizedLogs = logsData.map(log => ({ ...log, exerciseId: log.exercise_id }));
+                const normalizedLogs = logsData.map(log => ({ 
+                    ...log, 
+                    exerciseId: log.exercise_id,
+                    sets: log.sets || 4, // Default to 4 if new field missing
+                    completedSets: log.completed_sets || 0,
+                    unit: log.unit || 'kg'
+                }));
                 setLogs(normalizedLogs);
             }
             if (measureData) setMeasurements(measureData);
@@ -180,7 +192,7 @@ export function StoreProvider({ children }) {
     const addRoutine = async (name) => {
         if (!user) return;
         const newId = crypto.randomUUID();
-        const newRoutine = { id: newId, user_id: user.id, name }; // exercises separate
+        const newRoutine = { id: newId, user_id: user.id, name, is_active: true }; // exercises separate
 
         setRoutines(prev => [...prev, { ...newRoutine, exercises: [] }]);
 
@@ -212,12 +224,32 @@ export function StoreProvider({ children }) {
         }
     };
 
+    const reorderRoutines = async (newRoutines) => {
+        // Update local state immediately
+        setRoutines(newRoutines);
+
+        // Sync to DB (update sort_order for all)
+        // Optimization: only update those who changed? For simplicity, we loop all.
+        // We assume 'sort_order' column exists. If not, it will fail silently or log error.
+        newRoutines.forEach(async (routine, index) => {
+             try {
+                 await supabase.from('routines').update({ sort_order: index }).eq('id', routine.id);
+             } catch (error) {
+                 console.log("Error syncing sort_order", error);
+                 // We don't queue these strictly to avoid flood, or maybe we should? 
+                 // For now, let's treat it as "best effort".
+             }
+        });
+    };
+
     const addExerciseToRoutine = async (routineId, exerciseName) => {
         const newId = crypto.randomUUID();
         const newExercise = {
             id: newId,
             routine_id: routineId,
             name: exerciseName,
+            target_sets: 4,
+            target_reps: '10-12'
         };
 
         setRoutines((prev) =>
@@ -255,6 +287,37 @@ export function StoreProvider({ children }) {
         }
     };
 
+    const updateExercise = async (id, updates) => {
+        setRoutines(prev => prev.map(r => ({
+            ...r,
+            exercises: r.exercises ? r.exercises.map(e => e.id === id ? { ...e, ...updates } : e) : []
+        })));
+
+        try {
+            const { error } = await supabase.from('exercises').update(updates).eq('id', id);
+            if (error) throw error;
+        } catch (error) {
+             addToQueue({ table: 'exercises', type: 'UPDATE', id, data: updates });
+        }
+    };
+
+    const reorderExercises = async (routineId, newExercises) => {
+        setRoutines(prev => prev.map(r => {
+            if (r.id === routineId) {
+                return { ...r, exercises: newExercises };
+            }
+            return r;
+        }));
+
+        newExercises.forEach(async (exercise, index) => {
+            try {
+                await supabase.from('exercises').update({ sort_order: index }).eq('id', exercise.id);
+            } catch (error) {
+                console.log("Error syncing exercise sort_order", error);
+            }
+        });
+    };
+
     const addLog = async (log) => {
         const logData = {
             id: crypto.randomUUID(),
@@ -262,10 +325,13 @@ export function StoreProvider({ children }) {
             exercise_id: log.exerciseId,
             weight: log.weight,
             reps: log.reps,
+            sets: log.sets || 4,
+            completed_sets: log.completedSets || 0,
+            unit: log.unit || 'kg',
             created_at: new Date().toISOString()
         };
         // Local state
-        setLogs((prev) => [{ ...logData, exerciseId: logData.exercise_id }, ...prev]);
+        setLogs((prev) => [{ ...logData, exerciseId: logData.exercise_id, completedSets: logData.completed_sets }, ...prev]);
 
         try {
             const { error } = await supabase.from('logs').insert(logData);
@@ -284,11 +350,20 @@ export function StoreProvider({ children }) {
             dbUpdates.exercise_id = dbUpdates.exerciseId;
             delete dbUpdates.exerciseId;
         }
+        if (dbUpdates.completedSets !== undefined) {
+            dbUpdates.completed_sets = dbUpdates.completedSets;
+            delete dbUpdates.completedSets;
+        }
+        if (dbUpdates.unit) {
+             // unit column name matches - supabase handles mapping if key matches column
+             // But we need to ensure it's in the data object for the queue
+        }
 
         try {
             const { error } = await supabase.from('logs').update(dbUpdates).eq('id', id);
             if (error) throw error;
         } catch (error) {
+            console.log("Offline update queued");
             addToQueue({ table: 'logs', type: 'UPDATE', id, data: dbUpdates });
         }
     };
@@ -304,6 +379,7 @@ export function StoreProvider({ children }) {
     };
 
     const addMeasurement = async (measurement) => {
+        // Measurement object from UI should now match: { weight, chest, waist, arms, legs, date }
         const mData = {
             id: crypto.randomUUID(),
             user_id: user.id,
@@ -312,10 +388,11 @@ export function StoreProvider({ children }) {
         setMeasurements((prev) => [mData, ...prev]);
 
         try {
-            const { error } = await supabase.from('measurements').insert(mData);
-            if (error) throw error;
+             // Ensure we are sending the correct columns to Supabase
+             const { error } = await supabase.from('measurements').insert(mData);
+             if (error) throw error;
         } catch (error) {
-            addToQueue({ table: 'measurements', type: 'INSERT', data: mData });
+             addToQueue({ table: 'measurements', type: 'INSERT', data: mData });
         }
     };
 
@@ -343,7 +420,7 @@ export function StoreProvider({ children }) {
         routines, logs, measurements, user,
         login, register, logout,
         addLog, addMeasurement, updateLog, deleteLog, updateMeasurement, deleteMeasurement,
-        addExerciseToRoutine, removeExerciseFromRoutine, addRoutine, updateRoutine, removeRoutine,
+        addExerciseToRoutine, removeExerciseFromRoutine, updateExercise, addRoutine, updateRoutine, removeRoutine, reorderRoutines, reorderExercises,
     };
 
     return (
