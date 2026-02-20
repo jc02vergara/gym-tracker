@@ -1032,7 +1032,7 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                             // Determine unit label for tooltip
                                             let unitLabel = 'kg';
                                             if (data.unit === 'placas') unitLabel = 'Placas';
-                                            else if (unit === 'lbs') unitLabel = 'lbs';
+                                            else if (data.unit === 'lbs') unitLabel = 'lbs';
 
                                             return (
                                                 <div style={{ backgroundColor: 'var(--bg-card)', padding: '0.5rem', border: '1px solid var(--glass-border)', borderRadius: '4px' }}>
@@ -1071,7 +1071,7 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                             const logVolume = (log.weight || 0) * (log.reps || 0) * (completed > 0 ? completed : target);
 
                             // Helper for unit label
-                            const logUnitLabel = log.unit === 'placas' ? 'Placas' : 'kg';
+                            const logUnitLabel = log.unit === 'placas' ? 'Placas' : (log.unit || 'kg');
 
                             // Comparison Logic (updated for unit safety)
                             const prevLog = exerciseLogs[index + 1];
