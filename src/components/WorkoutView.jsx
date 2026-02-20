@@ -354,12 +354,13 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
     const [showTimer, setShowTimer] = useState(false);
     const [activeLogIdForTimer, setActiveLogIdForTimer] = useState(null);
     const [chartMetric, setChartMetric] = useState('weight'); // 'weight' or 'volume'
+    const [logsVisible, setLogsVisible] = useState(5);
 
     const activeExercise = routine.exercises.find(e => e.id === activeExerciseId);
     const exerciseLogs = logs
         .filter(l => l.exerciseId === activeExerciseId)
-        .sort((a, b) => new Date(b.created_at || b.date) - new Date(a.created_at || a.date))
-        .slice(0, 5);
+        .sort((a, b) => new Date(b.created_at || b.date) - new Date(a.created_at || a.date));
+    const visibleLogs = exerciseLogs.slice(0, logsVisible);
 
     // Effect to prefill sets/reps when active exercise changes (User request)
     useEffect(() => {
@@ -370,6 +371,7 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
             const targetReps = activeExercise.target_reps ? parseInt(activeExercise.target_reps) : '';
             setReps(targetReps || '');
         }
+        setLogsVisible(5); // Reset pagination when switching exercises
     }, [activeExerciseId, activeExercise]); // activeExercise depends on routine.exercises
 
     const handleLogSet = (e) => {
@@ -1063,7 +1065,7 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                     {exerciseLogs.length === 0 ? (
                         <p style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>Sin registros aún</p>
                     ) : (
-                        exerciseLogs.map((log, index) => {
+                        visibleLogs.map((log, index) => {
                             // ... (keep completed, target, isLatest, logVolume) ...
                             const completed = log.completedSets || 0;
                             const target = log.sets || 4;
@@ -1177,10 +1179,13 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                             </div>
                                         </div>
 
-                                        {/* Completion Status / Sets Progress - ONLY ON LATEST */}
-                                        {isLatest && (
+                                        {/* Completion Status / Sets Progress */}
+                                        {isLatest ? (
+                                            /* Latest record: interactive checkboxes */
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginRight: '4px' }}>Series:</span>
+                                                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginRight: '4px' }}>
+                                                    {completed}/{target} series
+                                                </span>
                                                 {Array.from({ length: log.sets || 4 }).map((_, i) => {
                                                     const isCompleted = i < (log.completedSets || 0);
                                                     return (
@@ -1205,6 +1210,20 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                                     );
                                                 })}
                                             </div>
+                                        ) : (
+                                            /* Older records: informational text only */
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                                                <span style={{
+                                                    fontSize: '0.75rem',
+                                                    color: completed >= target ? 'var(--success)' : 'var(--text-muted)',
+                                                    fontWeight: '600',
+                                                    background: completed >= target ? 'rgba(34, 197, 94, 0.1)' : 'rgba(255,255,255,0.05)',
+                                                    padding: '2px 8px',
+                                                    borderRadius: '4px'
+                                                }}>
+                                                    {completed >= target ? '✓ ' : ''}{completed}/{target} series
+                                                </span>
+                                            </div>
                                         )}
                                     </div>
 
@@ -1228,6 +1247,26 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                 </div>
                             );
                         })
+                    )}
+                    {exerciseLogs.length > logsVisible && (
+                        <button
+                            onClick={() => setLogsVisible(v => v + 5)}
+                            style={{
+                                width: '100%',
+                                padding: '0.75rem',
+                                background: 'transparent',
+                                border: '1px dashed rgba(255,255,255,0.15)',
+                                borderRadius: 'var(--radius-md)',
+                                color: 'var(--primary)',
+                                cursor: 'pointer',
+                                fontSize: '0.9rem',
+                                fontWeight: '600',
+                                letterSpacing: '0.3px',
+                                transition: 'all 0.2s'
+                            }}
+                        >
+                            ↓ Mostrar más ({exerciseLogs.length - logsVisible} restantes)
+                        </button>
                     )}
                 </div>
             </div>

@@ -18,6 +18,7 @@ export function ProgressView() {
     });
 
     const [editingId, setEditingId] = useState(null);
+    const [measVisible, setMeasVisible] = useState(5);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -105,7 +106,7 @@ export function ProgressView() {
                     {editingId ? 'Editar Registro' : 'Actualizar'}
                 </button>
                 <button
-                    onClick={() => { setActiveTab('history'); setEditingId(null); }}
+                    onClick={() => { setActiveTab('history'); setEditingId(null); setMeasVisible(5); }}
                     style={{
                         flex: 1,
                         padding: '0.75rem',
@@ -276,10 +277,13 @@ export function ProgressView() {
                                 })()}
                             </div>
 
-                            {measurements
-                                .sort((a, b) => new Date(b.date) - new Date(a.date))
-                                .map((entry, index) => {
-                                const prev = measurements[index + 1];
+                            {(() => {
+                            const sortedMeasurements = [...measurements].sort((a, b) => new Date(b.date) - new Date(a.date));
+                            const visibleMeasurements = sortedMeasurements.slice(0, measVisible);
+                            return (
+                                <>
+                                    {visibleMeasurements.map((entry, index) => {
+                                    const prev = sortedMeasurements[index + 1];
                                 const getDelta = (current, previous) => {
                                     if (!current || !previous) return null;
                                     const diff = (parseFloat(current) - parseFloat(previous)).toFixed(1);
@@ -368,7 +372,30 @@ export function ProgressView() {
                                         </div>
                                     </div>
                                 );
-                            })}
+                                    })}
+                                    {sortedMeasurements.length > measVisible && (
+                                        <button
+                                            onClick={() => setMeasVisible(v => v + 5)}
+                                            style={{
+                                                width: '100%',
+                                                padding: '0.75rem',
+                                                background: 'transparent',
+                                                border: '1px dashed rgba(255,255,255,0.15)',
+                                                borderRadius: 'var(--radius-md)',
+                                                color: 'var(--primary)',
+                                                cursor: 'pointer',
+                                                fontSize: '0.9rem',
+                                                fontWeight: '600',
+                                                letterSpacing: '0.3px',
+                                                transition: 'all 0.2s'
+                                            }}
+                                        >
+                                            ↓ Mostrar más ({sortedMeasurements.length - measVisible} restantes)
+                                        </button>
+                                    )}
+                                </>
+                            );
+                        })()}
                         </>
                     )}
                 </div>
