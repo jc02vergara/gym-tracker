@@ -47,7 +47,7 @@ export async function scheduleNotification(title, body, id = 1, delaySeconds = 1
                     title,
                     body,
                     id,
-                    schedule: { at: new Date(Date.now() + delaySeconds * 1000) },
+                    schedule: { at: new Date(Date.now() + delaySeconds * 1000), allowWhileIdle: true },
                     sound: 'default',
                     channelId: 'gym_timer',
                     smallIcon: 'ic_launcher',

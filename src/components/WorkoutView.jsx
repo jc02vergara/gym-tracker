@@ -2,21 +2,27 @@ import { useState, useEffect } from 'react';
 import { useStore } from '../hooks/useStore';
 import { ChevronRight, Plus, History, Trash2, Edit2, Eye, EyeOff } from 'lucide-react';
 import { Timer } from './Timer';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { toast } from 'sonner';
 import { confirmAction } from '../utils/ui';
 
-export function WorkoutView() {
+export function WorkoutView({ preselectedRoutineId }) {
     const { 
         routines, logs, addLog, user, 
         addRoutine, updateRoutine, removeRoutine, reorderRoutines,
         addExerciseToRoutine, removeExerciseFromRoutine // Added missing functions
     } = useStore();
-    const [activeRoutineId, setActiveRoutineId] = useState('');
+    const [activeRoutineId, setActiveRoutineId] = useState(preselectedRoutineId || '');
     const [isEditingRoutines, setIsEditingRoutines] = useState(false);
     const [newRoutineName, setNewRoutineName] = useState('');
     const [editingRoutineId, setEditingRoutineId] = useState(null);
     const [editingName, setEditingName] = useState('');
+
+    useEffect(() => {
+        if (preselectedRoutineId) {
+            setActiveRoutineId(preselectedRoutineId);
+        }
+    }, [preselectedRoutineId]);
 
     const activeRoutine = routines.find(r => r.id === activeRoutineId);
 
@@ -80,31 +86,48 @@ export function WorkoutView() {
 
     if (!activeRoutine) {
         return (
-
-
-        <div style={{ display: 'grid', gap: '1rem' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-                <h2 style={{ margin: 0 }}>Hola, {user?.name || 'Vikingo'}!</h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', paddingBottom: '2rem' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 0' }}>
+                <div>
+                     <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>Bienvenido de vuelta</p>
+                     <h2 style={{ margin: 0, fontSize: '2.2rem', fontWeight: '900', background: 'linear-gradient(135deg, #ffffff 0%, #a5b4fc 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-1px' }}>
+                         {user?.name || 'Vikingo'}!
+                     </h2>
+                </div>
                 <button
                     onClick={() => setIsEditingRoutines(!isEditingRoutines)}
                     style={{
-                        background: isEditingRoutines ? 'rgba(239, 68, 68, 0.1)' : 'transparent',
-                        border: '1px solid ' + (isEditingRoutines ? 'var(--danger)' : 'var(--primary)'),
-                        color: isEditingRoutines ? 'var(--danger)' : 'var(--primary)',
-                        padding: '0.25rem 0.75rem',
-                        borderRadius: 'var(--radius-sm)',
-                        fontSize: '0.8rem',
+                        background: isEditingRoutines ? 'var(--danger)' : 'rgba(255,255,255,0.05)',
+                        border: '1px solid',
+                        borderColor: isEditingRoutines ? 'var(--danger)' : 'rgba(255,255,255,0.1)',
+                        color: isEditingRoutines ? 'white' : 'var(--text-main)',
+                        padding: '0.6rem 1rem',
+                        borderRadius: '12px',
+                        fontSize: '0.85rem',
+                        fontWeight: '600',
                         display: 'flex',
                         alignItems: 'center',
-                        gap: '0.25rem'
+                        gap: '0.5rem',
+                        transition: 'all 0.2s',
+                        boxShadow: isEditingRoutines ? '0 4px 15px rgba(239, 68, 68, 0.3)' : '0 2px 8px rgba(0,0,0,0.2)',
+                        cursor: 'pointer'
                     }}
                 >
-                    {isEditingRoutines ? 'Terminar' : <><Edit2 size={14} /> Editar</>}
+                    {isEditingRoutines ? 'Hecho' : <><Edit2 size={16} /> Editar</>}
                 </button>
             </div>
 
-            <h3 style={{ marginBottom: '0.5rem', color: 'var(--text-muted)' }}>Selecciona Rutina</h3>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '-0.5rem' }}>
+                <h3 style={{ margin: 0, fontSize: '1.25rem', fontWeight: '700', color: 'var(--text-main)', display: 'flex', alignItems: 'center', gap: '10px' }}>
+                     <span style={{ width: '4px', height: '18px', background: 'var(--primary)', borderRadius: '4px', display: 'inline-block', boxShadow: '0 0 10px var(--primary-glow)' }}></span>
+                     Tus Rutinas
+                </h3>
+                <span style={{ fontSize: '0.75rem', fontWeight: '700', color: 'var(--text-muted)', background: 'var(--bg-card)', padding: '4px 12px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)', boxShadow: 'inset 0 2px 4px rgba(0,0,0,0.2)' }}>
+                    {routines.filter(r => r.is_active !== false).length} ACTIVAS
+                </span>
+            </div>
 
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem' }}>
             {routines
                 .filter(r => isEditingRoutines || r.is_active !== false)
                 .map((routine, index) => {
@@ -135,64 +158,76 @@ export function WorkoutView() {
                                 style={{
                                     width: '100%',
                                     textAlign: 'left',
-                                    padding: '1.25rem',
-                                    paddingRight: isEditingRoutines && editingRoutineId !== routine.id ? '9rem' : '1.25rem', // Added padding to prevent overlap
-                                    background: 'var(--bg-card)',
-                                    backgroundImage: 'linear-gradient(to bottom right, rgba(255,255,255,0.03), transparent)',
-                                    border: isDoneThisWeek ? '1px solid var(--success)' : 'var(--glass-border)',
-                                    borderRadius: 'var(--radius-md)',
+                                    padding: '1.5rem',
+                                    paddingRight: isEditingRoutines && editingRoutineId !== routine.id ? '9.5rem' : '1.5rem',
+                                    background: isDoneThisWeek ? 'linear-gradient(135deg, var(--bg-card) 0%, rgba(34, 197, 94, 0.05) 100%)' : 'var(--bg-card)',
+                                    border: '1px solid',
+                                    borderColor: isDoneThisWeek ? 'rgba(34, 197, 94, 0.4)' : 'rgba(255, 255, 255, 0.08)',
+                                    borderRadius: '20px',
                                     color: 'var(--text-main)',
                                     display: 'flex',
                                     justifyContent: 'space-between',
                                     alignItems: 'center',
-                                    opacity: (routine.is_active === false) ? 0.4 : (isEditingRoutines ? 0.8 : 1),
+                                    opacity: (routine.is_active === false) ? 0.4 : (isEditingRoutines ? 0.9 : 1),
                                     filter: (routine.is_active === false) ? 'grayscale(100%)' : 'none',
                                     cursor: isEditingRoutines ? 'default' : 'pointer',
-                                    marginBottom: '0.75rem',
-                                    transition: 'all 0.2s ease',
-                                    boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)'
+                                    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                    boxShadow: isDoneThisWeek ? '0 8px 25px -5px rgba(34, 197, 94, 0.15)' : '0 8px 20px -8px rgba(0, 0, 0, 0.5)',
+                                    transform: isEditingRoutines ? 'scale(0.98)' : 'scale(1)',
+                                    position: 'relative',
+                                    overflow: 'hidden'
                                 }}
                             >
-                                <div style={{display: 'flex', flexDirection: 'column', gap: '0.25rem'}}>
-                                    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.5rem' }}>
+                                <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '4px', background: isDoneThisWeek ? 'var(--success)' : 'var(--primary)', opacity: isDoneThisWeek ? 0.8 : 0.5 }}></div>
+                                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px', paddingLeft: '8px' }}>
+                                    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem' }}>
                                         <span style={{ 
-                                            fontSize: '1.25rem', 
-                                            fontWeight: '700', 
+                                            fontSize: '1.35rem', 
+                                            fontWeight: '800', 
                                             letterSpacing: '-0.5px',
                                             textDecoration: (routine.is_active === false) ? 'line-through' : 'none',
-                                            color: (routine.is_active === false) ? 'var(--text-muted)' : 'inherit'
+                                            color: (routine.is_active === false) ? 'var(--text-muted)' : 'white',
+                                            textShadow: '0 2px 10px rgba(0,0,0,0.5)'
                                         }}>
                                             {routine.name}
                                         </span>
+                                    </div>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                                        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(0,0,0,0.2)', padding: '4px 12px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.03)' }}>
+                                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--secondary)', boxShadow: '0 0 8px var(--secondary)' }}></span>
+                                            <span style={{ fontWeight: '600' }}>{routine.exercises?.filter(e => e.is_active !== false).length || 0}</span> Ejercicios
+                                        </span>
                                         {isDoneThisWeek && (
                                             <span style={{ 
-                                                fontSize: '0.7rem', 
-                                                background: 'rgba(34, 197, 94, 0.15)', 
+                                                fontSize: '0.75rem', 
+                                                background: 'rgba(34, 197, 94, 0.1)', 
                                                 color: 'var(--success)', 
-                                                fontWeight: '600',
-                                                padding: '3px 8px', 
-                                                borderRadius: '9999px',
+                                                fontWeight: '700',
+                                                padding: '4px 10px', 
+                                                borderRadius: '20px',
                                                 display: 'flex',
                                                 alignItems: 'center',
-                                                gap: '4px'
+                                                gap: '4px',
+                                                border: '1px solid rgba(34, 197, 94, 0.2)'
                                             }}>
                                                 ✓ Completada
                                             </span>
                                         )}
                                     </div>
-                                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)' }}>
-                                        {routine.exercises?.filter(e => e.is_active !== false).length || 0} Ejercicios
-                                    </span>
                                 </div>
                                 {!isEditingRoutines && (
                                     <div style={{ 
-                                        width: '32px', height: '32px', 
-                                        borderRadius: '50%', 
-                                        background: 'var(--bg-card-hover)', 
+                                        width: '44px', height: '44px', 
+                                        borderRadius: '14px', 
+                                        background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)', 
+                                        border: '1px solid rgba(255,255,255,0.08)',
                                         display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                        flexShrink: 0
+                                        flexShrink: 0,
+                                        boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.05), 0 4px 10px rgba(0,0,0,0.2)',
+                                        transition: 'all 0.2s',
+                                        transform: 'translateX(-4px)'
                                     }}>
-                                        <ChevronRight size={18} color="var(--primary)" />
+                                        <ChevronRight size={22} color={isDoneThisWeek ? 'var(--success)' : 'var(--primary)'} />
                                     </div>
                                 )}
                             </button>
@@ -201,16 +236,19 @@ export function WorkoutView() {
                         {isEditingRoutines && editingRoutineId !== routine.id && (
                             <div style={{ 
                                 position: 'absolute', 
-                                right: '0.5rem', 
+                                right: '0.75rem', 
                                 top: '50%', 
                                 transform: 'translateY(-50%)', 
                                 display: 'flex', 
-                                gap: '0.25rem', 
+                                gap: '0.35rem', 
                                 alignItems: 'center',
-                                background: 'rgba(0,0,0,0.5)', // Optional: Add background to confirm visibility? No, keep transparent
-                                backdropFilter: 'blur(4px)', // Nice touch to ensure separation if overlap happened
-                                borderRadius: '8px',
-                                padding: '4px'
+                                background: 'rgba(15, 23, 42, 0.7)', 
+                                backdropFilter: 'blur(8px)', 
+                                borderRadius: '12px',
+                                padding: '6px',
+                                border: '1px solid rgba(255,255,255,0.1)',
+                                boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
+                                zIndex: 10
                             }}>
                                 <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginRight: '0.25rem' }}>
                                     <button
@@ -296,14 +334,25 @@ export function WorkoutView() {
                 );
             })}
 
+            </div>
+
             {isEditingRoutines && (
-                <form onSubmit={handleAddRoutine} style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
+                <form onSubmit={handleAddRoutine} style={{ 
+                    marginTop: '1.5rem', 
+                    display: 'flex', 
+                    gap: '0.5rem', 
+                    background: 'rgba(0,0,0,0.2)', 
+                    padding: '8px', 
+                    borderRadius: '16px', 
+                    border: '1px dashed rgba(255,255,255,0.15)',
+                    alignItems: 'center'
+                }}>
                         <input
                             type="text"
                             value={newRoutineName}
                             onChange={(e) => setNewRoutineName(e.target.value)}
-                            placeholder="Nombre nueva rutina..."
-                            style={{ flex: 1 }}
+                            placeholder="Nombre de la nueva rutina..."
+                            style={{ flex: 1, border: 'none', background: 'transparent', padding: '0.5rem 1rem', fontSize: '1.05rem', color: 'white', outline: 'none', fontWeight: '500' }}
                         />
                         <button
                             type="submit"
@@ -311,9 +360,15 @@ export function WorkoutView() {
                                 background: 'var(--primary)',
                                 color: 'var(--bg-app)',
                                 border: 'none',
-                                borderRadius: 'var(--radius-sm)',
-                                padding: '0.5rem 1rem',
-                                fontWeight: 'bold'
+                                borderRadius: '12px',
+                                padding: '0.75rem 1.25rem',
+                                fontWeight: '800',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px',
+                                boxShadow: '0 4px 15px rgba(34, 211, 238, 0.3)',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
                             }}
                         >
                             <Plus size={20} />
@@ -454,7 +509,7 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
         setWeight(log.weight);
         setReps(log.reps);
         setSets(log.sets || 4);
-        setUnit(log.unit || 'kg'); 
+        setUnit(log.unit || 'kg');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -495,25 +550,32 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
         setActiveExerciseId(null);
     };
 
+    // Helper function for unit conversion (only used for consistent comparison now)
+    const getNormalizedWeight = (weight, fromUnit, toUnit) => {
+        if (fromUnit === toUnit || fromUnit === 'placas' || toUnit === 'placas') return weight;
+        if (fromUnit === 'kg' && toUnit === 'lbs') return weight * 2.20462;
+        if (fromUnit === 'lbs' && toUnit === 'kg') return weight / 2.20462;
+        return weight;
+    };
+
     // Prepare chart data (oldest to newest)
     const chartData = [...exerciseLogs]
         .sort((a, b) => new Date(a.created_at || a.date) - new Date(b.created_at || b.date))
         .map(l => {
-        // Display exactly what is stored (User request)
-        let displayWeight = l.weight;
+        // Normalize chart values to the CURRENTLY selected unit so the line doesn't jump
+        // but let cards display their original values
+        let chartWeight = getNormalizedWeight(l.weight, l.unit || 'kg', unit);
+        chartWeight = Math.round(chartWeight * 100) / 100;
         
-        const volume = (l.weight || 0) * (l.reps || 0) * (l.completedSets > 0 ? l.completedSets : (l.sets || 1)); 
-        // If unit is 'kg' and log is 'lbs' (rare/legacy), convert? Assuming stored as KG always unless 'placas'.
-        // If log unit is 'placas', displayWeight is just the number.
-        // const volume = ... (removed duplicate)
+        const volume = chartWeight * (l.reps || 0) * (l.completedSets > 0 ? l.completedSets : (l.sets || 1)); 
 
         return {
             date: new Date(l.created_at || l.date).toLocaleDateString('es-ES', { weekday: 'short', day: '2-digit', month: '2-digit' }),
-            weight: displayWeight,
+            weight: chartWeight,
             volume: Math.round(volume),
             reps: l.reps,
             sets: l.sets || 1,
-            unit: l.unit || 'kg',
+            unit: unit !== 'placas' && l.unit === 'placas' ? 'placas' : unit, // Keep placas as placas
             fullDate: new Date(l.created_at || l.date).toLocaleDateString('es-ES', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })
         };
     });
@@ -538,34 +600,53 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
     if (!activeExercise) {
         return (
             <div>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', padding: '0.5rem 0' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                         <button 
                             onClick={onBack}
-                            style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '0.5rem', display: 'flex', alignItems: 'center' }}
+                            style={{ 
+                                background: 'rgba(255,255,255,0.05)', 
+                                border: '1px solid rgba(255,255,255,0.1)', 
+                                color: 'var(--text-main)', 
+                                cursor: 'pointer', 
+                                padding: '0.5rem', 
+                                borderRadius: '12px',
+                                display: 'flex', 
+                                alignItems: 'center',
+                                transition: 'all 0.2s',
+                                boxShadow: '0 4px 10px rgba(0,0,0,0.2)'
+                            }}
                         >
-                            <ChevronRight size={24} style={{ transform: 'rotate(180deg)' }} />
+                            <ChevronRight size={20} style={{ transform: 'rotate(180deg)' }} />
                         </button>
-                        <h2 style={{ margin: 0, fontSize: '1.5rem', background: 'linear-gradient(to right, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
-                            {routine.name}
-                        </h2>
+                        <div>
+                            <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '2px' }}>Rutina</p>
+                            <h2 style={{ margin: 0, fontSize: '1.8rem', fontWeight: '900', background: 'linear-gradient(135deg, #ffffff 0%, var(--primary) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.5px', lineHeight: 1 }}>
+                                {routine.name}
+                            </h2>
+                        </div>
                     </div>
                     
                     <button
                         onClick={() => setIsEditing(!isEditing)}
                         style={{
-                            background: isEditing ? 'rgba(239, 68, 68, 0.1)' : 'transparent',
-                            border: '1px solid ' + (isEditing ? 'var(--danger)' : 'var(--primary)'),
-                            color: isEditing ? 'var(--danger)' : 'var(--primary)',
-                            padding: '0.25rem 0.75rem',
-                            borderRadius: 'var(--radius-sm)',
-                            fontSize: '0.8rem',
+                            background: isEditing ? 'var(--danger)' : 'rgba(255,255,255,0.05)',
+                            border: '1px solid',
+                            borderColor: isEditing ? 'var(--danger)' : 'rgba(255,255,255,0.1)',
+                            color: isEditing ? 'white' : 'var(--text-main)',
+                            padding: '0.6rem 1rem',
+                            borderRadius: '12px',
+                            fontSize: '0.85rem',
+                            fontWeight: '600',
                             display: 'flex',
                             alignItems: 'center',
-                            gap: '0.25rem'
+                            gap: '0.5rem',
+                            transition: 'all 0.2s',
+                            boxShadow: isEditing ? '0 4px 15px rgba(239, 68, 68, 0.3)' : '0 2px 8px rgba(0,0,0,0.2)',
+                            cursor: 'pointer'
                         }}
                     >
-                        {isEditing ? 'Terminar' : <><Edit2 size={14} /> Editar</>}
+                        {isEditing ? 'Hecho' : <><Edit2 size={16} /> Editar</>}
                     </button>
                 </div>
 
@@ -622,62 +703,77 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                         style={{
                                             width: '100%',
                                             textAlign: 'left',
-                                            padding: '1.25rem',
-                                            paddingRight: isEditing && editingExerciseId !== exercise.id ? '9rem' : '1.25rem',
-                                            background: 'var(--bg-card)',
-                                            backgroundImage: 'linear-gradient(to bottom right, rgba(255,255,255,0.03), transparent)',
-                                            border: isDone ? '1px solid var(--success)' : 'var(--glass-border)',
-                                            borderRadius: 'var(--radius-md)',
+                                            padding: '1.5rem',
+                                            paddingRight: isEditing && editingExerciseId !== exercise.id ? '9.5rem' : '1.5rem',
+                                            background: isDone ? 'linear-gradient(135deg, var(--bg-card) 0%, rgba(34, 197, 94, 0.05) 100%)' : 'var(--bg-card)',
+                                            border: '1px solid',
+                                            borderColor: isDone ? 'rgba(34, 197, 94, 0.4)' : 'rgba(255, 255, 255, 0.08)',
+                                            borderRadius: '20px',
                                             color: 'var(--text-main)',
                                             display: 'flex',
                                             justifyContent: 'space-between',
                                             alignItems: 'center',
-                                            opacity: (exercise.is_active === false) ? 0.4 : (isEditing ? 0.8 : 1),
+                                            opacity: (exercise.is_active === false) ? 0.4 : (isEditing ? 0.9 : 1),
                                             filter: (exercise.is_active === false) ? 'grayscale(100%)' : 'none',
-                                            boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-                                            marginBottom: '0.75rem',
-                                            transition: 'all 0.2s ease',
-                                            cursor: isEditing ? 'default' : 'pointer'
+                                            boxShadow: isDone ? '0 8px 25px -5px rgba(34, 197, 94, 0.15)' : '0 8px 20px -8px rgba(0, 0, 0, 0.5)',
+                                            marginBottom: '0.85rem',
+                                            transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+                                            transform: isEditing ? 'scale(0.98)' : 'scale(1)',
+                                            cursor: isEditing ? 'default' : 'pointer',
+                                            position: 'relative',
+                                            overflow: 'hidden'
                                         }}
                                     >
-                                        <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem'}}>
-                                            <div style={{ display: 'flex', flexDirection: 'column' }}>
+                                        <div style={{ position: 'absolute', left: 0, top: 0, bottom: 0, width: '4px', background: isDone ? 'var(--success)' : 'var(--secondary)', opacity: isDone ? 0.8 : 0.5 }}></div>
+                                        <div style={{display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '0.75rem', paddingLeft: '8px'}}>
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
                                                 <span style={{ 
-                                                    fontSize: '1.1rem', 
-                                                    fontWeight: '600', 
+                                                    fontSize: '1.25rem', 
+                                                    fontWeight: '800', 
                                                     letterSpacing: '-0.3px',
                                                     textDecoration: (exercise.is_active === false) ? 'line-through' : 'none',
-                                                    color: (exercise.is_active === false) ? 'var(--text-muted)' : 'inherit'
+                                                    color: (exercise.is_active === false) ? 'var(--text-muted)' : 'white',
+                                                    textShadow: '0 2px 8px rgba(0,0,0,0.4)'
                                                 }}>
                                                     {exercise.name}
                                                 </span>
-                                                <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
-                                                    {exercise.target_sets || 4}x{exercise.target_reps || '10-12'}
-                                                </span>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                                                    <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(0,0,0,0.2)', padding: '2px 10px', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.03)' }}>
+                                                        <span style={{ fontWeight: '600', color: 'var(--primary)' }}>{exercise.target_sets || 4}</span>
+                                                        <span>sets ×</span>
+                                                        <span style={{ fontWeight: '600', color: 'var(--primary)' }}>{exercise.target_reps || '10-12'}</span>
+                                                        <span>reps</span>
+                                                    </span>
+                                                    {isDone && (
+                                                        <span style={{ 
+                                                            fontSize: '0.7rem', 
+                                                            background: 'rgba(34, 197, 94, 0.1)', 
+                                                            color: 'var(--success)', 
+                                                            fontWeight: '700',
+                                                            padding: '3px 8px', 
+                                                            borderRadius: '12px',
+                                                            display: 'flex', alignItems: 'center', gap: '4px',
+                                                            border: '1px solid rgba(34, 197, 94, 0.2)'
+                                                        }}>
+                                                            ✓ Listo
+                                                        </span>
+                                                    )}
+                                                </div>
                                             </div>
-                                            {isDone && (
-                                                <span style={{ 
-                                                    fontSize: '0.7rem', 
-                                                    background: 'rgba(34, 197, 94, 0.15)', 
-                                                    color: 'var(--success)', 
-                                                    fontWeight: '600',
-                                                    padding: '3px 8px', 
-                                                    borderRadius: '9999px',
-                                                    display: 'flex', alignItems: 'center', gap: '4px'
-                                                }}>
-                                                    ✓ Listo
-                                                </span>
-                                            )}
                                         </div>
                                         {!isEditing && (
                                             <div style={{ 
-                                                width: '32px', height: '32px', 
-                                                borderRadius: '50%', 
-                                                background: 'var(--bg-card-hover)', 
+                                                width: '40px', height: '40px', 
+                                                borderRadius: '12px', 
+                                                background: 'linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%)', 
+                                                border: '1px solid rgba(255,255,255,0.08)',
                                                 display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                                flexShrink: 0
+                                                flexShrink: 0,
+                                                boxShadow: 'inset 0 1px 1px rgba(255,255,255,0.05), 0 4px 10px rgba(0,0,0,0.2)',
+                                                transition: 'all 0.2s',
+                                                transform: 'translateX(-2px)'
                                             }}>
-                                                <ChevronRight size={18} color="var(--primary)" />
+                                                <ChevronRight size={20} color={isDone ? 'var(--success)' : 'var(--secondary)'} />
                                             </div>
                                         )}
                                     </button>
@@ -686,16 +782,19 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                 {isEditing && editingExerciseId !== exercise.id && (
                                     <div style={{ 
                                         position: 'absolute', 
-                                        right: '0.5rem', 
+                                        right: '0.75rem', 
                                         top: '50%', 
                                         transform: 'translateY(-50%)', 
                                         display: 'flex', 
-                                        gap: '0.25rem', 
+                                        gap: '0.35rem', 
                                         alignItems: 'center',
-                                        background: 'rgba(0,0,0,0.5)',
-                                        backdropFilter: 'blur(4px)',
-                                        borderRadius: '8px',
-                                        padding: '4px'
+                                        background: 'rgba(15, 23, 42, 0.7)',
+                                        backdropFilter: 'blur(8px)',
+                                        borderRadius: '12px',
+                                        padding: '6px',
+                                        border: '1px solid rgba(255,255,255,0.1)',
+                                        boxShadow: '0 8px 30px rgba(0,0,0,0.5)',
+                                        zIndex: 10
                                     }}>
                                         <div style={{ display: 'flex', flexDirection: 'column', gap: '2px', marginRight: '0.25rem' }}>
                                             <button
@@ -776,13 +875,22 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                     })}
 
                     {isEditing && (
-                        <div style={{ marginTop: '1rem', display: 'flex', gap: '0.5rem' }}>
+                        <div style={{ 
+                            marginTop: '1.5rem', 
+                            display: 'flex', 
+                            gap: '0.5rem',
+                            background: 'rgba(0,0,0,0.2)', 
+                            padding: '8px', 
+                            borderRadius: '16px', 
+                            border: '1px dashed rgba(255,255,255,0.15)',
+                            alignItems: 'center'
+                        }}>
                              <input
                                  type="text"
                                  value={newExerciseName}
                                  onChange={(e) => setNewExerciseName(e.target.value)}
-                                 placeholder="Nombre nuevo ejercicio..."
-                                 style={{ flex: 1 }}
+                                 placeholder="Nombre del nuevo ejercicio..."
+                                 style={{ flex: 1, border: 'none', background: 'transparent', padding: '0.5rem 1rem', fontSize: '1.05rem', color: 'white', outline: 'none', fontWeight: '500' }}
                              />
                              <button
                                  onClick={() => {
@@ -795,9 +903,15 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                      background: 'var(--primary)',
                                      color: 'var(--bg-app)',
                                      border: 'none',
-                                     borderRadius: 'var(--radius-sm)',
-                                     padding: '0.5rem 1rem',
-                                     fontWeight: 'bold'
+                                     borderRadius: '12px',
+                                     padding: '0.75rem 1.25rem',
+                                     fontWeight: '800',
+                                     display: 'flex',
+                                     alignItems: 'center',
+                                     gap: '8px',
+                                     boxShadow: '0 4px 15px rgba(34, 211, 238, 0.3)',
+                                     cursor: 'pointer',
+                                     transition: 'all 0.2s'
                                  }}
                              >
                                  <Plus size={20} />
@@ -810,27 +924,48 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
     }
 
     return (
-        <div style={{ paddingBottom: '80px' }}>
-            <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem', gap: '0.5rem' }}>
+        <div style={{ paddingBottom: '80px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
+            <div style={{ display: 'flex', alignItems: 'center', padding: '0.5rem 0', gap: '0.75rem' }}>
                 <button 
                     onClick={handleBack}
-                    style={{ background: 'transparent', border: 'none', color: 'var(--text-muted)', cursor: 'pointer', padding: '0.5rem', display: 'flex', alignItems: 'center' }}
+                    style={{ 
+                        background: 'rgba(255,255,255,0.05)', 
+                        border: '1px solid rgba(255,255,255,0.1)', 
+                        color: 'var(--text-main)', 
+                        cursor: 'pointer', 
+                        padding: '0.5rem', 
+                        borderRadius: '12px',
+                        display: 'flex', 
+                        alignItems: 'center',
+                        transition: 'all 0.2s',
+                        boxShadow: '0 4px 10px rgba(0,0,0,0.2)'
+                    }}
                 >
-                    <ChevronRight size={24} style={{ transform: 'rotate(180deg)' }} />
+                    <ChevronRight size={20} style={{ transform: 'rotate(180deg)' }} />
                 </button>
-                <h3 style={{ margin: 0 }}>{activeExercise.name}</h3>
+                <div>
+                     <p style={{ margin: 0, fontSize: '0.75rem', color: 'var(--text-muted)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px', marginBottom: '2px' }}>REGISTRO DE</p>
+                     <h2 style={{ margin: 0, fontSize: '1.6rem', fontWeight: '900', background: 'linear-gradient(135deg, #ffffff 0%, var(--secondary) 100%)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.5px', lineHeight: 1 }}>
+                         {activeExercise.name}
+                     </h2>
+                </div>
             </div>
 
             <div style={{
                 background: 'var(--bg-card)',
-                border: 'var(--glass-border)',
-                borderRadius: 'var(--radius-md)',
+                border: '1px solid rgba(255,255,255,0.08)',
+                borderRadius: '24px',
                 padding: '1.5rem',
-                marginBottom: '2rem'
+                boxShadow: '0 8px 30px rgba(0,0,0,0.3)',
+                position: 'relative',
+                overflow: 'hidden'
             }}>
-                <form onSubmit={handleLogSet} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                    <div style={{gridColumn: '1 / -1', display: 'flex', justifyContent: 'flex-end'}}>
-                        <div style={{display: 'flex', background: 'var(--bg-app)', borderRadius: 'var(--radius-sm)', padding: '2px', border: 'var(--glass-border)'}}>
+                <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'linear-gradient(90deg, var(--primary), var(--secondary))' }}></div>
+                <form onSubmit={handleLogSet} style={{ display: 'grid', gridTemplateColumns: 'minmax(0,1fr) minmax(0,1fr)', gap: '1.25rem' }}>
+                    
+                    <div style={{gridColumn: '1 / -1', display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                        <span style={{ fontSize: '0.9rem', fontWeight: '700', color: 'white' }}>Nueva Serie</span>
+                        <div style={{display: 'flex', background: 'rgba(0,0,0,0.2)', borderRadius: '12px', padding: '4px', border: '1px solid rgba(255,255,255,0.05)'}}>
                             <button
                                 type="button"
                                 onClick={() => setUnit('kg')}
@@ -838,11 +973,13 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                     background: unit === 'kg' ? 'var(--primary)' : 'transparent',
                                     color: unit === 'kg' ? 'var(--bg-app)' : 'var(--text-muted)',
                                     border: 'none',
-                                    padding: '0.25rem 0.75rem',
-                                    borderRadius: 'var(--radius-sm)',
-                                    fontWeight: 'bold',
+                                    padding: '0.35rem 0.75rem',
+                                    borderRadius: '8px',
+                                    fontWeight: '800',
+                                    fontSize: '0.8rem',
                                     cursor: 'pointer',
-                                    transition: 'all 0.2s'
+                                    transition: 'all 0.2s',
+                                    boxShadow: unit === 'kg' ? '0 2px 8px rgba(34, 211, 238, 0.4)' : 'none'
                                 }}
                             >
                                 KG
@@ -854,11 +991,13 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                     background: unit === 'lbs' ? 'var(--primary)' : 'transparent',
                                     color: unit === 'lbs' ? 'var(--bg-app)' : 'var(--text-muted)',
                                     border: 'none',
-                                    padding: '0.25rem 0.75rem',
-                                    borderRadius: 'var(--radius-sm)',
-                                    fontWeight: 'bold',
+                                    padding: '0.35rem 0.75rem',
+                                    borderRadius: '8px',
+                                    fontWeight: '800',
+                                    fontSize: '0.8rem',
                                     cursor: 'pointer',
-                                    transition: 'all 0.2s'
+                                    transition: 'all 0.2s',
+                                    boxShadow: unit === 'lbs' ? '0 2px 8px rgba(34, 211, 238, 0.4)' : 'none'
                                 }}
                             >
                                 LBS
@@ -870,11 +1009,13 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                     background: unit === 'placas' ? 'var(--primary)' : 'transparent',
                                     color: unit === 'placas' ? 'var(--bg-app)' : 'var(--text-muted)',
                                     border: 'none',
-                                    padding: '0.25rem 0.75rem',
-                                    borderRadius: 'var(--radius-sm)',
-                                    fontWeight: 'bold',
+                                    padding: '0.35rem 0.75rem',
+                                    borderRadius: '8px',
+                                    fontWeight: '800',
+                                    fontSize: '0.8rem',
                                     cursor: 'pointer',
-                                    transition: 'all 0.2s'
+                                    transition: 'all 0.2s',
+                                    boxShadow: unit === 'placas' ? '0 2px 8px rgba(34, 211, 238, 0.4)' : 'none'
                                 }}
                             >
                                 PLACAS
@@ -882,10 +1023,9 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                         </div>
                     </div>
 
-                    
-                    <div className="grid-inputs" style={{gridColumn: '1 / -1'}}>
-                        <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>
+                    <div className="grid-inputs" style={{gridColumn: '1 / -1', display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '1rem', alignItems: 'stretch' }}>
+                        <div style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
                                 {unit === 'placas' ? 'Nº Placas' : `Peso (${unit})`}
                             </label>
                             <input
@@ -893,29 +1033,33 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                 inputMode="decimal"
                                 value={weight}
                                 onChange={(e) => setWeight(e.target.value)}
-                                style={{ width: '100%', fontSize: '1.2rem' }}
+                                style={{ width: '100%', fontSize: '1.5rem', fontWeight: '800', background: 'transparent', border: 'none', color: 'white', textAlign: 'center', outline: 'none' }}
                                 placeholder="0"
                             />
                         </div>
-                        <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Meta Sets</label>
+                        <div style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px', textAlign: 'center' }}>
+                                Sets
+                            </label>
                             <input
                                 type="number"
                                 inputMode="numeric"
                                 value={sets}
                                 onChange={(e) => setSets(e.target.value)}
-                                style={{ width: '100%', fontSize: '1.2rem' }}
+                                style={{ width: '100%', fontSize: '1.5rem', fontWeight: '800', background: 'transparent', border: 'none', color: 'white', textAlign: 'center', outline: 'none' }}
                                 placeholder="4"
                             />
                         </div>
-                        <div>
-                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.9rem' }}>Reps</label>
+                        <div style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+                            <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px', textAlign: 'center' }}>
+                                Reps
+                            </label>
                             <input
                                 type="number"
                                 inputMode="numeric"
                                 value={reps}
                                 onChange={(e) => setReps(e.target.value)}
-                                style={{ width: '100%', fontSize: '1.2rem' }}
+                                style={{ width: '100%', fontSize: '1.5rem', fontWeight: '800', background: 'transparent', border: 'none', color: 'white', textAlign: 'center', outline: 'none' }}
                                 placeholder="0"
                             />
                         </div>
@@ -926,19 +1070,21 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                             disabled={showTimer}
                             style={{
                                 flex: 1,
-                                background: showTimer ? 'var(--text-muted)' : 'linear-gradient(to right, var(--primary), var(--secondary))',
-                                border: 'none',
-                                borderRadius: 'var(--radius-sm)',
-                                color: 'white',
-                                fontWeight: 'bold',
-                                padding: '1rem',
+                                background: showTimer ? 'rgba(255,255,255,0.05)' : 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)',
+                                border: showTimer ? '1px dashed rgba(255,255,255,0.2)' : 'none',
+                                borderRadius: '16px',
+                                color: showTimer ? 'var(--text-muted)' : 'var(--bg-app)',
+                                fontWeight: '900',
+                                letterSpacing: '1px',
+                                padding: '1.1rem',
                                 fontSize: '1.1rem',
-                                boxShadow: showTimer ? 'none' : '0 4px 15px rgba(34, 211, 238, 0.3)',
+                                boxShadow: showTimer ? 'none' : '0 8px 25px -5px rgba(34, 211, 238, 0.4)',
                                 cursor: showTimer ? 'not-allowed' : 'pointer',
-                                opacity: showTimer ? 0.5 : 1
+                                transition: 'all 0.3s',
+                                transform: showTimer ? 'scale(0.98)' : 'scale(1)'
                             }}
                         >
-                            {showTimer ? 'DESCANSANDO...' : (editingLogId ? 'GUARDAR CAMBIOS' : 'REGISTRAR SERIE')}
+                            {showTimer ? '⏱ DESCANSANDO...' : (editingLogId ? 'GUARDAR CAMBIOS' : 'REGISTRAR SERIE')}
                         </button>
                         {editingLogId && (
                             <button
@@ -1021,13 +1167,35 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                 </div>
 
                 {chartData.length > 1 && (
-                    <div style={{ height: '220px', marginBottom: '1.5rem', background: 'var(--bg-card)', padding: '1rem', borderRadius: 'var(--radius-md)', border: 'var(--glass-border)' }}>
+                    <div style={{ height: '240px', marginBottom: '1.5rem', background: 'var(--bg-card)', padding: '1rem', borderRadius: 'var(--radius-md)', border: 'var(--glass-border)' }}>
                         <ResponsiveContainer width="100%" height="100%">
-                            <LineChart data={chartData}>
-                                <CartesianGrid strokeDasharray="3 3" stroke="#333" />
-                                <XAxis dataKey="date" stroke="var(--text-muted)" fontSize={12} />
-                                <YAxis stroke="var(--text-muted)" fontSize={12} domain={['auto', 'auto']} />
+                            <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+                                <defs>
+                                    <linearGradient id="colorMetric" x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor={chartMetric === 'weight' ? 'var(--primary)' : 'var(--secondary)'} stopOpacity={0.3}/>
+                                    <stop offset="95%" stopColor={chartMetric === 'weight' ? 'var(--primary)' : 'var(--secondary)'} stopOpacity={0}/>
+                                    </linearGradient>
+                                </defs>
+                                <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.05)" vertical={false} />
+                                <XAxis 
+                                    dataKey="date" 
+                                    stroke="var(--text-muted)" 
+                                    fontSize={11} 
+                                    tickLine={false}
+                                    axisLine={false}
+                                    dy={10}
+                                />
+                                <YAxis 
+                                    stroke="var(--text-muted)" 
+                                    fontSize={11} 
+                                    domain={['auto', 'auto']} 
+                                    tickLine={false}
+                                    axisLine={false}
+                                    dx={-10}
+                                    tickFormatter={(val) => Math.round(val)}
+                                />
                                 <Tooltip
+                                    cursor={{ stroke: 'rgba(255,255,255,0.1)', strokeWidth: 2, strokeDasharray: '4 4' }}
                                     content={({ active, payload, label }) => {
                                         if (active && payload && payload.length) {
                                             const data = payload[0].payload;
@@ -1037,27 +1205,45 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                             else if (data.unit === 'lbs') unitLabel = 'lbs';
 
                                             return (
-                                                <div style={{ backgroundColor: 'var(--bg-card)', padding: '0.5rem', border: '1px solid var(--glass-border)', borderRadius: '4px' }}>
-                                                    <p style={{ color: 'var(--text-muted)', fontSize: '0.8rem', marginBottom: '0.25rem' }}>{data.fullDate}</p>
-                                                    <p style={{ color: chartMetric === 'weight' ? 'var(--primary)' : 'var(--secondary)', fontWeight: 'bold' }}>
-                                                        {chartMetric === 'weight' ? `${data.weight} ${unitLabel}` : `${data.volume} ${data.unit === 'placas' ? 'Placas' : 'kg'}`}
-                                                    </p>
-                                                    <p style={{ color: 'var(--text-main)', fontSize: '0.9rem' }}>{data.sets} Sets x {data.reps} Reps</p>
+                                                <div style={{ 
+                                                    backgroundColor: 'rgba(15, 23, 42, 0.95)', 
+                                                    padding: '0.75rem', 
+                                                    border: '1px solid var(--glass-border)', 
+                                                    borderRadius: '8px',
+                                                    boxShadow: '0 4px 15px rgba(0,0,0,0.5)',
+                                                    backdropFilter: 'blur(4px)'
+                                                }}>
+                                                    <p style={{ color: 'var(--text-muted)', fontSize: '0.75rem', marginBottom: '0.5rem', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{data.fullDate}</p>
+                                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '0.25rem' }}>
+                                                        <span style={{ fontSize: '1.25rem', color: chartMetric === 'weight' ? 'var(--primary)' : 'var(--secondary)', fontWeight: 'bold' }}>
+                                                            {chartMetric === 'weight' ? data.weight : data.volume}
+                                                        </span>
+                                                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)' }}>
+                                                            {chartMetric === 'weight' ? unitLabel : (data.unit === 'placas' ? 'Placas' : data.unit)}
+                                                        </span>
+                                                    </div>
+                                                    <div style={{ alignItems: 'center', gap: '0.5rem', background: 'rgba(255,255,255,0.05)', padding: '4px 8px', borderRadius: '4px', display: 'inline-flex' }}>
+                                                        <span style={{ color: 'var(--text-main)', fontSize: '0.85rem', fontWeight: '500' }}>{data.sets} Sets</span>
+                                                        <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem' }}>×</span>
+                                                        <span style={{ color: 'var(--text-main)', fontSize: '0.85rem', fontWeight: '500' }}>{data.reps} Reps</span>
+                                                    </div>
                                                 </div>
                                             );
                                         }
                                         return null;
                                     }}
                                 />
-                                <Line 
+                                <Area 
                                     type="monotone" 
                                     dataKey={chartMetric} 
                                     stroke={chartMetric === 'weight' ? 'var(--primary)' : 'var(--secondary)'} 
                                     strokeWidth={3} 
-                                    dot={{ r: 4, fill: chartMetric === 'weight' ? 'var(--primary)' : 'var(--secondary)' }} 
-                                    activeDot={{ r: 6 }} 
+                                    fillOpacity={1} 
+                                    fill="url(#colorMetric)"
+                                    dot={{ r: 4, fill: 'var(--bg-card)', stroke: chartMetric === 'weight' ? 'var(--primary)' : 'var(--secondary)', strokeWidth: 2 }} 
+                                    activeDot={{ r: 6, fill: chartMetric === 'weight' ? 'var(--primary)' : 'var(--secondary)', stroke: 'white', strokeWidth: 2 }} 
                                 />
-                            </LineChart>
+                            </AreaChart>
                         </ResponsiveContainer>
                     </div>
                 )}
@@ -1066,99 +1252,140 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                         <p style={{ color: 'var(--text-muted)', fontStyle: 'italic' }}>Sin registros aún</p>
                     ) : (
                         visibleLogs.map((log, index) => {
-                            // ... (keep completed, target, isLatest, logVolume) ...
                             const completed = log.completedSets || 0;
                             const target = log.sets || 4;
                             const isLatest = index === 0;
-                            const logVolume = (log.weight || 0) * (log.reps || 0) * (completed > 0 ? completed : target);
+                            
+                            // Convert to kg if lbs, and keep original lbs for display
+                            let displayWeight = log.weight;
+                            let displayUnit = log.unit || 'kg';
+                            let originalLbs = null;
+
+                            if (displayUnit === 'lbs') {
+                                originalLbs = displayWeight;
+                                displayWeight = Math.round(displayWeight / 2.20462 * 100) / 100;
+                                displayUnit = 'kg';
+                            }
+
+                            const logVolume = (displayWeight || 0) * (log.reps || 0) * (completed > 0 ? completed : target);
 
                             // Helper for unit label
-                            const logUnitLabel = log.unit === 'placas' ? 'Placas' : (log.unit || 'kg');
+                            const logUnitLabel = displayUnit === 'placas' ? 'Placas' : displayUnit;
 
-                            // Comparison Logic (updated for unit safety)
+                            // Comparison Logic (updated for unit safety, convert previous log to CURRENT log's unit)
                             const prevLog = exerciseLogs[index + 1];
                             let weightDiff = null;
                             let volumeDiff = null;
 
-                            if (prevLog && prevLog.unit === log.unit) { // Only compare if units match? Or just compare numbers?
-                                // If one is plates and other is kg, comparison is meaningless. 
-                                // Let's simplify: compare raw numbers but maybe warn?
-                                // Actually, if user switches units, the diff will be weird, but that's expected.
-                                const prevVolume = (prevLog.weight || 0) * (prevLog.reps || 0) * (prevLog.completedSets || prevLog.sets || 1);
-                                weightDiff = log.weight - prevLog.weight;
-                                volumeDiff = logVolume - prevVolume;
+                            if (prevLog) {
+                                const prevUnit = prevLog.unit || 'kg';
+                                // Calculate normalized previous weight in current log's unit
+                                const prevDisplayWeight = getNormalizedWeight(prevLog.weight, prevUnit, displayUnit);
+                                
+                                const isMixedPlacas = (displayUnit === 'placas' && prevUnit !== 'placas') || (displayUnit !== 'placas' && prevUnit === 'placas');
+                                
+                                if (!isMixedPlacas) {
+                                    const prevVolume = prevDisplayWeight * (prevLog.reps || 0) * (prevLog.completedSets || prevLog.sets || 1);
+                                    weightDiff = Math.round((displayWeight - prevDisplayWeight) * 100) / 100;
+                                    volumeDiff = logVolume - prevVolume;
+                                }
                             }
 
                             return (
                                 <div key={log.id} style={{
-                                    padding: '1.25rem',
-                                    background: 'var(--bg-card)',
-                                    borderRadius: 'var(--radius-md)',
-                                    border: 'var(--glass-border)',
+                                    padding: '1.5rem',
+                                    background: isLatest ? 'linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(34, 211, 238, 0.05) 100%)' : 'var(--bg-card)',
+                                    borderRadius: '24px',
+                                    border: '1px solid',
+                                    borderColor: isLatest ? 'rgba(34, 211, 238, 0.2)' : 'rgba(255,255,255,0.05)',
                                     position: 'relative',
-                                    overflow: 'hidden'
+                                    overflow: 'hidden',
+                                    boxShadow: isLatest ? '0 8px 30px rgba(0,0,0,0.4)' : '0 4px 15px rgba(0,0,0,0.2)'
                                 }}>
                                     {/* Edit/Delete Actions - Absolute Top Right */}
-                                    <div style={{ position: 'absolute', top: '1rem', right: '1rem', display: 'flex', gap: '0.5rem' }}>
+                                    <div style={{ position: 'absolute', top: '1.2rem', right: '1.2rem', display: 'flex', gap: '0.5rem', zIndex: 10 }}>
                                         <button
                                             onClick={() => handleEditLog(log)}
-                                            style={{ background: 'rgba(34, 211, 238, 0.1)', color: 'var(--primary)', border: 'none', borderRadius: '6px', padding: '6px', cursor: 'pointer', display: 'flex' }}
+                                            style={{ background: 'rgba(34, 211, 238, 0.15)', color: 'var(--primary)', border: 'none', borderRadius: '10px', padding: '8px', cursor: 'pointer', display: 'flex', transition: 'all 0.2s', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}
                                         >
-                                            <Edit2 size={14} />
+                                            <Edit2 size={16} />
                                         </button>
                                         <button
                                             onClick={() => handleDeleteLog(log.id)}
-                                            style={{ background: 'rgba(239, 68, 68, 0.1)', color: '#f87171', border: 'none', borderRadius: '6px', padding: '6px', cursor: 'pointer', display: 'flex' }}
+                                            style={{ background: 'rgba(239, 68, 68, 0.15)', color: '#f87171', border: 'none', borderRadius: '10px', padding: '8px', cursor: 'pointer', display: 'flex', transition: 'all 0.2s', boxShadow: '0 2px 5px rgba(0,0,0,0.2)' }}
                                         >
-                                            <Trash2 size={14} />
+                                            <Trash2 size={16} />
                                         </button>
                                     </div>
 
                                     {/* Date Header */}
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '1rem' }}>
                                         <span style={{ 
-                                            background: isLatest ? 'var(--primary)' : 'var(--glass-border)', 
+                                            background: isLatest ? 'var(--primary)' : 'rgba(255,255,255,0.08)', 
                                             color: isLatest ? 'var(--bg-app)' : 'var(--text-muted)',
-                                            fontSize: '0.7rem', fontWeight: 'bold', padding: '2px 8px', borderRadius: '4px' 
+                                            fontSize: '0.75rem', fontWeight: '800', padding: '4px 12px', borderRadius: '8px', letterSpacing: '0.5px', textTransform: 'uppercase' 
                                         }}>
                                             {new Date(log.created_at || log.date).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short' })}
                                         </span>
                                         {/* Time */}
-                                        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>
+                                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', fontWeight: '600' }}>
                                             {new Date(log.created_at || log.date).toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' })}
                                         </span>
                                     </div>
 
                                     {/* Main Metrics */}
-                                    <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginBottom: '0.5rem' }}>
-                                        <span style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--text-main)', lineHeight: 1 }}>
-                                            {log.weight}
-                                        </span>
-                                        <span style={{ fontSize: '0.9rem', color: 'var(--text-muted)', fontWeight: '600' }}>
-                                            {logUnitLabel}
-                                        </span>
-                                        <span style={{ fontSize: '1.25rem', color: 'var(--text-muted)', fontWeight: '300' }}>
-                                            ×
-                                        </span>
-                                        <span style={{ fontSize: '1.75rem', fontWeight: '800', color: 'var(--text-main)', lineHeight: 1 }}>
-                                            {log.reps}
-                                        </span>
+                                    <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem', marginBottom: '1rem', flexWrap: 'wrap' }}>
+                                        <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                                            <span style={{ fontSize: '2.5rem', fontWeight: '900', color: 'white', lineHeight: 1, letterSpacing: '-1px' }}>
+                                                {displayWeight}
+                                            </span>
+                                            <span style={{ fontSize: '1rem', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase' }}>
+                                                {logUnitLabel}
+                                            </span>
+                                        </div>
+                                        <span style={{ fontSize: '1.5rem', color: 'rgba(255,255,255,0.2)', fontWeight: '300', alignSelf: 'center' }}>×</span>
+                                        <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+                                            <span style={{ fontSize: '2.5rem', fontWeight: '900', color: 'white', lineHeight: 1, letterSpacing: '-1px' }}>
+                                                {log.reps}
+                                            </span>
+                                            <span style={{ fontSize: '1rem', color: 'var(--text-muted)', fontWeight: '700', textTransform: 'uppercase' }}>
+                                                Reps
+                                            </span>
+                                        </div>
+                                        
+                                        {/* Original Unit Badge (LBS) */}
+                                        {originalLbs !== null && (
+                                            <span style={{ 
+                                                fontSize: '0.8rem', 
+                                                color: 'var(--text-muted)', 
+                                                background: 'rgba(255, 255, 255, 0.05)', 
+                                                padding: '4px 10px', 
+                                                borderRadius: '8px',
+                                                border: '1px solid rgba(255,255,255,0.08)',
+                                                fontWeight: '600',
+                                                alignSelf: 'center'
+                                            }} title="Valor original en libras">
+                                                (Orig: {originalLbs} lbs)
+                                            </span>
+                                        )}
                                         
                                         {/* Improvement Badges Inline */}
                                         {weightDiff !== null && Math.abs(weightDiff) > 0 && (
                                             <span 
-                                                title={`Diferencia de peso con la sesión anterior (${weightDiff > 0 ? '+' : ''}${weightDiff} ${logUnitLabel})`}
+                                                title={`Diferencia de peso con la sesión anterior (${weightDiff > 0 ? '+' : ''}${Number(weightDiff.toFixed(2))} ${logUnitLabel})`}
                                                 style={{ 
                                                 marginLeft: 'auto',
-                                                fontSize: '0.8rem', 
+                                                fontSize: '0.85rem', 
                                                 color: weightDiff > 0 ? 'var(--success)' : '#f87171',
-                                                fontWeight: 'bold',
-                                                background: weightDiff > 0 ? 'rgba(34, 197, 94, 0.1)' : 'rgba(248, 113, 113, 0.1)',
-                                                padding: '2px 6px',
-                                                borderRadius: '4px',
-                                                cursor: 'help'
+                                                fontWeight: '800',
+                                                background: weightDiff > 0 ? 'rgba(34, 197, 94, 0.15)' : 'rgba(248, 113, 113, 0.15)',
+                                                padding: '4px 10px',
+                                                borderRadius: '8px',
+                                                cursor: 'help',
+                                                border: `1px solid ${weightDiff > 0 ? 'rgba(34, 197, 94, 0.3)' : 'rgba(248, 113, 113, 0.3)'}`,
+                                                alignSelf: 'center'
                                             }}>
-                                                {weightDiff > 0 ? '▲' : '▼'}{Math.abs(weightDiff)}
+                                                {weightDiff > 0 ? '▲' : '▼'}{Number(Math.abs(weightDiff).toFixed(2))}
                                             </span>
                                         )}
                                     </div>
@@ -1177,49 +1404,68 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                                     </span>
                                                 )}
                                             </div>
+                                            {(log.difficulty || log.feeling) && (
+                                                <div style={{ display: 'flex', gap: '0.5rem', marginTop: '6px' }}>
+                                                    {log.difficulty && (
+                                                        <span style={{ fontSize: '0.7rem', padding: '3px 8px', background: 'rgba(255,255,255,0.05)', borderRadius: '6px', color: 'var(--text-muted)', textTransform: 'capitalize', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                                            {log.difficulty}
+                                                        </span>
+                                                    )}
+                                                    {log.feeling && (
+                                                        <span style={{ fontSize: '0.7rem', padding: '3px 8px', background: 'rgba(255,255,255,0.05)', borderRadius: '6px', color: 'var(--text-muted)', textTransform: 'capitalize', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                                            {log.feeling}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
 
                                         {/* Completion Status / Sets Progress */}
                                         {isLatest ? (
                                             /* Latest record: interactive checkboxes */
-                                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                                                <span style={{ fontSize: '0.7rem', color: 'var(--text-muted)', marginRight: '4px' }}>
-                                                    {completed}/{target} series
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                                <span style={{ fontSize: '0.8rem', color: 'var(--text-main)', fontWeight: '700', marginRight: '4px', letterSpacing: '0.5px' }}>
+                                                    {completed}/{target} <span style={{color: 'var(--text-muted)', fontWeight: '500'}}>series</span>
                                                 </span>
-                                                {Array.from({ length: log.sets || 4 }).map((_, i) => {
-                                                    const isCompleted = i < (log.completedSets || 0);
-                                                    return (
-                                                        <button
-                                                            key={i}
-                                                            onClick={() => handleProgressUpdate(log.id, i + 1)}
-                                                            style={{
-                                                                width: '30px', 
-                                                                height: '12px', 
-                                                                borderRadius: '2px',
-                                                                background: isCompleted ? 'linear-gradient(to right, var(--primary), var(--secondary))' : 'rgba(255,255,255,0.1)',
-                                                                border: isCompleted ? 'none' : '1px solid var(--glass-border)', 
-                                                                cursor: 'pointer',
-                                                                transition: 'all 0.2s',
-                                                                display: 'flex',
-                                                                alignItems: 'center',
-                                                                justifyContent: 'center'
-                                                            }}
-                                                        >
-                                                            {isCompleted && <span style={{fontSize: '8px', color: 'black'}}>✓</span>}
-                                                        </button>
-                                                    );
-                                                })}
+                                                <div style={{ display: 'flex', gap: '6px', padding: '6px', background: 'rgba(0,0,0,0.2)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                                    {Array.from({ length: log.sets || 4 }).map((_, i) => {
+                                                        const isCompleted = i < (log.completedSets || 0);
+                                                        return (
+                                                            <button
+                                                                key={i}
+                                                                onClick={() => handleProgressUpdate(log.id, i + 1)}
+                                                                style={{
+                                                                    width: '32px', 
+                                                                    height: '32px', 
+                                                                    borderRadius: '8px',
+                                                                    background: isCompleted ? 'linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%)' : 'rgba(255,255,255,0.03)',
+                                                                    border: isCompleted ? 'none' : '1px solid rgba(255,255,255,0.1)', 
+                                                                    cursor: 'pointer',
+                                                                    transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
+                                                                    display: 'flex',
+                                                                    alignItems: 'center',
+                                                                    justifyContent: 'center',
+                                                                    boxShadow: isCompleted ? '0 2px 10px rgba(34, 211, 238, 0.3)' : 'none',
+                                                                    transform: isCompleted ? 'scale(1.05)' : 'scale(1)'
+                                                                }}
+                                                            >
+                                                                {isCompleted && <span style={{fontSize: '14px', color: 'var(--bg-app)', fontWeight: '900'}}>✓</span>}
+                                                            </button>
+                                                        );
+                                                    })}
+                                                </div>
                                             </div>
                                         ) : (
                                             /* Older records: informational text only */
                                             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                                                 <span style={{
-                                                    fontSize: '0.75rem',
+                                                    fontSize: '0.85rem',
                                                     color: completed >= target ? 'var(--success)' : 'var(--text-muted)',
-                                                    fontWeight: '600',
+                                                    fontWeight: '700',
                                                     background: completed >= target ? 'rgba(34, 197, 94, 0.1)' : 'rgba(255,255,255,0.05)',
-                                                    padding: '2px 8px',
-                                                    borderRadius: '4px'
+                                                    padding: '4px 12px',
+                                                    borderRadius: '8px',
+                                                    border: `1px solid ${completed >= target ? 'rgba(34, 197, 94, 0.2)' : 'rgba(255,255,255,0.05)'}`
                                                 }}>
                                                     {completed >= target ? '✓ ' : ''}{completed}/{target} series
                                                 </span>

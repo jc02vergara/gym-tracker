@@ -10,6 +10,21 @@ button {
   transition: all 0.2s ease;
 }
 
+/* Hide number input arrows/spinners for better styling */
+
+
+/* Hide number input arrows/spinners for better styling */
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance: textfield; /* Firefox */
+  appearance: textfield;
+}
+
 input,
 select {
   font-family: inherit;

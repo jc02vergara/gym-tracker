@@ -107,14 +107,22 @@ export function StoreProvider({ children }) {
         if (!navigator.onLine) return; // Rely on local data if offline
 
         try {
+            const { data: userData } = await supabase.from('users').select('*').eq('id', userId).single();
             const { data: routinesData } = await supabase.from('routines').select('*, exercises(*)').eq('user_id', userId);
             const { data: logsData } = await supabase.from('logs').select('*').eq('user_id', userId);
             const { data: measureData } = await supabase.from('measurements').select('*').eq('user_id', userId);
 
+            if (userData) {
+                setUser(prev => ({ ...prev, ...userData, name: userData.username }));
+                localStorage.setItem("gym-user", JSON.stringify({ ...user, ...userData, name: userData.username }));
+            }
+
             if (routinesData) {
+
                 const sorted = routinesData.map(r => ({
                     ...r,
-                    exercises: r.exercises ? r.exercises.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)) : []
+                    exercises: r.exercises ? r.exercises.sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0)) : [],
+                    scheduled_days: r.scheduled_days || []
                 })).sort((a, b) => (a.sort_order || 0) - (b.sort_order || 0));
                 setRoutines(sorted);
             }
@@ -189,10 +197,30 @@ export function StoreProvider({ children }) {
         localStorage.removeItem("gym-measurements");
     };
 
+    const updateUser = async (updates) => {
+        if (!user) return;
+        
+        // Don't update id or username directly through this for now
+        const safeUpdates = { ...updates };
+        delete safeUpdates.id;
+        delete safeUpdates.username;
+        delete safeUpdates.password_hash;
+        delete safeUpdates.name;
+        
+        setUser(prev => ({ ...prev, ...safeUpdates }));
+        
+        try {
+            const { error } = await supabase.from('users').update(safeUpdates).eq('id', user.id);
+            if (error) throw error;
+        } catch (error) {
+            addToQueue({ table: 'users', type: 'UPDATE', id: user.id, data: safeUpdates });
+        }
+    };
+
     const addRoutine = async (name) => {
         if (!user) return;
         const newId = crypto.randomUUID();
-        const newRoutine = { id: newId, user_id: user.id, name, is_active: true }; // exercises separate
+        const newRoutine = { id: newId, user_id: user.id, name, is_active: true, scheduled_days: [] }; // exercises separate
 
         setRoutines(prev => [...prev, { ...newRoutine, exercises: [] }]);
 
@@ -225,19 +253,20 @@ export function StoreProvider({ children }) {
     };
 
     const reorderRoutines = async (newRoutines) => {
-        // Update local state immediately
-        setRoutines(newRoutines);
+        // Update local state immediately with updated sort_order to prevent render jumps
+        const updatedRoutines = newRoutines.map((routine, index) => ({
+            ...routine,
+            sort_order: index
+        }));
+        
+        setRoutines(updatedRoutines);
 
         // Sync to DB (update sort_order for all)
-        // Optimization: only update those who changed? For simplicity, we loop all.
-        // We assume 'sort_order' column exists. If not, it will fail silently or log error.
-        newRoutines.forEach(async (routine, index) => {
+        updatedRoutines.forEach(async (routine, index) => {
              try {
                  await supabase.from('routines').update({ sort_order: index }).eq('id', routine.id);
              } catch (error) {
                  console.log("Error syncing sort_order", error);
-                 // We don't queue these strictly to avoid flood, or maybe we should? 
-                 // For now, let's treat it as "best effort".
              }
         });
     };
@@ -302,14 +331,20 @@ export function StoreProvider({ children }) {
     };
 
     const reorderExercises = async (routineId, newExercises) => {
+        // Update local state immediately with updated sort_order to prevent render jumps
+        const updatedExercises = newExercises.map((exercise, index) => ({
+            ...exercise,
+            sort_order: index
+        }));
+
         setRoutines(prev => prev.map(r => {
             if (r.id === routineId) {
-                return { ...r, exercises: newExercises };
+                return { ...r, exercises: updatedExercises };
             }
             return r;
         }));
 
-        newExercises.forEach(async (exercise, index) => {
+        updatedExercises.forEach(async (exercise, index) => {
             try {
                 await supabase.from('exercises').update({ sort_order: index }).eq('id', exercise.id);
             } catch (error) {
@@ -418,7 +453,7 @@ export function StoreProvider({ children }) {
 
     const value = {
         routines, logs, measurements, user,
-        login, register, logout,
+        login, register, logout, updateUser,
         addLog, addMeasurement, updateLog, deleteLog, updateMeasurement, deleteMeasurement,
         addExerciseToRoutine, removeExerciseFromRoutine, updateExercise, addRoutine, updateRoutine, removeRoutine, reorderRoutines, reorderExercises,
     };

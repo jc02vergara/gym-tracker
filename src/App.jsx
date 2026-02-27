@@ -1,15 +1,18 @@
 import { useState } from 'react'
 import './App.css'
-import { Dumbbell, LineChart, LogOut } from 'lucide-react'
+import { Dumbbell, LineChart, LogOut, Calendar, Settings } from 'lucide-react'
 import { WorkoutView } from './components/WorkoutView'
 import { ProgressView } from './components/ProgressView'
 import { LoginView } from './components/LoginView'
+import { ProfileView } from './components/ProfileView'
+import { AgendaView } from './components/AgendaView'
 import { useStore } from './hooks/useStore'
 import { Toaster } from 'sonner'
 
 function App() {
   const { user, logout } = useStore();
-  const [view, setView] = useState('workout')
+  const [view, setView] = useState('workout');
+  const [selectedAgendaRoutineId, setSelectedAgendaRoutineId] = useState(null);
 
   if (!user) {
     return <LoginView />;
@@ -43,63 +46,106 @@ function App() {
       </header>
 
       <main style={{ paddingBottom: '5rem' }}>
-        {view === 'workout' ? (
-          <WorkoutView />
-        ) : (
-          <ProgressView />
-        )}
+        {view === 'workout' && <WorkoutView preselectedRoutineId={selectedAgendaRoutineId} />}
+        {view === 'progress' && <ProgressView />}
+        {view === 'agenda' && <AgendaView onNavigateToWorkout={(id) => { setSelectedAgendaRoutineId(id); setView('workout'); }} />}
+        {view === 'profile' && <ProfileView />}
       </main>
 
       {/* Bottom Navigation */}
       <nav style={{
         position: 'fixed',
-        bottom: 'calc(1.5rem + env(safe-area-inset-bottom))',
+        bottom: 0,
         left: 0,
         right: 0,
-        width: 'fit-content',
-        margin: '0 auto',
+        width: '100%',
         display: 'flex',
-        gap: '1rem',
-        background: 'rgba(15, 23, 42, 0.8)',
-        padding: '0.75rem 1.5rem',
-        borderRadius: 'var(--radius-lg)',
-        border: '1px solid rgba(255, 255, 255, 0.1)',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        background: 'rgba(15, 23, 42, 0.95)',
+        padding: '0.75rem 1rem calc(0.75rem + env(safe-area-inset-bottom))',
+        borderTopLeftRadius: '20px',
+        borderTopRightRadius: '20px',
+        borderTop: '1px solid rgba(255, 255, 255, 0.1)',
         backdropFilter: 'blur(12px)',
-        boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.1)',
+        boxShadow: '0 -4px 20px rgba(0, 0, 0, 0.3)',
         zIndex: 9999,
         transform: 'translate3d(0,0,100px)' // Force hardware acceleration and z-position
       }}>
+        {/* ENTRENAR */}
         <button
           onClick={() => setView('workout')}
           style={{
-            background: view === 'workout' ? 'var(--primary-glow)' : 'transparent',
+            background: 'transparent',
             border: 'none',
             color: view === 'workout' ? 'var(--primary)' : 'var(--text-muted)',
-            padding: '0.75rem',
-            borderRadius: 'var(--radius-md)',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            gap: '0.5rem'
+            gap: '0.25rem',
+            padding: '0.25rem',
+            flex: 1
           }}
         >
           <Dumbbell size={24} />
-          {view === 'workout' && <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Entrenar</span>}
+          <span style={{ fontSize: '0.65rem', fontWeight: 'bold', letterSpacing: '0.5px' }}>ENTRENAR</span>
         </button>
+
+        {/* PROGRESO */}
         <button
           onClick={() => setView('progress')}
           style={{
-            background: view === 'progress' ? 'rgba(244, 114, 182, 0.2)' : 'transparent',
+            background: 'transparent',
             border: 'none',
-            color: view === 'progress' ? 'var(--secondary)' : 'var(--text-muted)',
-            padding: '0.75rem',
-            borderRadius: 'var(--radius-md)',
+            color: view === 'progress' ? 'var(--primary)' : 'var(--text-muted)',
             display: 'flex',
+            flexDirection: 'column',
             alignItems: 'center',
-            gap: '0.5rem'
+            gap: '0.25rem',
+            padding: '0.25rem',
+            flex: 1
           }}
         >
           <LineChart size={24} />
-          {view === 'progress' && <span style={{ fontSize: '0.9rem', fontWeight: 'bold' }}>Progreso</span>}
+          <span style={{ fontSize: '0.65rem', fontWeight: 'bold', letterSpacing: '0.5px' }}>PROGRESO</span>
+        </button>
+
+        {/* AGENDA */}
+        <button
+          onClick={() => setView('agenda')}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: view === 'agenda' ? 'var(--primary)' : 'var(--text-muted)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.25rem',
+            padding: '0.25rem',
+            flex: 1
+          }}
+        >
+          <Calendar size={24} />
+          <span style={{ fontSize: '0.65rem', fontWeight: 'bold', letterSpacing: '0.5px' }}>AGENDA</span>
+        </button>
+
+        {/* PERFIL */}
+        <button
+          onClick={() => setView('profile')}
+          style={{
+            background: 'transparent',
+            border: 'none',
+            color: view === 'profile' ? 'var(--primary)' : 'var(--text-muted)',
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            gap: '0.25rem',
+            padding: '0.25rem',
+            flex: 1
+          }}
+        >
+          <Settings size={24} />
+          <span style={{ fontSize: '0.65rem', fontWeight: 'bold', letterSpacing: '0.5px' }}>PERFIL</span>
         </button>
       </nav>
     </div>
