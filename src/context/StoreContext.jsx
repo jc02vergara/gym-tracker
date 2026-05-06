@@ -1,4 +1,4 @@
-import { createContext, useState, useEffect, useContext } from "react";
+import { createContext, useState, useEffect, useContext, useRef } from "react";
 import { supabase } from "../supabase";
 
 const StoreContext = createContext(null);
@@ -24,6 +24,18 @@ export function StoreProvider({ children }) {
         const saved = localStorage.getItem("gym-measurements");
         return saved ? JSON.parse(saved) : [];
     });
+    const [sessions, setSessions] = useState(() => {
+        const saved = localStorage.getItem("gym-sessions");
+        return saved ? JSON.parse(saved) : [];
+    });
+    const [activeSession, setActiveSession] = useState(() => {
+        const saved = localStorage.getItem("gym-active-session");
+        return saved ? JSON.parse(saved) : null;
+    });
+
+    // Sync UI State
+    const [isSyncing, setIsSyncing] = useState(false);
+    const isLoggedOutRef = useRef(false);
 
     /* Persistence Helpers */
     const saveToLocal = (key, data) => {
@@ -43,6 +55,8 @@ export function StoreProvider({ children }) {
         if (queue.length === 0) return;
 
         console.log("Processing sync queue...", queue.length);
+        setIsSyncing(true);
+        const startTime = Date.now();
         const newQueue = [];
 
         for (const item of queue) {
@@ -51,9 +65,6 @@ export function StoreProvider({ children }) {
                 let error = null;
 
                 if (type === 'INSERT') {
-                    // Remove local-only ID for insert if DB generates UUIDs, OR keep it if we want client-side IDs
-                    // For Supabase, best to let client generate UUID or server.
-                    // We'll trust the ID generated locally (crypto.randomUUID) matches server capability
                     const { error: err } = await supabase.from(table).insert(data);
                     error = err;
                 } else if (type === 'UPDATE') {
@@ -66,7 +77,7 @@ export function StoreProvider({ children }) {
 
                 if (error) {
                     console.error("Sync error:", error);
-                    newQueue.push(item); // Keep in queue on error
+                    newQueue.push(item);
                 }
             } catch (err) {
                 console.error("Sync Exception:", err);
@@ -74,6 +85,14 @@ export function StoreProvider({ children }) {
             }
         }
         localStorage.setItem(SYNC_QUEUE_KEY, JSON.stringify(newQueue));
+        
+        // Ensure the sync icon is visible for at least 1.5 seconds
+        const elapsed = Date.now() - startTime;
+        if (elapsed < 1500) {
+            await new Promise(r => setTimeout(r, 1500 - elapsed));
+        }
+        
+        setIsSyncing(false);
     };
 
     // Listen for online status
@@ -90,13 +109,14 @@ export function StoreProvider({ children }) {
 
     /* Initial Load */
     useEffect(() => {
-        if (user) {
+        if (user?.id) {
             localStorage.setItem("gym-user", JSON.stringify(user));
             loadUserData(user.id);
-        } else {
+        } else if (!user) {
             localStorage.removeItem("gym-user");
         }
-    }, [user]);
+    }, [user?.id]); // Only fires on login/logout, not on every setUser() update
+
 
     // Persist state changes
     useEffect(() => { saveToLocal("gym-routines", routines); }, [routines]);
@@ -111,10 +131,12 @@ export function StoreProvider({ children }) {
             const { data: routinesData } = await supabase.from('routines').select('*, exercises(*)').eq('user_id', userId);
             const { data: logsData } = await supabase.from('logs').select('*').eq('user_id', userId);
             const { data: measureData } = await supabase.from('measurements').select('*').eq('user_id', userId);
+            const { data: sessionsData } = await supabase.from('workout_sessions').select('*').eq('user_id', userId).order('started_at', { ascending: false });
 
-            if (userData) {
-                setUser(prev => ({ ...prev, ...userData, name: userData.username }));
-                localStorage.setItem("gym-user", JSON.stringify({ ...user, ...userData, name: userData.username }));
+            if (userData && !isLoggedOutRef.current) {
+                const prefs = userData.measurement_prefs || ["Pecho", "Glúteos", "Brazos", "Piernas"];
+                setUser(prev => ({ ...prev, ...userData, name: userData.username, measurement_prefs: prefs }));
+                localStorage.setItem("gym-user", JSON.stringify({ ...user, ...userData, name: userData.username, measurement_prefs: prefs }));
             }
 
             if (routinesData) {
@@ -137,6 +159,17 @@ export function StoreProvider({ children }) {
                 setLogs(normalizedLogs);
             }
             if (measureData) setMeasurements(measureData);
+            if (sessionsData && !isLoggedOutRef.current) {
+                const normalized = sessionsData.map(s => ({
+                    id: s.id,
+                    routineId: s.routine_id,
+                    startedAt: s.started_at,
+                    endedAt: s.ended_at,
+                    duration_minutes: s.duration_minutes
+                }));
+                setSessions(normalized);
+                localStorage.setItem("gym-sessions", JSON.stringify(normalized));
+            }
         } catch (error) {
             console.log("Using local data due to error/offline", error);
         }
@@ -191,10 +224,17 @@ export function StoreProvider({ children }) {
     };
 
     const logout = () => {
-        setUser(null);
+        isLoggedOutRef.current = true;
+        localStorage.removeItem("gym-user");
         localStorage.removeItem("gym-routines");
         localStorage.removeItem("gym-logs");
         localStorage.removeItem("gym-measurements");
+        setUser(null);
+        setRoutines([]);
+        setLogs([]);
+        setMeasurements([]);
+        // Reset after state settles
+        setTimeout(() => { isLoggedOutRef.current = false; }, 500);
     };
 
     const updateUser = async (updates) => {
@@ -363,6 +403,7 @@ export function StoreProvider({ children }) {
             sets: log.sets || 4,
             completed_sets: log.completedSets || 0,
             unit: log.unit || 'kg',
+            notes: log.notes || null,
             created_at: new Date().toISOString()
         };
         // Local state
@@ -389,6 +430,10 @@ export function StoreProvider({ children }) {
             dbUpdates.completed_sets = dbUpdates.completedSets;
             delete dbUpdates.completedSets;
         }
+        if (dbUpdates.notes !== undefined) {
+            // Mapping handled directly unless specific transform is needed for Supabase.
+            // Ensure null or proper text is sent.
+        }
         if (dbUpdates.unit) {
              // unit column name matches - supabase handles mapping if key matches column
              // But we need to ensure it's in the data object for the queue
@@ -414,10 +459,11 @@ export function StoreProvider({ children }) {
     };
 
     const addMeasurement = async (measurement) => {
-        // Measurement object from UI should now match: { weight, chest, waist, arms, legs, date }
+        // Measurement object from UI should now match: { weight, date, data }
         const mData = {
             id: crypto.randomUUID(),
             user_id: user.id,
+            data: {}, // Default empty if not provided
             ...measurement
         };
         setMeasurements((prev) => [mData, ...prev]);
@@ -451,9 +497,49 @@ export function StoreProvider({ children }) {
         }
     };
 
+    const startSession = (routineId) => {
+        const session = { id: crypto.randomUUID(), routineId, startedAt: new Date().toISOString() };
+        localStorage.setItem("gym-active-session", JSON.stringify(session));
+        setActiveSession(session);
+    };
+
+    const endSession = async () => {
+        if (!activeSession) return;
+        const endedAt = new Date().toISOString();
+        const duration_minutes = Math.round((new Date(endedAt) - new Date(activeSession.startedAt)) / 60000);
+        const completedSession = { ...activeSession, endedAt, duration_minutes };
+
+        const dbSession = {
+            id: completedSession.id,
+            user_id: user.id,
+            routine_id: completedSession.routineId,
+            started_at: completedSession.startedAt,
+            ended_at: endedAt,
+            duration_minutes
+        };
+
+        // Save to Supabase
+        try {
+            const { error } = await supabase.from('workout_sessions').insert(dbSession);
+            if (error) throw error;
+        } catch (err) {
+            console.warn('Could not save session to Supabase, stored locally only', err);
+            addToQueue({ table: 'workout_sessions', type: 'INSERT', data: dbSession });
+        }
+
+        const updatedSessions = [completedSession, ...sessions];
+        setSessions(updatedSessions);
+        localStorage.setItem("gym-sessions", JSON.stringify(updatedSessions));
+        localStorage.removeItem("gym-active-session");
+        setActiveSession(null);
+        return duration_minutes;
+    };
+
+
     const value = {
-        routines, logs, measurements, user,
+        routines, logs, measurements, sessions, activeSession, user, isSyncing,
         login, register, logout, updateUser,
+        startSession, endSession,
         addLog, addMeasurement, updateLog, deleteLog, updateMeasurement, deleteMeasurement,
         addExerciseToRoutine, removeExerciseFromRoutine, updateExercise, addRoutine, updateRoutine, removeRoutine, reorderRoutines, reorderExercises,
     };

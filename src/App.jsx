@@ -1,18 +1,17 @@
 import { useState } from 'react'
 import './App.css'
-import { Dumbbell, LineChart, LogOut, Calendar, Settings } from 'lucide-react'
+import { Dumbbell, LineChart, BarChart2, LogOut, Calendar, Settings, RefreshCw } from 'lucide-react'
 import { WorkoutView } from './components/WorkoutView'
 import { ProgressView } from './components/ProgressView'
 import { LoginView } from './components/LoginView'
 import { ProfileView } from './components/ProfileView'
-import { AgendaView } from './components/AgendaView'
+import { AnalyticsView } from './components/AnalyticsView'
 import { useStore } from './hooks/useStore'
 import { Toaster } from 'sonner'
 
 function App() {
-  const { user, logout } = useStore();
+  const { user, logout, isSyncing } = useStore();
   const [view, setView] = useState('workout');
-  const [selectedAgendaRoutineId, setSelectedAgendaRoutineId] = useState(null);
 
   if (!user) {
     return <LoginView />;
@@ -25,30 +24,51 @@ function App() {
         <h1 style={{ fontSize: '1.5rem', fontWeight: '800', background: 'linear-gradient(to right, var(--primary), var(--secondary))', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', margin: 0 }}>
           GYM TRACKER
         </h1>
-        <button
-          onClick={logout}
-          style={{
-            width: '36px',
-            height: '36px',
-            borderRadius: '50%',
-            background: 'var(--bg-card)',
-            border: 'var(--glass-border)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: 'var(--text-muted)',
-            cursor: 'pointer'
-          }}
-          title="Cerrar Sesión"
-        >
-          <LogOut size={16} />
-        </button>
+        <div style={{ display: 'flex', gap: '0.75rem', alignItems: 'center' }}>
+          {isSyncing && (
+            <div 
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.25rem',
+                color: 'var(--primary)',
+                fontSize: '0.75rem',
+                fontWeight: 'bold',
+                padding: '0.25rem 0.5rem',
+                background: 'rgba(34, 211, 238, 0.1)',
+                borderRadius: '12px'
+              }}
+              title="Sincronizando..."
+            >
+              <RefreshCw size={14} className="spin-animation" />
+              <span>Sincronizando</span>
+            </div>
+          )}
+          <button
+            onClick={logout}
+            style={{
+              width: '36px',
+              height: '36px',
+              borderRadius: '50%',
+              background: 'var(--bg-card)',
+              border: 'var(--glass-border)',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: 'var(--text-muted)',
+              cursor: 'pointer'
+            }}
+            title="Cerrar Sesión"
+          >
+            <LogOut size={16} />
+          </button>
+        </div>
       </header>
 
       <main style={{ paddingBottom: '5rem' }}>
-        {view === 'workout' && <WorkoutView preselectedRoutineId={selectedAgendaRoutineId} />}
+        {view === 'workout' && <WorkoutView />}
         {view === 'progress' && <ProgressView />}
-        {view === 'agenda' && <AgendaView onNavigateToWorkout={(id) => { setSelectedAgendaRoutineId(id); setView('workout'); }} />}
+        {view === 'analytics' && <AnalyticsView />}
         {view === 'profile' && <ProfileView />}
       </main>
 
@@ -110,13 +130,13 @@ function App() {
           <span style={{ fontSize: '0.65rem', fontWeight: 'bold', letterSpacing: '0.5px' }}>PROGRESO</span>
         </button>
 
-        {/* AGENDA */}
+        {/* ANALITICAS */}
         <button
-          onClick={() => setView('agenda')}
+          onClick={() => setView('analytics')}
           style={{
             background: 'transparent',
             border: 'none',
-            color: view === 'agenda' ? 'var(--primary)' : 'var(--text-muted)',
+            color: view === 'analytics' ? 'var(--primary)' : 'var(--text-muted)',
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
@@ -125,8 +145,8 @@ function App() {
             flex: 1
           }}
         >
-          <Calendar size={24} />
-          <span style={{ fontSize: '0.65rem', fontWeight: 'bold', letterSpacing: '0.5px' }}>AGENDA</span>
+          <BarChart2 size={24} />
+          <span style={{ fontSize: '0.65rem', fontWeight: 'bold', letterSpacing: '0.5px' }}>STATS</span>
         </button>
 
         {/* PERFIL */}

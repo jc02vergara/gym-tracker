@@ -1,53 +1,70 @@
 import { useState } from 'react';
 import { useStore } from '../hooks/useStore';
-import { Ruler, Scale, Calendar, Trash2, Edit2 } from 'lucide-react';
+import { Ruler, Scale, Calendar, Trash2, Edit2, Settings, Plus, X } from 'lucide-react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { toast } from 'sonner';
 import { confirmAction } from '../utils/ui';
 
 export function ProgressView() {
-    const { measurements, addMeasurement, updateMeasurement, deleteMeasurement } = useStore();
+    const { measurements, addMeasurement, updateMeasurement, deleteMeasurement, user, updateUser } = useStore();
     const [activeTab, setActiveTab] = useState('add'); // 'add' or 'history'
+    
+    const prefs = user?.measurement_prefs || ["Pecho", "Glúteos", "Brazos", "Piernas"];
 
     const [formData, setFormData] = useState({
         weight: '',
-        chest: '',
-        waist: '',
-        arms: '',
-        legs: ''
+        data: {}
     });
 
     const [editingId, setEditingId] = useState(null);
     const [measVisible, setMeasVisible] = useState(5);
+    const [showConfig, setShowConfig] = useState(false);
+    const [newPref, setNewPref] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (!formData.weight && !formData.waist) return; // Basic validation
+        
+        // Clean empty values from data
+        const cleanData = {};
+        for(let key in formData.data) {
+            if(formData.data[key] !== '' && formData.data[key] !== null) {
+                cleanData[key] = parseFloat(formData.data[key]);
+            }
+        }
+
+        if (!formData.weight && Object.keys(cleanData).length === 0) return;
 
         if (editingId) {
-            updateMeasurement(editingId, formData);
+            updateMeasurement(editingId, { weight: formData.weight, data: cleanData });
             setEditingId(null);
             setActiveTab('history');
         } else {
             const newEntry = {
                 id: crypto.randomUUID(),
                 date: new Date().toISOString(),
-                ...formData
+                weight: formData.weight,
+                data: cleanData
             };
             addMeasurement(newEntry);
             setActiveTab('history');
         }
 
-        setFormData({ weight: '', chest: '', waist: '', arms: '', legs: '' });
+        setFormData({ weight: '', data: {} });
     };
 
     const handleEdit = (entry) => {
+        const migratedData = entry.data || {
+            Pecho: entry.chest,
+            Glúteos: entry.waist,
+            Brazos: entry.arms,
+            Piernas: entry.legs
+        };
+        const cleanData = {};
+        for(const k in migratedData) { if(migratedData[k]) cleanData[k] = migratedData[k]; }
+
         setFormData({
             weight: entry.weight || '',
-            chest: entry.chest || '',
-            waist: entry.waist || '',
-            arms: entry.arms || '',
-            legs: entry.legs || ''
+            data: cleanData
         });
         setEditingId(entry.id);
         setActiveTab('add');
@@ -56,34 +73,46 @@ export function ProgressView() {
     const handleDelete = (id) => {
         confirmAction('¿Estás seguro de eliminar este registro?', () => {
             deleteMeasurement(id);
-             // toast.success('Registro eliminado'); // deleteMeasurement might trigger something, but safe to add toast here or assume store handles it? Store doesn't seem to return promise or toast.
         });
     };
 
-    const handleChange = (e) => {
-        setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    const handleAddPref = () => {
+        if (!newPref.trim() || prefs.includes(newPref.trim())) return;
+        const updated = [...prefs, newPref.trim()];
+        updateUser({ measurement_prefs: updated });
+        setNewPref('');
+    };
+
+    const handleRemovePref = (prefToRemove) => {
+        confirmAction(`¿Dejar de dar seguimiento a ${prefToRemove}? Los datos históricos se conservarán.`, () => {
+            const updated = prefs.filter(p => p !== prefToRemove);
+            updateUser({ measurement_prefs: updated });
+        });
     };
 
     // Prepare data for chart (sort oldest to newest)
     const chartData = [...measurements]
         .sort((a, b) => new Date(a.date) - new Date(b.date))
-        .map(m => ({
-            date: new Date(m.date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }),
-            weight: m.weight ? parseFloat(m.weight) : null,
-            chest: m.chest ? parseFloat(m.chest) : null,
-            waist: m.waist ? parseFloat(m.waist) : null,
-            arms: m.arms ? parseFloat(m.arms) : null,
-            legs: m.legs ? parseFloat(m.legs) : null,
-            fullDate: new Date(m.date).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
-        }))
-        .filter(d => d.weight !== null || d.chest !== null || d.waist !== null || d.arms !== null || d.legs !== null);
+        .map(m => {
+            const migratedData = m.data || { Pecho: m.chest, Glúteos: m.waist, Brazos: m.arms, Piernas: m.legs };
+            const parsedData = {};
+            for (let key in migratedData) {
+                if (migratedData[key]) parsedData[key] = parseFloat(migratedData[key]);
+            }
+            return {
+                date: new Date(m.date).toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit' }),
+                weight: m.weight ? parseFloat(m.weight) : null,
+                ...parsedData,
+                fullDate: new Date(m.date).toLocaleDateString('es-ES', { weekday: 'short', day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' })
+            };
+        });
 
+    const colors = ['#facc15', '#f472b6', '#60a5fa', '#4ade80', '#a78bfa', '#fb923c', '#38bdf8', '#c084fc', '#f87171', '#34d399'];
     const chartConfigs = [
         { key: 'weight', title: 'Peso Corporal', color: 'var(--primary)', unit: 'kg' },
-        { key: 'chest', title: 'Pecho', color: '#facc15', unit: 'cm' },
-        { key: 'waist', title: 'Glúteos', color: '#f472b6', unit: 'cm' },
-        { key: 'arms', title: 'Brazos', color: '#60a5fa', unit: 'cm' },
-        { key: 'legs', title: 'Piernas', color: '#4ade80', unit: 'cm' }
+        ...prefs.map((pref, i) => ({
+            key: pref, title: pref, color: colors[i % colors.length], unit: 'cm'
+        }))
     ];
 
     const [activeChart, setActiveChart] = useState('weight');
@@ -92,7 +121,7 @@ export function ProgressView() {
         <div style={{ paddingBottom: '80px', display: 'flex', flexDirection: 'column', gap: '1.5rem' }}>
             <div style={{ display: 'flex', background: 'rgba(255,255,255,0.05)', borderRadius: '16px', padding: '0.35rem', border: '1px solid rgba(255,255,255,0.05)' }}>
                 <button
-                    onClick={() => { setActiveTab('add'); setEditingId(null); setFormData({ weight: '', chest: '', waist: '', arms: '', legs: '' }); }}
+                    onClick={() => { setActiveTab('add'); setEditingId(null); setFormData({ weight: '', data: {} }); }}
                     style={{
                         flex: 1,
                         padding: '0.75rem',
@@ -154,7 +183,7 @@ export function ProgressView() {
                                 type="number"
                                 inputMode="decimal"
                                 value={formData.weight}
-                                onChange={handleChange}
+                                onChange={(e) => setFormData(prev => ({ ...prev, weight: e.target.value }))}
                                 placeholder="ej. 75.5"
                                 style={{ width: '100%', fontSize: '1.5rem', fontWeight: '800', background: 'transparent', border: 'none', color: 'white', outline: 'none' }}
                             />
@@ -171,29 +200,69 @@ export function ProgressView() {
                         overflow: 'hidden'
                     }}>
                         <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '4px', background: 'linear-gradient(90deg, #facc15, #f472b6, #60a5fa, #4ade80)' }}></div>
-                        <h3 style={{ margin: '0 0 1.25rem 0', display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'white', fontSize: '1.1rem', fontWeight: '800' }}>
-                            <span style={{ color: 'var(--secondary)', display: 'flex', background: 'rgba(255,255,255,0.05)', padding: '6px', borderRadius: '10px' }}>
-                                <Ruler size={20} />
-                            </span>
-                            Medidas (cm)
-                        </h3>
+                        
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.25rem' }}>
+                            <h3 style={{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.75rem', color: 'white', fontSize: '1.1rem', fontWeight: '800' }}>
+                                <span style={{ color: 'var(--secondary)', display: 'flex', background: 'rgba(255,255,255,0.05)', padding: '6px', borderRadius: '10px' }}>
+                                    <Ruler size={20} />
+                                </span>
+                                Medidas (cm)
+                            </h3>
+                            <button
+                                type="button"
+                                onClick={() => setShowConfig(!showConfig)}
+                                style={{ background: 'rgba(255,255,255,0.05)', color: 'var(--text-muted)', border: 'none', borderRadius: '10px', padding: '6px', cursor: 'pointer', display: 'flex', alignItems: 'center', transition: 'all 0.2s' }}
+                            >
+                                <Settings size={18} />
+                            </button>
+                        </div>
+
+                        {showConfig && (
+                            <div style={{ background: 'rgba(0,0,0,0.2)', padding: '1rem', borderRadius: '16px', marginBottom: '1.5rem', border: '1px dashed rgba(255,255,255,0.1)' }}>
+                                <h4 style={{ margin: '0 0 1rem 0', color: 'var(--text-main)', fontSize: '0.9rem' }}>Configurar Medidas</h4>
+                                <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '1rem' }}>
+                                    <input 
+                                        type="text" 
+                                        value={newPref}
+                                        onChange={(e) => setNewPref(e.target.value)}
+                                        placeholder="Ej. Antebrazos"
+                                        style={{ flex: 1, padding: '0.5rem 1rem', borderRadius: '10px', background: 'var(--bg-app)', border: '1px solid rgba(255,255,255,0.1)', color: 'white' }}
+                                    />
+                                    <button 
+                                        type="button"
+                                        onClick={handleAddPref}
+                                        style={{ background: 'var(--primary)', color: 'var(--bg-app)', border: 'none', borderRadius: '10px', padding: '0 1rem', cursor: 'pointer', fontWeight: 'bold' }}
+                                    >
+                                        Agregar
+                                    </button>
+                                </div>
+                                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
+                                    {prefs.map(pref => (
+                                        <div key={pref} style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', background: 'rgba(255,255,255,0.05)', padding: '4px 8px 4px 12px', borderRadius: '20px', fontSize: '0.8rem', color: 'var(--text-main)' }}>
+                                            {pref}
+                                            <button type="button" onClick={() => handleRemovePref(pref)} style={{ background: 'transparent', border: 'none', color: '#f87171', display: 'flex', alignItems: 'center', padding: '4px', cursor: 'pointer' }}>
+                                                <X size={14} />
+                                            </button>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
                         <div className="measurements-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '1rem' }}>
-                            <div style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Pecho</label>
-                                <input name="chest" type="number" inputMode="decimal" value={formData.chest} onChange={handleChange} placeholder="0" style={{ width: '100%', fontSize: '1.5rem', fontWeight: '800', background: 'transparent', border: 'none', color: 'white', outline: 'none' }} />
-                            </div>
-                            <div style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Glúteos</label>
-                                <input name="waist" type="number" inputMode="decimal" value={formData.waist} onChange={handleChange} placeholder="0" style={{ width: '100%', fontSize: '1.5rem', fontWeight: '800', background: 'transparent', border: 'none', color: 'white', outline: 'none' }} />
-                            </div>
-                            <div style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Brazos</label>
-                                <input name="arms" type="number" inputMode="decimal" value={formData.arms} onChange={handleChange} placeholder="0" style={{ width: '100%', fontSize: '1.5rem', fontWeight: '800', background: 'transparent', border: 'none', color: 'white', outline: 'none' }} />
-                            </div>
-                            <div style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                                <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>Piernas</label>
-                                <input name="legs" type="number" inputMode="decimal" value={formData.legs} onChange={handleChange} placeholder="0" style={{ width: '100%', fontSize: '1.5rem', fontWeight: '800', background: 'transparent', border: 'none', color: 'white', outline: 'none' }} />
-                            </div>
+                            {prefs.map(pref => (
+                                <div key={pref} style={{ background: 'rgba(255,255,255,0.03)', padding: '12px', borderRadius: '16px', border: '1px solid rgba(255,255,255,0.05)' }}>
+                                    <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px' }}>{pref}</label>
+                                    <input 
+                                        type="number" 
+                                        inputMode="decimal" 
+                                        value={formData.data[pref] || ''} 
+                                        onChange={(e) => setFormData(prev => ({ ...prev, data: { ...prev.data, [pref]: e.target.value } }))} 
+                                        placeholder="0" 
+                                        style={{ width: '100%', fontSize: '1.5rem', fontWeight: '800', background: 'transparent', border: 'none', color: 'white', outline: 'none' }} 
+                                    />
+                                </div>
+                            ))}
                         </div>
                     </div>
 
@@ -296,7 +365,7 @@ export function ProgressView() {
                                                 <ResponsiveContainer width="100%" height="100%">
                                                     <AreaChart data={validData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                                                         <defs>
-                                                            <linearGradient id={`color${config.key}`} x1="0" y1="0" x2="0" y2="1">
+                                                            <linearGradient id={`color${config.key.replace(/\s/g, '')}`} x1="0" y1="0" x2="0" y2="1">
                                                                 <stop offset="5%" stopColor={config.color} stopOpacity={0.3}/>
                                                                 <stop offset="95%" stopColor={config.color} stopOpacity={0}/>
                                                             </linearGradient>
@@ -354,7 +423,7 @@ export function ProgressView() {
                                                             stroke={config.color} 
                                                             strokeWidth={3} 
                                                             fillOpacity={1} 
-                                                            fill={`url(#color${config.key})`}
+                                                            fill={`url(#color${config.key.replace(/\s/g, '')})`}
                                                             dot={{ r: 4, fill: 'var(--bg-card)', stroke: config.color, strokeWidth: 2 }} 
                                                             activeDot={{ r: 6, fill: config.color, stroke: 'white', strokeWidth: 2 }} 
                                                         />
@@ -374,25 +443,29 @@ export function ProgressView() {
                                     {visibleMeasurements.map((entry, index) => {
                                     const isFirst = index === 0;
                                     const prev = sortedMeasurements[index + 1];
-                                const getDelta = (current, previous) => {
-                                    if (!current || !previous) return null;
-                                    const diff = (parseFloat(current) - parseFloat(previous)).toFixed(1);
-                                    if (diff == 0.0) return null;
-                                    const isPositive = diff > 0;
-                                    return (
-                                        <span style={{ 
-                                            fontSize: '0.8rem', 
-                                            color: isPositive ? 'var(--success)' : '#f87171',
-                                            fontWeight: 'bold',
-                                            marginLeft: '0.5rem',
-                                            background: isPositive ? 'rgba(34, 197, 94, 0.1)' : 'rgba(248, 113, 113, 0.1)',
-                                            padding: '2px 6px',
-                                            borderRadius: '4px'
-                                        }}>
-                                            {isPositive ? '+' : ''}{diff}
-                                        </span>
-                                    );
-                                };
+
+                                    const entryData = entry.data || { Pecho: entry.chest, Glúteos: entry.waist, Brazos: entry.arms, Piernas: entry.legs };
+                                    const prevData = prev?.data || { Pecho: prev?.chest, Glúteos: prev?.waist, Brazos: prev?.arms, Piernas: prev?.legs };
+
+                                    const getDelta = (current, previous) => {
+                                        if (!current || !previous) return null;
+                                        const diff = (parseFloat(current) - parseFloat(previous)).toFixed(1);
+                                        if (diff == 0.0) return null;
+                                        const isPositive = diff > 0;
+                                        return (
+                                            <span style={{ 
+                                                fontSize: '0.8rem', 
+                                                color: isPositive ? 'var(--success)' : '#f87171',
+                                                fontWeight: 'bold',
+                                                marginLeft: '0.5rem',
+                                                background: isPositive ? 'rgba(34, 197, 94, 0.1)' : 'rgba(248, 113, 113, 0.1)',
+                                                padding: '2px 6px',
+                                                borderRadius: '4px'
+                                            }}>
+                                                {isPositive ? '+' : ''}{diff}
+                                            </span>
+                                        );
+                                    };
 
                                 return (
                                     <div key={entry.id} style={{
@@ -445,38 +518,18 @@ export function ProgressView() {
                                             </div>
                                             
                                             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                                                {entry.chest > 0 && (
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                        <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: '600' }}>Pecho:</span>
-                                                        <span style={{ color: 'white', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                            {entry.chest} <span style={{fontSize:'0.75rem', color:'var(--text-muted)', fontWeight:'normal'}}>cm</span> {getDelta(entry.chest, prev?.chest)}
-                                                        </span>
-                                                    </div>
-                                                )}
-                                                {entry.waist > 0 && (
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                        <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: '600' }}>Glúteos:</span>
-                                                        <span style={{ color: 'white', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                            {entry.waist} <span style={{fontSize:'0.75rem', color:'var(--text-muted)', fontWeight:'normal'}}>cm</span> {getDelta(entry.waist, prev?.waist)}
-                                                        </span>
-                                                    </div>
-                                                )}
-                                                {entry.arms > 0 && (
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                        <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: '600' }}>Brazos:</span>
-                                                        <span style={{ color: 'white', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                            {entry.arms} <span style={{fontSize:'0.75rem', color:'var(--text-muted)', fontWeight:'normal'}}>cm</span> {getDelta(entry.arms, prev?.arms)}
-                                                        </span>
-                                                    </div>
-                                                )}
-                                                {entry.legs > 0 && (
-                                                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                                                        <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: '600' }}>Piernas:</span>
-                                                        <span style={{ color: 'white', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                                                            {entry.legs} <span style={{fontSize:'0.75rem', color:'var(--text-muted)', fontWeight:'normal'}}>cm</span> {getDelta(entry.legs, prev?.legs)}
-                                                        </span>
-                                                    </div>
-                                                )}
+                                                {Object.keys(entryData).map(k => {
+                                                    const val = entryData[k];
+                                                    if(!val || parseFloat(val) <= 0) return null;
+                                                    return (
+                                                        <div key={k} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                                            <span style={{ color: 'var(--text-muted)', fontSize: '0.85rem', fontWeight: '600' }}>{k}:</span>
+                                                            <span style={{ color: 'white', fontWeight: '800', display: 'flex', alignItems: 'center', gap: '4px' }}>
+                                                                {val} <span style={{fontSize:'0.75rem', color:'var(--text-muted)', fontWeight:'normal'}}>cm</span> {getDelta(val, prevData[k])}
+                                                            </span>
+                                                        </div>
+                                                    )
+                                                })}
                                             </div>
                                         </div>
                                     </div>

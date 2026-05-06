@@ -1,22 +1,63 @@
 import { useState, useEffect } from 'react';
 import { useStore } from '../hooks/useStore';
-import { ChevronRight, Plus, History, Trash2, Edit2, Eye, EyeOff } from 'lucide-react';
+import { ChevronRight, Plus, History, Trash2, Edit2, Eye, EyeOff, Play, Square, Clock } from 'lucide-react';
 import { Timer } from './Timer';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { toast } from 'sonner';
 import { confirmAction } from '../utils/ui';
 
+    const fmtElapsed = (sec) => {
+        const h = Math.floor(sec / 3600);
+        const m = Math.floor((sec % 3600) / 60);
+        const s = sec % 60;
+        if (h > 0) return `${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+        return `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    };
+
+    const parseRepsRange = (rangeStr) => {
+        if (!rangeStr) return [];
+        // If it's a range like "8-10"
+        if (rangeStr.includes('-')) {
+            const parts = rangeStr.split('-').map(s => parseInt(s.trim()));
+            if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+                const options = [];
+                const start = Math.min(parts[0], parts[1]);
+                const end = Math.max(parts[0], parts[1]);
+                // Limit to 20 options to prevent UI breakage
+                for (let i = start; i <= Math.min(end, start + 20); i++) {
+                    options.push(i.toString());
+                }
+                return options;
+            }
+        }
+        // If it's just a number or something else, return it as a single option if it's numeric
+        const singleVal = parseInt(rangeStr);
+        if (!isNaN(singleVal)) return [singleVal.toString()];
+        return [];
+    };
+
 export function WorkoutView({ preselectedRoutineId }) {
     const { 
-        routines, logs, addLog, user, 
+        routines, logs, addLog, user,
+        activeSession, startSession, endSession,
         addRoutine, updateRoutine, removeRoutine, reorderRoutines,
-        addExerciseToRoutine, removeExerciseFromRoutine // Added missing functions
+        addExerciseToRoutine, removeExerciseFromRoutine
     } = useStore();
     const [activeRoutineId, setActiveRoutineId] = useState(preselectedRoutineId || '');
     const [isEditingRoutines, setIsEditingRoutines] = useState(false);
     const [newRoutineName, setNewRoutineName] = useState('');
     const [editingRoutineId, setEditingRoutineId] = useState(null);
     const [editingName, setEditingName] = useState('');
+    const [elapsed, setElapsed] = useState(0); // seconds
+
+    // Live timer tick for active session
+    useEffect(() => {
+        if (!activeSession) { setElapsed(0); return; }
+        const update = () => setElapsed(Math.floor((Date.now() - new Date(activeSession.startedAt).getTime()) / 1000));
+        update();
+        const id = setInterval(update, 1000);
+        return () => clearInterval(id);
+    }, [activeSession]);
 
     useEffect(() => {
         if (preselectedRoutineId) {
@@ -84,9 +125,26 @@ export function WorkoutView({ preselectedRoutineId }) {
         });
     };
 
+
     if (!activeRoutine) {
         return (
         <div style={{ display: 'flex', flexDirection: 'column', gap: '1.5rem', paddingBottom: '2rem' }}>
+            {/* Active session global banner */}
+            {activeSession && (
+                <div style={{ background: 'linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(249,115,22,0.15) 100%)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '16px', padding: '0.75rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                        <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f87171', animation: 'pulse 1.5s ease-in-out infinite', boxShadow: '0 0 8px #f87171' }} />
+                        <span style={{ color: '#f87171', fontWeight: '700', fontSize: '0.85rem' }}>Sesión en curso</span>
+                        <span style={{ color: 'white', fontWeight: '900', fontSize: '1rem', fontFamily: 'monospace' }}>{fmtElapsed(elapsed)}</span>
+                    </div>
+                    <button
+                        onClick={async () => { const mins = await endSession(); toast.success(`¡Sesión terminada! ${mins} min registrados.`); }}
+                        style={{ background: '#f87171', border: 'none', borderRadius: '10px', padding: '0.4rem 0.9rem', color: 'white', fontWeight: '800', fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
+                    >
+                        <Square size={12} /> Terminar
+                    </button>
+                </div>
+            )}
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '0.5rem 0' }}>
                 <div>
                      <p style={{ margin: 0, fontSize: '0.85rem', color: 'var(--text-muted)', fontWeight: '600', textTransform: 'uppercase', letterSpacing: '1px' }}>Bienvenido de vuelta</p>
@@ -192,10 +250,30 @@ export function WorkoutView({ preselectedRoutineId }) {
                                             {routine.name}
                                         </span>
                                     </div>
-                                    <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                                        <span style={{ fontSize: '0.85rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '6px', background: 'rgba(0,0,0,0.2)', padding: '4px 12px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.03)' }}>
-                                            <span style={{ width: '6px', height: '6px', borderRadius: '50%', background: 'var(--secondary)', boxShadow: '0 0 8px var(--secondary)' }}></span>
-                                            <span style={{ fontWeight: '600' }}>{routine.exercises?.filter(e => e.is_active !== false).length || 0}</span> Ejercicios
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                                        {/* Session button */}
+                                        {!isEditingRoutines && (
+                                            activeSession?.routineId === routine.id ? (
+                                                <button
+                                                    onClick={async (e) => { e.stopPropagation(); const mins = await endSession(); toast.success(`¡Sesión terminada! ${mins} min registrados.`); }}
+                                                    style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.4)', borderRadius: '12px', padding: '4px 10px', color: '#f87171', fontWeight: '800', fontSize: '0.75rem', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                                                >
+                                                    <Square size={10} /> {fmtElapsed(elapsed)}
+                                                </button>
+                                            ) : (
+                                                !activeSession && (
+                                                    <button
+                                                        onClick={(e) => { e.stopPropagation(); startSession(routine.id); toast.success('¡Sesión iniciada!'); }}
+                                                        style={{ display: 'flex', alignItems: 'center', gap: '4px', background: 'rgba(34,197,94,0.12)', border: '1px solid rgba(34,197,94,0.3)', borderRadius: '12px', padding: '4px 10px', color: 'var(--success)', fontWeight: '800', fontSize: '0.75rem', cursor: 'pointer', whiteSpace: 'nowrap' }}
+                                                    >
+                                                        <Play size={10} /> Iniciar
+                                                    </button>
+                                                )
+                                            )
+                                        )}
+                                        <span style={{ fontSize: '0.8rem', color: 'var(--text-muted)', display: 'flex', alignItems: 'center', gap: '5px', background: 'rgba(0,0,0,0.2)', padding: '4px 10px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.03)' }}>
+                                            <span style={{ width: '5px', height: '5px', borderRadius: '50%', background: 'var(--secondary)' }} />
+                                            <span style={{ fontWeight: '600' }}>{routine.exercises?.filter(e => e.is_active !== false).length || 0}</span> Ej.
                                         </span>
                                         {isDoneThisWeek && (
                                             <span style={{ 
@@ -390,7 +468,18 @@ export function WorkoutView({ preselectedRoutineId }) {
 }
 
 function WorkoutDetails({ routine, onBack, addLog, logs }) {
-    const { addExerciseToRoutine, removeExerciseFromRoutine, updateExercise, updateLog, deleteLog, reorderExercises } = useStore();
+    const { 
+        addExerciseToRoutine, 
+        removeExerciseFromRoutine, 
+        updateExercise, 
+        updateLog, 
+        deleteLog, 
+        reorderExercises, 
+        user,
+        activeSession,
+        startSession,
+        endSession
+    } = useStore();
     const [activeExerciseId, setActiveExerciseId] = useState('');
 
     // Edit Mode State
@@ -403,7 +492,19 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
     const [weight, setWeight] = useState('');
     const [sets, setSets] = useState('4');
     const [reps, setReps] = useState('');
+    const [isCustomReps, setIsCustomReps] = useState(false);
     const [unit, setUnit] = useState('kg'); // 'kg' or 'lbs'
+    const [notes, setNotes] = useState('');
+
+    // Timer logic in details view
+    const [elapsed, setElapsed] = useState(0);
+    useEffect(() => {
+        if (!activeSession) { setElapsed(0); return; }
+        const update = () => setElapsed(Math.floor((Date.now() - new Date(activeSession.startedAt).getTime()) / 1000));
+        update();
+        const id = setInterval(update, 1000);
+        return () => clearInterval(id);
+    }, [activeSession]);
 
     // Timer State
     const [showTimer, setShowTimer] = useState(false);
@@ -421,10 +522,23 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
     useEffect(() => {
         if (activeExercise) {
             setSets(activeExercise.target_sets || '4');
-            // Extract the first number from reps string if possible, or just use it
-            // If target_reps is "10-12", parseInt will take 10. Perfect.
-            const targetReps = activeExercise.target_reps ? parseInt(activeExercise.target_reps) : '';
-            setReps(targetReps || '');
+            // Check if target reps is a range or a number
+            const rangeOptions = parseRepsRange(activeExercise.target_reps);
+            if (rangeOptions.length > 0) {
+                // Pre-fill with the first option of the range or the last log if available
+                const lastLog = exerciseLogs[0];
+                if (lastLog) {
+                    setReps(lastLog.reps.toString());
+                    // If last log reps is not in the range options, it's custom
+                    setIsCustomReps(!rangeOptions.includes(lastLog.reps.toString()));
+                } else {
+                    setReps(rangeOptions[0]);
+                    setIsCustomReps(false);
+                }
+            } else {
+                setReps('');
+                setIsCustomReps(true);
+            }
         }
         setLogsVisible(5); // Reset pagination when switching exercises
     }, [activeExerciseId, activeExercise]); // activeExercise depends on routine.exercises
@@ -443,12 +557,14 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                 weight: finalWeight,
                 reps: parseInt(reps),
                 sets: parseInt(sets || 4),
-                unit: unit // Update unit if changed
+                unit: unit, // Update unit if changed
+                notes: notes.trim() || null
             });
             setEditingLogId(null);
             setWeight('');
             setReps('');
             setSets('4');
+            setNotes('');
             return;
         }
 
@@ -460,14 +576,22 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
             reps: parseInt(reps),
             sets: parseInt(sets || 4),
             completedSets: 0,
-            unit: unit // Store the unit
+            unit: unit, // Store the unit
+            notes: notes.trim() || null
         };
 
         addLog(newLog);
+
+        // Auto-start session if not active
+        if (!activeSession) {
+            startSession(routine.id);
+            toast.success('¡Sesión de entrenamiento iniciada automáticamente!');
+        }
         
         // Reset Inputs
         setWeight('');
         setReps('');
+        setNotes('');
         // sets remains 4 or whatever
         
         // Timer removed from here (User request: only on check)
@@ -491,12 +615,33 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
         updateLog(logId, { completedSets: newCompleted });
 
         // Only start timer if we are PROGRESSING (increasing sets)
-        // And only if we haven't finished all sets (optional, but usually you rest between sets, not after the last one?? 
-        // User said "apenas registro... debe aparecer cada que marco un check". 
-        // Usually you rest AFTER a set. So yes, start timer.
-        if (newCompleted > (log.completedSets || 0)) {
+        // And only if we haven't finished all sets (User request)
+        if (newCompleted > (log.completedSets || 0) && newCompleted < (log.sets || 4)) {
              setActiveLogIdForTimer(logId);
              setShowTimer(true);
+        }
+
+        // Auto-end session logic
+        if (newCompleted === (log.sets || 4) && activeSession && activeSession.routineId === routine.id) {
+            const today = new Date().toDateString();
+            const activeExercises = routine.exercises.filter(e => e.is_active !== false);
+            const isEveryExcCompletedToday = activeExercises.every(ex => {
+                const exLogs = logs.filter(l => l.exerciseId === ex.id && new Date(l.created_at || l.date).toDateString() === today);
+                if (exLogs.length === 0) return false;
+                // Check if any of today's logs for this exercise are finished
+                // or if the one we just updated makes it finished
+                return exLogs.some(l => {
+                    const comp = l.id === logId ? newCompleted : (l.completedSets || 0);
+                    return comp >= (l.sets || 4);
+                });
+            });
+
+            if (isEveryExcCompletedToday) {
+                setTimeout(async () => {
+                    const mins = await endSession();
+                    toast.success(`¡Misión cumplida! Entrenamiento terminado automáticamente: ${mins} min registrados.`);
+                }, 500); // Small delay for UX
+            }
         }
 
         if (newCompleted === (log.sets || 4)) {
@@ -510,6 +655,7 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
         setReps(log.reps);
         setSets(log.sets || 4);
         setUnit(log.unit || 'kg');
+        setNotes(log.notes || '');
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
@@ -600,6 +746,22 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
     if (!activeExercise) {
         return (
             <div>
+                {/* Active session global banner */}
+                {activeSession && (
+                    <div style={{ background: 'linear-gradient(135deg, rgba(239,68,68,0.15) 0%, rgba(249,115,22,0.15) 100%)', border: '1px solid rgba(239,68,68,0.3)', borderRadius: '16px', padding: '0.75rem 1.25rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem', marginBottom: '1.5rem' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                            <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: '#f87171', animation: 'pulse 1.5s ease-in-out infinite', boxShadow: '0 0 8px #f87171' }} />
+                            <span style={{ color: '#f87171', fontWeight: '700', fontSize: '0.85rem' }}>Sesión en curso</span>
+                            <span style={{ color: 'white', fontWeight: '900', fontSize: '1rem', fontFamily: 'monospace' }}>{fmtElapsed(elapsed)}</span>
+                        </div>
+                        <button
+                            onClick={async () => { const mins = await endSession(); toast.success(`¡Sesión terminada! ${mins} min registrados.`); }}
+                            style={{ background: '#f87171', border: 'none', borderRadius: '10px', padding: '0.4rem 0.9rem', color: 'white', fontWeight: '800', fontSize: '0.8rem', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}
+                        >
+                            <Square size={12} /> Terminar
+                        </button>
+                    </div>
+                )}
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem', padding: '0.5rem 0' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
                         <button 
@@ -672,7 +834,7 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                                 <input 
                                                     type="number"
                                                     value={exercise.target_sets || ''}
-                                                    onChange={(e) => updateExercise(exercise.id, { target_sets: parseInt(e.target.value) || 4 })}
+                                                    onChange={(e) => updateExercise(exercise.id, { target_sets: e.target.value === '' ? '' : parseInt(e.target.value) })}
                                                     style={{ width: '60px', padding: '0.5rem', borderRadius: '4px', border: '1px solid var(--glass-border)', background: 'rgba(255,255,255,0.05)', color: 'white' }}
                                                     placeholder="Sets"
                                                 />
@@ -1054,15 +1216,68 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                             <label style={{ display: 'block', marginBottom: '0.5rem', color: 'var(--text-muted)', fontSize: '0.8rem', fontWeight: 'bold', textTransform: 'uppercase', letterSpacing: '0.5px', textAlign: 'center' }}>
                                 Reps
                             </label>
-                            <input
-                                type="number"
-                                inputMode="numeric"
-                                value={reps}
-                                onChange={(e) => setReps(e.target.value)}
-                                style={{ width: '100%', fontSize: '1.5rem', fontWeight: '800', background: 'transparent', border: 'none', color: 'white', textAlign: 'center', outline: 'none' }}
-                                placeholder="0"
-                            />
+                            {!isCustomReps ? (
+                                <select
+                                    value={reps}
+                                    onChange={(e) => {
+                                        if (e.target.value === 'custom') {
+                                            setIsCustomReps(true);
+                                            setReps('');
+                                        } else {
+                                            setReps(e.target.value);
+                                        }
+                                    }}
+                                    style={{ width: '100%', fontSize: '1.5rem', fontWeight: '800', background: 'transparent', border: 'none', color: 'white', textAlign: 'center', outline: 'none', appearance: 'none', cursor: 'pointer' }}
+                                >
+                                    {parseRepsRange(activeExercise?.target_reps).map(opt => (
+                                        <option key={opt} value={opt} style={{background: 'var(--bg-card)', color: 'white'}}>{opt}</option>
+                                    ))}
+                                    <option value="custom" style={{background: 'var(--bg-card)', color: 'var(--secondary)'}}>Otro...</option>
+                                </select>
+                             ) : (
+                                <div style={{position: 'relative', display: 'flex', alignItems: 'center'}}>
+                                    <input
+                                        type="number"
+                                        inputMode="numeric"
+                                        value={reps}
+                                        onChange={(e) => setReps(e.target.value)}
+                                        style={{ width: '100%', fontSize: '1.5rem', fontWeight: '800', background: 'transparent', border: 'none', color: 'white', textAlign: 'center', outline: 'none' }}
+                                        placeholder="0"
+                                        autoFocus
+                                    />
+                                    {parseRepsRange(activeExercise?.target_reps).length > 0 && (
+                                        <button 
+                                            type="button"
+                                            onClick={() => setIsCustomReps(false)}
+                                            style={{position: 'absolute', right: '-5px', background: 'none', border: 'none', color: 'var(--secondary)', fontSize: '0.7rem', fontWeight: 'bold', cursor: 'pointer'}}
+                                        >
+                                            LISTA
+                                        </button>
+                                    )}
+                                </div>
+                             )}
                         </div>
+                    </div>
+                    
+                    <div style={{ gridColumn: '1 / -1' }}>
+                        <textarea
+                            value={notes}
+                            onChange={(e) => setNotes(e.target.value)}
+                            placeholder="Observaciones de la serie (Opcional)"
+                            rows="2"
+                            style={{
+                                width: '100%',
+                                background: 'rgba(255,255,255,0.03)',
+                                border: '1px solid rgba(255,255,255,0.05)',
+                                borderRadius: '12px',
+                                padding: '12px',
+                                color: 'white',
+                                fontSize: '0.9rem',
+                                outline: 'none',
+                                resize: 'none',
+                                fontFamily: 'inherit'
+                            }}
+                        />
                     </div>
                     <div style={{ gridColumn: '1 / -1', display: 'flex', gap: '0.5rem' }}>
                         <button
@@ -1093,6 +1308,7 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                     setEditingLogId(null);
                                     setWeight('');
                                     setReps('');
+                                    setNotes('');
                                 }}
                                 style={{
                                     background: 'transparent',
@@ -1112,6 +1328,7 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
 
             {showTimer && (
                 <Timer 
+                    initialSeconds={user?.rest_time || 180}
                     onClose={() => setShowTimer(false)} 
                     onComplete={() => setShowTimer(false)} 
                     isLastSet={logs.find(l => l.id === activeLogIdForTimer)?.completedSets === (logs.find(l => l.id === activeLogIdForTimer)?.sets || 4)}
@@ -1488,6 +1705,22 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                                             pointerEvents: 'none'
                                         }}>
                                            <span style={{ color: 'var(--success)', fontSize: '0.8rem', fontWeight: 'bold' }}>✓</span>
+                                        </div>
+                                    )}
+
+                                    {/* Observation Notes */}
+                                    {log.notes && (
+                                        <div style={{ 
+                                            marginTop: '1rem', 
+                                            padding: '0.75rem', 
+                                            background: 'rgba(255,255,255,0.02)', 
+                                            borderRadius: '12px',
+                                            borderLeft: '2px solid var(--primary)',
+                                            fontSize: '0.85rem',
+                                            color: 'var(--text-muted)'
+                                        }}>
+                                            <span style={{ fontWeight: 'bold', marginRight: '0.5rem', opacity: 0.7 }}>Obs:</span>
+                                            {log.notes}
                                         </div>
                                     )}
                                 </div>

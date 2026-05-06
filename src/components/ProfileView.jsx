@@ -4,11 +4,14 @@ import { User, FileText, Target, Activity, Calendar as CalendarIcon, Download, I
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { toast } from 'sonner';
+import { Filesystem, Directory } from '@capacitor/filesystem';
+import { Share } from '@capacitor/share';
 
 export function ProfileView() {
     const { user, updateUser, logs, routines, measurements } = useStore();
     const [isGenerating, setIsGenerating] = useState(false);
     const [reportTimeframe, setReportTimeframe] = useState('todo'); // 'todo', 'dia', 'semana', 'mes', 'año'
+    const [pdfUrl, setPdfUrl] = useState(null);
     
     // Default values from user or empty
     const [profileData, setProfileData] = useState({
@@ -18,6 +21,7 @@ export function ProfileView() {
         start_date: user?.start_date || new Date().toISOString().split('T')[0],
         goal: user?.goal || 'hipertrofia',
         observations: user?.observations || '',
+        rest_time: user?.rest_time || 180,
     });
 
     const handleProfileChange = (e) => {
@@ -34,9 +38,18 @@ export function ProfileView() {
         }
     };
 
-    const generatePdfReport = () => {
+    const generatePdfReport = async () => {
         setIsGenerating(true);
+        setPdfUrl(null);
         try {
+            const formatDate = (dateStr) => {
+                if (!dateStr) return '-';
+                const date = new Date(dateStr);
+                const options = { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' };
+                const formatted = date.toLocaleDateString('es-ES', options);
+                return formatted.charAt(0).toUpperCase() + formatted.slice(1);
+            };
+
             const doc = new jsPDF();
             const pageWidth = doc.internal.pageSize.getWidth();
             
@@ -63,7 +76,7 @@ export function ProfileView() {
             doc.text(`Estatura: ${profileData.height ? profileData.height + ' cm' : 'No especificada'}`, 14, yPos);
             doc.text(`Peso Inicial/Actual: ${profileData.weight ? profileData.weight + ' kg' : 'No especificado'}`, 100, yPos);
             yPos += 6;
-            doc.text(`Fecha de inicio: ${profileData.start_date || 'No especificada'}`, 14, yPos);
+            doc.text(`Fecha de inicio: ${formatDate(profileData.start_date)}`, 14, yPos);
             doc.text(`Objetivo Principal: ${profileData.goal.toUpperCase()}`, 100, yPos);
             yPos += 6;
             doc.text(`Observaciones generales: ${profileData.observations || 'Ninguna'}`, 14, yPos);
@@ -90,33 +103,42 @@ export function ProfileView() {
             const filteredMeasurements = measurements.filter(m => new Date(m.date) >= startDate);
             const filteredLogs = logs.filter(l => new Date(l.created_at || l.date) >= startDate);
 
-            // 3. Mediciones físicas (basado en el filtro)
-            const recentMeasurements = [...filteredMeasurements].sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0, 5);
+            // 3. Indicadores Físicos Dinámicos
+            const recentMeasurements = [...filteredMeasurements].sort((a,b) => new Date(b.date) - new Date(a.date)).slice(0, 10);
             
             doc.setFontSize(14);
             doc.setFillColor(15, 23, 42);
             doc.rect(14, yPos - 6, pageWidth - 28, 8, 'F');
             doc.setTextColor(255, 255, 255);
-            doc.text('3. Indicadores Físicos (Últimos Registros)', 16, yPos);
+            doc.text('2. Indicadores Físicos (Historial de Progreso)', 16, yPos);
             yPos += 5;
             
             if (recentMeasurements.length > 0) {
-                const measBody = recentMeasurements.map(m => [
-                    new Date(m.date).toLocaleDateString(),
-                    m.weight ? `${m.weight} kg` : '-',
-                    m.chest ? `${m.chest} cm` : '-',
-                    m.arms ? `${m.arms} cm` : '-',
-                    m.legs ? `${m.legs} cm` : '-',
-                    m.waist ? `${m.waist} cm` : '-'
-                ]);
+                // Determine all unique keys in 'data'
+                const measureKeys = new Set();
+                recentMeasurements.forEach(m => {
+                    const mData = m.data || { Pecho: m.chest, Glúteos: m.waist, Brazos: m.arms, Piernas: m.legs };
+                    Object.keys(mData).forEach(k => { if(mData[k]) measureKeys.add(k); });
+                });
+                const sortedKeys = Array.from(measureKeys).sort();
+
+                const measHead = [['Fecha', 'Peso (kg)', ...sortedKeys]];
+                const measBody = recentMeasurements.map(m => {
+                    const mData = m.data || { Pecho: m.chest, Glúteos: m.waist, Brazos: m.arms, Piernas: m.legs };
+                    return [
+                        formatDate(m.date),
+                        m.weight ? `${m.weight} kg` : '-',
+                        ...sortedKeys.map(k => mData[k] ? `${mData[k]} cm` : '-')
+                    ];
+                });
                 
                 autoTable(doc, {
                     startY: yPos,
-                    head: [['Fecha', 'Peso', 'Pecho', 'Brazos', 'Piernas', 'Glúteos/Cadera']],
+                    head: measHead,
                     body: measBody,
                     theme: 'grid',
-                    headStyles: { fillColor: [34, 211, 238], textColor: 255 },
-                    styles: { fontSize: 9 }
+                    headStyles: { fillColor: [34, 211, 238], textColor: 255, fontSize: 8 },
+                    styles: { fontSize: 7, cellPadding: 2 }
                 });
                 yPos = doc.lastAutoTable.finalY + 15;
             } else {
@@ -132,37 +154,80 @@ export function ProfileView() {
             doc.setFillColor(15, 23, 42);
             doc.rect(14, yPos - 6, pageWidth - 28, 8, 'F');
             doc.setTextColor(255, 255, 255);
-            doc.text(`4. Registro de Entrenamiento (${reportTimeframe.toUpperCase()})`, 16, yPos);
+            doc.text(`3. Registro de Entrenamiento (${reportTimeframe.toUpperCase()})`, 16, yPos);
             yPos += 5;
 
             const recentLogs = [...filteredLogs].sort((a,b) => new Date(b.created_at || b.date) - new Date(a.created_at || a.date));
             
             if (recentLogs.length > 0) {
-                const logsBody = recentLogs.map(l => {
-                    // Find exercise name
+                const groupedLogs = new Map(); // Week -> Map(Routine -> Logs)
+                const getWeekLabel = (d) => {
+                    const logDate = new Date(d);
+                    const day = logDate.getDay() || 7; 
+                    const monday = new Date(logDate);
+                    monday.setDate(logDate.getDate() - day + 1);
+                    const sunday = new Date(monday);
+                    sunday.setDate(monday.getDate() + 6);
+                    return `Semana del ${formatDate(monday)} al ${formatDate(sunday)}`;
+                };
+
+                recentLogs.forEach(l => {
+                    const logDate = new Date(l.created_at || l.date);
+                    const weekStr = getWeekLabel(logDate);
+                    
+                    let routineName = 'Rutina General';
                     let exName = 'Ejercicio Desconocido';
                     routines.forEach(r => {
                         const ex = r.exercises?.find(e => e.id === l.exerciseId);
-                        if (ex) exName = ex.name;
+                        if (ex) {
+                            routineName = r.name || 'Rutina General';
+                            exName = ex.name;
+                        }
                     });
+
+                    if (!groupedLogs.has(weekStr)) groupedLogs.set(weekStr, new Map());
+                    const weekGroup = groupedLogs.get(weekStr);
+                    if (!weekGroup.has(routineName)) weekGroup.set(routineName, []);
                     
-                    return [
-                        new Date(l.created_at || l.date).toLocaleDateString(),
+                    weekGroup.get(routineName).push([
+                        formatDate(logDate),
                         exName,
-                        `${l.sets} x ${l.reps}`,
+                        `${l.completedSets || l.sets} x ${l.reps}`,
                         `${l.weight} ${l.unit}`
-                    ];
+                    ]);
                 });
-                
-                autoTable(doc, {
-                    startY: yPos,
-                    head: [['Fecha', 'Ejercicio', 'SeriesxReps', 'Peso']],
-                    body: logsBody,
-                    theme: 'grid',
-                    headStyles: { fillColor: [34, 211, 238], textColor: 255 },
-                    styles: { fontSize: 8 }
+
+                groupedLogs.forEach((routinesMap, weekLabel) => {
+                    if (yPos > 250) { doc.addPage(); yPos = 20; }
+                    
+                    doc.setFontSize(12);
+                    doc.setTextColor(34, 211, 238);
+                    doc.text(weekLabel, 14, yPos);
+                    yPos += 8;
+
+                    routinesMap.forEach((logsBody, routineName) => {
+                        if (yPos > 260) { doc.addPage(); yPos = 20; }
+                        
+                        doc.setFontSize(10);
+                        doc.setTextColor(255, 255, 255);
+                        doc.setFillColor(30, 41, 59);
+                        doc.rect(14, yPos - 5, pageWidth - 28, 7, 'F');
+                        doc.text(`Rutina: ${routineName}`, 16, yPos);
+                        yPos += 4;
+
+                        autoTable(doc, {
+                            startY: yPos,
+                            head: [['Fecha', 'Ejercicio', 'SeriesxReps', 'Peso']],
+                            body: logsBody,
+                            theme: 'grid',
+                            headStyles: { fillColor: [50, 60, 80], textColor: 255 },
+                            styles: { fontSize: 8 }
+                        });
+                        yPos = doc.lastAutoTable.finalY + 10;
+                    });
+                    yPos += 5; // Extra space between weeks
                 });
-                yPos = doc.lastAutoTable.finalY + 15;
+
             } else {
                 yPos += 5;
                 doc.setFontSize(10);
@@ -177,7 +242,7 @@ export function ProfileView() {
             doc.setFillColor(15, 23, 42);
             doc.rect(14, yPos - 6, pageWidth - 28, 8, 'F');
             doc.setTextColor(255, 255, 255);
-            doc.text('5. Análisis y Observaciones', 16, yPos);
+            doc.text('4. Análisis y Observaciones', 16, yPos);
             yPos += 10;
             
             doc.setFontSize(10);
@@ -209,8 +274,47 @@ export function ProfileView() {
             doc.setTextColor(150, 150, 150);
             doc.text(`Generado el ${new Date().toLocaleString()} por Gym Tracker App`, pageWidth / 2, 290, { align: 'center' });
 
-            doc.save(`Reporte_Progreso_${user?.name || 'Vikingo'}_${new Date().toISOString().split('T')[0]}.pdf`);
-            toast.success('Reporte PDF generado exitosamente');
+            const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
+            
+            if (isMobile) {
+                const blob = doc.output('blob');
+                
+                // Convert Blob to Base64 (Capacitor Filesystem requires base64)
+                const reader = new FileReader();
+                const base64Promise = new Promise((resolve, reject) => {
+                    reader.onloadend = () => resolve(reader.result.split(',')[1]);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(blob);
+                });
+                
+                const base64Data = await base64Promise;
+                const tempFileName = `Reporte_${new Date().getTime()}.pdf`;
+                
+                try {
+                    const savedFile = await Filesystem.writeFile({
+                        path: tempFileName,
+                        data: base64Data,
+                        directory: Directory.Cache
+                    });
+                    
+                    await Share.share({
+                        title: 'Reporte de Gimnasio',
+                        text: 'Aquí está mi reporte de progreso',
+                        url: savedFile.uri,
+                    });
+                    
+                    toast.success('Reporte listo. Revisa tu visor de PDF o menú de compartir.');
+                } catch (err) {
+                    console.error('Filesystem/Share error', err);
+                    const url = URL.createObjectURL(blob);
+                    setPdfUrl(url);
+                    window.open(url, '_blank');
+                    toast.error('Error al abrir nativo, intentando respaldo web...');
+                }
+            } else {
+                doc.save(fileName);
+                toast.success('Reporte PDF generado exitosamente');
+            }
         } catch (error) {
             console.error('PDF error', error);
             toast.error('Error al generar el PDF');
@@ -246,7 +350,7 @@ export function ProfileView() {
                 </div>
 
                 <form onSubmit={saveProfile} style={{ display: 'grid', gap: '1rem' }}>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))', gap: '1rem' }}>
+                    <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '1rem' }}>
                         <div>
                             <label style={labelStyle}>Edad</label>
                             <input type="number" name="age" value={profileData.age} onChange={handleProfileChange} style={inputStyle} placeholder="Ej. 25" />
@@ -264,6 +368,11 @@ export function ProfileView() {
                     <div>
                         <label style={labelStyle}>Fecha de Inicio</label>
                         <input type="date" name="start_date" value={profileData.start_date} onChange={handleProfileChange} style={inputStyle} />
+                    </div>
+
+                    <div>
+                        <label style={labelStyle}>Tiempo de Descanso Automático (Segundos)</label>
+                        <input type="number" name="rest_time" value={profileData.rest_time} onChange={handleProfileChange} style={inputStyle} placeholder="Ej. 180 (3 min), 90 (1.5 min)" />
                     </div>
 
                     <div>
@@ -329,12 +438,39 @@ export function ProfileView() {
                     boxShadow: '0 8px 25px -5px rgba(34, 211, 238, 0.5)',
                     cursor: isGenerating ? 'not-allowed' : 'pointer',
                     transition: 'all 0.3s',
-                    marginTop: '1rem'
+                    marginTop: '1rem',
+                    width: '100%'
                 }}
             >
                 <FileText size={24} />
-                {isGenerating ? 'GENERANDO REPORTE...' : 'GENERAR REPORTE EN PDF'}
+                {isGenerating ? 'GENERANDO...' : 'GENERAR REPORTE PDF'}
                 </button>
+
+                {pdfUrl && !isGenerating && (
+                    <a
+                        href={pdfUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        style={{
+                            background: 'rgba(34, 211, 238, 0.1)',
+                            color: 'var(--primary)',
+                            border: '1px solid var(--primary)',
+                            padding: '1rem',
+                            borderRadius: '20px',
+                            fontWeight: 'bold',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            gap: '0.5rem',
+                            marginTop: '1rem',
+                            textDecoration: 'none',
+                            width: '100%',
+                            boxShadow: '0 4px 15px rgba(34, 211, 238, 0.2)'
+                        }}
+                    >
+                        <Download size={20} /> VER REPORTE LISTO
+                    </a>
+                )}
             </div>
         </div>
     );
