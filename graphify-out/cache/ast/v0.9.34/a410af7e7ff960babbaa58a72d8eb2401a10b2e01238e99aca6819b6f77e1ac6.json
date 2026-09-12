@@ -1,0 +1,1 @@
+{"nodes": [{"id": "$graphify-root$_supabase_agenda_update_sql", "label": "supabase_agenda_update.sql", "file_type": "code", "source_file": "supabase_agenda_update.sql", "source_location": null}, {"id": "routines", "label": "routines", "file_type": "code", "source_file": "", "source_location": "", "origin_file": "$graphify-root$/supabase_agenda_update.sql"}], "edges": []}

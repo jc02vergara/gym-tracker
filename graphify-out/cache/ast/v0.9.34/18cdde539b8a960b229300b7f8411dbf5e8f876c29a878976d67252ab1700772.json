@@ -1,0 +1,1 @@
+{"nodes": [{"id": "$graphify-root$_supabase_rest_time_sql", "label": "supabase_rest_time.sql", "file_type": "code", "source_file": "supabase_rest_time.sql", "source_location": null}, {"id": "public_users", "label": "public.users", "file_type": "code", "source_file": "", "source_location": "", "origin_file": "$graphify-root$/supabase_rest_time.sql"}], "edges": []}

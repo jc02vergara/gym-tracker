@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useStore } from '../hooks/useStore';
 import { ChevronRight, Plus, History, Trash2, Edit2, Eye, EyeOff, Play, Square, Clock } from 'lucide-react';
 import { Timer } from './Timer';
+import { ExercisePicker } from './ExercisePicker';
 import { LineChart, Line, AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 import { toast } from 'sonner';
 import { confirmAction } from '../utils/ui';
@@ -1037,47 +1038,14 @@ function WorkoutDetails({ routine, onBack, addLog, logs }) {
                     })}
 
                     {isEditing && (
-                        <div style={{ 
-                            marginTop: '1.5rem', 
-                            display: 'flex', 
-                            gap: '0.5rem',
-                            background: 'rgba(0,0,0,0.2)', 
-                            padding: '8px', 
-                            borderRadius: '16px', 
-                            border: '1px dashed rgba(255,255,255,0.15)',
-                            alignItems: 'center'
-                        }}>
-                             <input
-                                 type="text"
-                                 value={newExerciseName}
-                                 onChange={(e) => setNewExerciseName(e.target.value)}
-                                 placeholder="Nombre del nuevo ejercicio..."
-                                 style={{ flex: 1, border: 'none', background: 'transparent', padding: '0.5rem 1rem', fontSize: '1.05rem', color: 'white', outline: 'none', fontWeight: '500' }}
-                             />
-                             <button
-                                 onClick={() => {
-                                     if (newExerciseName.trim()) {
-                                         addExerciseToRoutine(routine.id, newExerciseName);
-                                         setNewExerciseName('');
-                                     }
-                                 }}
-                                 style={{
-                                     background: 'var(--primary)',
-                                     color: 'var(--bg-app)',
-                                     border: 'none',
-                                     borderRadius: '12px',
-                                     padding: '0.75rem 1.25rem',
-                                     fontWeight: '800',
-                                     display: 'flex',
-                                     alignItems: 'center',
-                                     gap: '8px',
-                                     boxShadow: '0 4px 15px rgba(34, 211, 238, 0.3)',
-                                     cursor: 'pointer',
-                                     transition: 'all 0.2s'
-                                 }}
-                             >
-                                 <Plus size={20} />
-                             </button>
+                        <div style={{ marginTop: '1.5rem' }}>
+                            <ExercisePicker
+                                existingNames={(routine.exercises || []).map((e) => e.name)}
+                                onSelect={(name) => {
+                                    addExerciseToRoutine(routine.id, name);
+                                    toast.success('Ejercicio añadido');
+                                }}
+                            />
                         </div>
                     )}
                 </div>

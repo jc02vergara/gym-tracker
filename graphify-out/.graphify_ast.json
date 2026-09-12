@@ -1,0 +1,3944 @@
+{
+  "nodes": [
+    {
+      "id": "android_app_build",
+      "label": "build.gradle",
+      "file_type": "code",
+      "source_file": "android/app/build.gradle",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "android_app_capacitor_build",
+      "label": "capacitor.build.gradle",
+      "file_type": "code",
+      "source_file": "android/app/capacitor.build.gradle",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest",
+      "label": "ExampleInstrumentedTest.java",
+      "file_type": "code",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_exampleinstrumentedtest",
+      "label": "ExampleInstrumentedTest",
+      "file_type": "code",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L16",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "runwith",
+      "label": "RunWith",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_exampleinstrumentedtest_useappcontext",
+      "label": ".useAppContext()",
+      "file_type": "code",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L19",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_java_test",
+      "label": "Test",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "android_app_src_main_java_com_gymtracker_app_mainactivity",
+      "label": "MainActivity.java",
+      "file_type": "code",
+      "source_file": "android/app/src/main/java/com/gymtracker/app/MainActivity.java",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "android_app_src_main_java_com_gymtracker_app_mainactivity_mainactivity",
+      "label": "MainActivity",
+      "file_type": "code",
+      "source_file": "android/app/src/main/java/com/gymtracker/app/MainActivity.java",
+      "source_location": "L5",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "bridgeactivity",
+      "label": "BridgeActivity",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest",
+      "label": "ExampleUnitTest.java",
+      "file_type": "code",
+      "source_file": "android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest_exampleunittest",
+      "label": "ExampleUnitTest",
+      "file_type": "code",
+      "source_file": "android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java",
+      "source_location": "L12",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest_exampleunittest_addition_iscorrect",
+      "label": ".addition_isCorrect()",
+      "file_type": "code",
+      "source_file": "android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java",
+      "source_location": "L14",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest_java_test",
+      "label": "Test",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "android_build",
+      "label": "build.gradle",
+      "file_type": "code",
+      "source_file": "android/build.gradle",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "android_capacitor_settings",
+      "label": "capacitor.settings.gradle",
+      "file_type": "code",
+      "source_file": "android/capacitor.settings.gradle",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "android_gradlew",
+      "label": "gradlew",
+      "file_type": "code",
+      "source_file": "android/gradlew",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "file"
+      },
+      "_origin": "ast"
+    },
+    {
+      "id": "android_gradlew__entry",
+      "label": "gradlew script",
+      "file_type": "code",
+      "source_file": "android/gradlew",
+      "source_location": "L1",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_entrypoint"
+      },
+      "_origin": "ast"
+    },
+    {
+      "id": "android_gradlew_warn",
+      "label": "warn()",
+      "file_type": "code",
+      "source_file": "android/gradlew",
+      "source_location": "L94",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast"
+    },
+    {
+      "id": "android_gradlew_die",
+      "label": "die()",
+      "file_type": "code",
+      "source_file": "android/gradlew",
+      "source_location": "L98",
+      "metadata": {
+        "language": "bash",
+        "kind": "bash_function"
+      },
+      "_origin": "ast"
+    },
+    {
+      "id": "android_settings",
+      "label": "settings.gradle",
+      "file_type": "code",
+      "source_file": "android/settings.gradle",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "android_variables",
+      "label": "variables.gradle",
+      "file_type": "code",
+      "source_file": "android/variables.gradle",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_auth",
+      "label": "auth.php",
+      "file_type": "code",
+      "source_file": "backend/auth.php",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_config",
+      "label": "config.php",
+      "file_type": "code",
+      "source_file": "backend/config.php",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_database_schema",
+      "label": "schema.sql",
+      "file_type": "code",
+      "source_file": "backend/database/schema.sql",
+      "source_location": null,
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_database_schema_users",
+      "label": "users",
+      "file_type": "code",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_database_schema_routines",
+      "label": "routines",
+      "file_type": "code",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_database_schema_exercises",
+      "label": "exercises",
+      "file_type": "code",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L19",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_database_schema_logs",
+      "label": "logs",
+      "file_type": "code",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L27",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_database_schema_measurements",
+      "label": "measurements",
+      "file_type": "code",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L38",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_exercises",
+      "label": "exercises.php",
+      "file_type": "code",
+      "source_file": "backend/exercises.php",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_logs",
+      "label": "logs.php",
+      "file_type": "code",
+      "source_file": "backend/logs.php",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_measurements",
+      "label": "measurements.php",
+      "file_type": "code",
+      "source_file": "backend/measurements.php",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "backend_routines",
+      "label": "routines.php",
+      "file_type": "code",
+      "source_file": "backend/routines.php",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "eslint_config",
+      "label": "eslint.config.js",
+      "file_type": "code",
+      "source_file": "eslint.config.js",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "gym_tracker",
+      "label": "gym_tracker.sql",
+      "file_type": "code",
+      "source_file": "gym_tracker.sql",
+      "source_location": null,
+      "_origin": "ast"
+    },
+    {
+      "id": "gym_tracker_exercises",
+      "label": "`exercises`",
+      "file_type": "code",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L30",
+      "_origin": "ast"
+    },
+    {
+      "id": "gym_tracker_logs",
+      "label": "`logs`",
+      "file_type": "code",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L43",
+      "_origin": "ast"
+    },
+    {
+      "id": "gym_tracker_measurements",
+      "label": "`measurements`",
+      "file_type": "code",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L58",
+      "_origin": "ast"
+    },
+    {
+      "id": "gym_tracker_routines",
+      "label": "`routines`",
+      "file_type": "code",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L75",
+      "_origin": "ast"
+    },
+    {
+      "id": "gym_tracker_users",
+      "label": "`users`",
+      "file_type": "code",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L88",
+      "_origin": "ast"
+    },
+    {
+      "id": "package",
+      "label": "package.json",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_name",
+      "label": "name",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_private",
+      "label": "private",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_version",
+      "label": "version",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_type",
+      "label": "type",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_dev",
+      "label": "dev",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_build",
+      "label": "build",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_build_android",
+      "label": "build:android",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_lint",
+      "label": "lint",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_scripts_preview",
+      "label": "preview",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies",
+      "label": "dependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_capacitor_android",
+      "label": "@capacitor/android",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "_origin": "ast"
+    },
+    {
+      "id": "capacitor_android",
+      "label": "@capacitor/android",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_capacitor_cli",
+      "label": "@capacitor/cli",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "_origin": "ast"
+    },
+    {
+      "id": "capacitor_cli",
+      "label": "@capacitor/cli",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_capacitor_core",
+      "label": "@capacitor/core",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "_origin": "ast"
+    },
+    {
+      "id": "capacitor_core",
+      "label": "@capacitor/core",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_capacitor_filesystem",
+      "label": "@capacitor/filesystem",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "_origin": "ast"
+    },
+    {
+      "id": "capacitor_filesystem",
+      "label": "@capacitor/filesystem",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_capacitor_local_notifications",
+      "label": "@capacitor/local-notifications",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "capacitor_local_notifications",
+      "label": "@capacitor/local-notifications",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_capacitor_share",
+      "label": "@capacitor/share",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "_origin": "ast"
+    },
+    {
+      "id": "capacitor_share",
+      "label": "@capacitor/share",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_supabase_supabase_js",
+      "label": "@supabase/supabase-js",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_supabase_js",
+      "label": "@supabase/supabase-js",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_jspdf",
+      "label": "jspdf",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "_origin": "ast"
+    },
+    {
+      "id": "jspdf",
+      "label": "jspdf",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_jspdf_autotable",
+      "label": "jspdf-autotable",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "_origin": "ast"
+    },
+    {
+      "id": "jspdf_autotable",
+      "label": "jspdf-autotable",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_lucide_react",
+      "label": "lucide-react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "_origin": "ast"
+    },
+    {
+      "id": "lucide_react",
+      "label": "lucide-react",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_react",
+      "label": "react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "_origin": "ast"
+    },
+    {
+      "id": "react",
+      "label": "react",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_react_dom",
+      "label": "react-dom",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "_origin": "ast"
+    },
+    {
+      "id": "react_dom",
+      "label": "react-dom",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_recharts",
+      "label": "recharts",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "_origin": "ast"
+    },
+    {
+      "id": "recharts",
+      "label": "recharts",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_dependencies_sonner",
+      "label": "sonner",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "_origin": "ast"
+    },
+    {
+      "id": "sonner",
+      "label": "sonner",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies",
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L29",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_eslint_js",
+      "label": "@eslint/js",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "_origin": "ast"
+    },
+    {
+      "id": "eslint_js",
+      "label": "@eslint/js",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_types_react",
+      "label": "@types/react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "_origin": "ast"
+    },
+    {
+      "id": "types_react",
+      "label": "@types/react",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_types_react_dom",
+      "label": "@types/react-dom",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "_origin": "ast"
+    },
+    {
+      "id": "types_react_dom",
+      "label": "@types/react-dom",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_vitejs_plugin_react",
+      "label": "@vitejs/plugin-react",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "_origin": "ast"
+    },
+    {
+      "id": "vitejs_plugin_react",
+      "label": "@vitejs/plugin-react",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_eslint",
+      "label": "eslint",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L34",
+      "_origin": "ast"
+    },
+    {
+      "id": "eslint",
+      "label": "eslint",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L34",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_eslint_plugin_react_hooks",
+      "label": "eslint-plugin-react-hooks",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L35",
+      "_origin": "ast"
+    },
+    {
+      "id": "eslint_plugin_react_hooks",
+      "label": "eslint-plugin-react-hooks",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L35",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_eslint_plugin_react_refresh",
+      "label": "eslint-plugin-react-refresh",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L36",
+      "_origin": "ast"
+    },
+    {
+      "id": "eslint_plugin_react_refresh",
+      "label": "eslint-plugin-react-refresh",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L36",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_globals",
+      "label": "globals",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L37",
+      "_origin": "ast"
+    },
+    {
+      "id": "globals",
+      "label": "globals",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L37",
+      "_origin": "ast"
+    },
+    {
+      "id": "package_devdependencies_vite",
+      "label": "vite",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L38",
+      "_origin": "ast"
+    },
+    {
+      "id": "vite",
+      "label": "vite",
+      "file_type": "concept",
+      "source_file": "package.json",
+      "source_location": "L38",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app",
+      "label": "App.jsx",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_app_app",
+      "label": "App()",
+      "file_type": "code",
+      "source_file": "src/App.jsx",
+      "source_location": "L12",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_agendaview",
+      "label": "AgendaView.jsx",
+      "file_type": "code",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_agendaview_days_of_week",
+      "label": "DAYS_OF_WEEK",
+      "file_type": "code",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L5",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_agendaview_months",
+      "label": "MONTHS",
+      "file_type": "code",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_agendaview_agendaview",
+      "label": "AgendaView()",
+      "file_type": "code",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L8",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_agendaview_navbtnstyle",
+      "label": "navBtnStyle",
+      "file_type": "code",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L415",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_agendaview_addbtnstyle",
+      "label": "addBtnStyle",
+      "file_type": "code",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L428",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_analyticsview",
+      "label": "AnalyticsView.jsx",
+      "file_type": "code",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_analyticsview_analyticsview",
+      "label": "AnalyticsView()",
+      "file_type": "code",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L6",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_analyticsview_cardstyle",
+      "label": "cardStyle",
+      "file_type": "code",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L813",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_analyticsview_sectionstyle",
+      "label": "sectionStyle",
+      "file_type": "code",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L823",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_analyticsview_sectiontitlestyle",
+      "label": "sectionTitleStyle",
+      "file_type": "code",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L831",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_analyticsview_modaloverlaystyle",
+      "label": "modalOverlayStyle",
+      "file_type": "code",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L838",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_analyticsview_modalcontentstyle",
+      "label": "modalContentStyle",
+      "file_type": "code",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L850",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_loginview",
+      "label": "LoginView.jsx",
+      "file_type": "code",
+      "source_file": "src/components/LoginView.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_loginview_loginview",
+      "label": "LoginView()",
+      "file_type": "code",
+      "source_file": "src/components/LoginView.jsx",
+      "source_location": "L5",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_profileview",
+      "label": "ProfileView.jsx",
+      "file_type": "code",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_profileview_profileview",
+      "label": "ProfileView()",
+      "file_type": "code",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L10",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_profileview_labelstyle",
+      "label": "labelStyle",
+      "file_type": "code",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L479",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_profileview_inputstyle",
+      "label": "inputStyle",
+      "file_type": "code",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L489",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_progressview",
+      "label": "ProgressView.jsx",
+      "file_type": "code",
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_progressview_progressview",
+      "label": "ProgressView()",
+      "file_type": "code",
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L8",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_timer",
+      "label": "Timer.jsx",
+      "file_type": "code",
+      "source_file": "src/components/Timer.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_timer_timer",
+      "label": "Timer()",
+      "file_type": "code",
+      "source_file": "src/components/Timer.jsx",
+      "source_location": "L5",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_workoutview",
+      "label": "WorkoutView.jsx",
+      "file_type": "code",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_workoutview_fmtelapsed",
+      "label": "fmtElapsed()",
+      "file_type": "code",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L9",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_workoutview_parserepsrange",
+      "label": "parseRepsRange()",
+      "file_type": "code",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L17",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_workoutview_workoutview",
+      "label": "WorkoutView()",
+      "file_type": "code",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L39",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_components_workoutview_workoutdetails",
+      "label": "WorkoutDetails()",
+      "file_type": "code",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L470",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_context_storecontext",
+      "label": "StoreContext.jsx",
+      "file_type": "code",
+      "source_file": "src/context/StoreContext.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_context_storecontext_storecontext",
+      "label": "StoreContext",
+      "file_type": "code",
+      "source_file": "src/context/StoreContext.jsx",
+      "source_location": "L4",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_context_storecontext_storeprovider",
+      "label": "StoreProvider()",
+      "file_type": "code",
+      "source_file": "src/context/StoreContext.jsx",
+      "source_location": "L8",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_context_storecontext_usestorecontext",
+      "label": "useStoreContext()",
+      "file_type": "code",
+      "source_file": "src/context/StoreContext.jsx",
+      "source_location": "L554",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_data_routines",
+      "label": "routines.js",
+      "file_type": "code",
+      "source_file": "src/data/routines.js",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_data_routines_initial_routines",
+      "label": "INITIAL_ROUTINES",
+      "file_type": "code",
+      "source_file": "src/data/routines.js",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_hooks_usestore",
+      "label": "useStore.js",
+      "file_type": "code",
+      "source_file": "src/hooks/useStore.js",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_hooks_usestore_usestore",
+      "label": "useStore()",
+      "file_type": "code",
+      "source_file": "src/hooks/useStore.js",
+      "source_location": "L3",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_main",
+      "label": "main.jsx",
+      "file_type": "code",
+      "source_file": "src/main.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_supabase",
+      "label": "supabase.js",
+      "file_type": "code",
+      "source_file": "src/supabase.js",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_supabase_supabase",
+      "label": "supabase",
+      "file_type": "code",
+      "source_file": "src/supabase.js",
+      "source_location": "L6",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_notifications",
+      "label": "notifications.js",
+      "file_type": "code",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_notifications_createchannel",
+      "label": "createChannel()",
+      "file_type": "code",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L4",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_notifications_requestnotificationpermission",
+      "label": "requestNotificationPermission()",
+      "file_type": "code",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L18",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_notifications_schedulenotification",
+      "label": "scheduleNotification()",
+      "file_type": "code",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L36",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_notifications_cancelnotification",
+      "label": "cancelNotification()",
+      "file_type": "code",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L67",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_ui",
+      "label": "ui.jsx",
+      "file_type": "code",
+      "source_file": "src/utils/ui.jsx",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "src_utils_ui_confirmaction",
+      "label": "confirmAction()",
+      "file_type": "code",
+      "source_file": "src/utils/ui.jsx",
+      "source_location": "L3",
+      "_callable": true,
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_agenda_update",
+      "label": "supabase_agenda_update.sql",
+      "file_type": "code",
+      "source_file": "supabase_agenda_update.sql",
+      "source_location": null,
+      "_origin": "ast"
+    },
+    {
+      "id": "routines",
+      "label": "routines",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_dynamic_measurements",
+      "label": "supabase_dynamic_measurements.sql",
+      "file_type": "code",
+      "source_file": "supabase_dynamic_measurements.sql",
+      "source_location": null,
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_dynamic_measurements_sql_users",
+      "label": "users",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "measurements",
+      "label": "measurements",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_fix_sessions_rls",
+      "label": "supabase_fix_sessions_rls.sql",
+      "file_type": "code",
+      "source_file": "supabase_fix_sessions_rls.sql",
+      "source_location": null,
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_log_notes",
+      "label": "supabase_log_notes.sql",
+      "file_type": "code",
+      "source_file": "supabase_log_notes.sql",
+      "source_location": null,
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_log_notes_sql_logs",
+      "label": "logs",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_report_update",
+      "label": "supabase_report_update.sql",
+      "file_type": "code",
+      "source_file": "supabase_report_update.sql",
+      "source_location": null,
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_report_update_sql_users",
+      "label": "users",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_rest_time",
+      "label": "supabase_rest_time.sql",
+      "file_type": "code",
+      "source_file": "supabase_rest_time.sql",
+      "source_location": null,
+      "_origin": "ast"
+    },
+    {
+      "id": "public_users",
+      "label": "public.users",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_update",
+      "label": "supabase_update.sql",
+      "file_type": "code",
+      "source_file": "supabase_update.sql",
+      "source_location": null,
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_update_sql_logs",
+      "label": "logs",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_workout_sessions",
+      "label": "supabase_workout_sessions.sql",
+      "file_type": "code",
+      "source_file": "supabase_workout_sessions.sql",
+      "source_location": null,
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_workout_sessions_workout_sessions",
+      "label": "workout_sessions",
+      "file_type": "code",
+      "source_file": "supabase_workout_sessions.sql",
+      "source_location": "L2",
+      "_origin": "ast"
+    },
+    {
+      "id": "supabase_workout_sessions_sql_users",
+      "label": "users",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "update_db",
+      "label": "update_db.php",
+      "file_type": "code",
+      "source_file": "update_db.php",
+      "source_location": "L1",
+      "_origin": "ast"
+    },
+    {
+      "id": "update_logs_unit",
+      "label": "update_logs_unit.sql",
+      "file_type": "code",
+      "source_file": "update_logs_unit.sql",
+      "source_location": null,
+      "_origin": "ast"
+    },
+    {
+      "id": "update_logs_unit_sql_logs",
+      "label": "logs",
+      "file_type": "code",
+      "source_file": "",
+      "source_location": "",
+      "_origin": "ast"
+    },
+    {
+      "id": "vite_config",
+      "label": "vite.config.js",
+      "file_type": "code",
+      "source_file": "vite.config.js",
+      "source_location": "L1",
+      "_origin": "ast"
+    }
+  ],
+  "edges": [
+    {
+      "source": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest",
+      "target": "assert",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest",
+      "target": "context",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest",
+      "target": "androidjunit4",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest",
+      "target": "instrumentationregistry",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest",
+      "target": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_java_test",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest",
+      "target": "runwith",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest",
+      "target": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_exampleinstrumentedtest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_exampleinstrumentedtest",
+      "target": "runwith",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "attribute",
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_exampleinstrumentedtest",
+      "target": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_exampleinstrumentedtest_useappcontext",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_exampleinstrumentedtest_useappcontext",
+      "target": "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_java_test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/androidTest/java/com/getcapacitor/myapp/ExampleInstrumentedTest.java",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "attribute",
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_main_java_com_gymtracker_app_mainactivity",
+      "target": "bridgeactivity",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/java/com/gymtracker/app/MainActivity.java",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_main_java_com_gymtracker_app_mainactivity",
+      "target": "android_app_src_main_java_com_gymtracker_app_mainactivity_mainactivity",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/java/com/gymtracker/app/MainActivity.java",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_main_java_com_gymtracker_app_mainactivity_mainactivity",
+      "target": "bridgeactivity",
+      "relation": "inherits",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/main/java/com/gymtracker/app/MainActivity.java",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest",
+      "target": "assert",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest",
+      "target": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest_java_test",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest",
+      "target": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest_exampleunittest",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest_exampleunittest",
+      "target": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest_exampleunittest_addition_iscorrect",
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest_exampleunittest_addition_iscorrect",
+      "target": "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest_java_test",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "android/app/src/test/java/com/getcapacitor/myapp/ExampleUnitTest.java",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "attribute",
+      "_origin": "ast"
+    },
+    {
+      "source": "android_gradlew",
+      "target": "android_gradlew__entry",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "android/gradlew",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_gradlew",
+      "target": "android_gradlew_warn",
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "android/gradlew",
+      "source_location": "L94",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_gradlew",
+      "target": "android_gradlew_die",
+      "relation": "defines",
+      "confidence": "EXTRACTED",
+      "source_file": "android/gradlew",
+      "source_location": "L98",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "android_gradlew__entry",
+      "target": "android_gradlew_die",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "android/gradlew",
+      "source_location": "L129",
+      "weight": 1.0,
+      "context": "call",
+      "_origin": "ast"
+    },
+    {
+      "source": "android_gradlew__entry",
+      "target": "android_gradlew_warn",
+      "relation": "calls",
+      "confidence": "EXTRACTED",
+      "source_file": "android/gradlew",
+      "source_location": "L152",
+      "weight": 1.0,
+      "context": "call",
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_database_schema",
+      "target": "backend_database_schema_users",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_database_schema",
+      "target": "backend_database_schema_routines",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_database_schema_routines",
+      "target": "backend_database_schema_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_database_schema",
+      "target": "backend_database_schema_exercises",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_database_schema_exercises",
+      "target": "backend_database_schema_routines",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_database_schema",
+      "target": "backend_database_schema_logs",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_database_schema_logs",
+      "target": "backend_database_schema_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_database_schema_logs",
+      "target": "backend_database_schema_exercises",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_database_schema",
+      "target": "backend_database_schema_measurements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "backend_database_schema_measurements",
+      "target": "backend_database_schema_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "backend/database/schema.sql",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "eslint_config",
+      "target": "ref_eslint_js",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "eslint_config",
+      "target": "ref_globals",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "eslint_config",
+      "target": "ref_eslint_plugin_react_hooks",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "eslint_config",
+      "target": "ref_eslint_plugin_react_refresh",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "eslint_config",
+      "target": "ref_eslint_config",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "eslint.config.js",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gym_tracker",
+      "target": "gym_tracker_exercises",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gym_tracker",
+      "target": "gym_tracker_logs",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L43",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gym_tracker",
+      "target": "gym_tracker_measurements",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L58",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gym_tracker",
+      "target": "gym_tracker_routines",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L75",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gym_tracker",
+      "target": "gym_tracker_users",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L88",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gym_tracker_exercises",
+      "target": "gym_tracker_routines",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L159",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gym_tracker_logs",
+      "target": "gym_tracker_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L165",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gym_tracker_logs",
+      "target": "gym_tracker_exercises",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L165",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gym_tracker_measurements",
+      "target": "gym_tracker_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L172",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "gym_tracker_routines",
+      "target": "gym_tracker_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "gym_tracker.sql",
+      "source_location": "L178",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_name",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_private",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_version",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_type",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_scripts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_dev",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_build",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_build_android",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_lint",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_preview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_dependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_capacitor_android",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_capacitor_android",
+      "target": "capacitor_android",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_capacitor_cli",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_capacitor_cli",
+      "target": "capacitor_cli",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_capacitor_core",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_capacitor_core",
+      "target": "capacitor_core",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_capacitor_filesystem",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_capacitor_filesystem",
+      "target": "capacitor_filesystem",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_capacitor_local_notifications",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_capacitor_local_notifications",
+      "target": "capacitor_local_notifications",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_capacitor_share",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_capacitor_share",
+      "target": "capacitor_share",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_supabase_supabase_js",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_supabase_supabase_js",
+      "target": "supabase_supabase_js",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_jspdf",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_jspdf",
+      "target": "jspdf",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_jspdf_autotable",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_jspdf_autotable",
+      "target": "jspdf_autotable",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L22",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_lucide_react",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_lucide_react",
+      "target": "lucide_react",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L23",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_react",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_react",
+      "target": "react",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L24",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_react_dom",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_react_dom",
+      "target": "react_dom",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L25",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_recharts",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_recharts",
+      "target": "recharts",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L26",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies",
+      "target": "package_dependencies_sonner",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_dependencies_sonner",
+      "target": "sonner",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package",
+      "target": "package_devdependencies",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L29",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_eslint_js",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_eslint_js",
+      "target": "eslint_js",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L30",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_react",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_types_react",
+      "target": "types_react",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L31",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_types_react_dom",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_types_react_dom",
+      "target": "types_react_dom",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L32",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vitejs_plugin_react",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_vitejs_plugin_react",
+      "target": "vitejs_plugin_react",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L33",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_eslint",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_eslint",
+      "target": "eslint",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L34",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_eslint_plugin_react_hooks",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_eslint_plugin_react_hooks",
+      "target": "eslint_plugin_react_hooks",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L35",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_eslint_plugin_react_refresh",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_eslint_plugin_react_refresh",
+      "target": "eslint_plugin_react_refresh",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L36",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_globals",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_globals",
+      "target": "globals",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L37",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies",
+      "target": "package_devdependencies_vite",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "package_devdependencies_vite",
+      "target": "vite",
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
+      "source_location": "L38",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_app",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_workoutview",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_workoutview_workoutview",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_progressview",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_progressview_progressview",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_loginview",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_loginview_loginview",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_profileview",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_profileview_profileview",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_analyticsview",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_components_analyticsview_analyticsview",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_hooks_usestore",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "ref_sonner",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app",
+      "target": "src_app_app",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_agendaview",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_agendaview",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_agendaview",
+      "target": "src_hooks_usestore",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_agendaview",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_agendaview",
+      "target": "src_components_agendaview_days_of_week",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_agendaview",
+      "target": "src_components_agendaview_months",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_agendaview",
+      "target": "src_components_agendaview_agendaview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_agendaview",
+      "target": "src_components_agendaview_navbtnstyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L415",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_agendaview",
+      "target": "src_components_agendaview_addbtnstyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L428",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_analyticsview",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_analyticsview",
+      "target": "src_hooks_usestore",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_analyticsview",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_analyticsview",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_analyticsview",
+      "target": "ref_recharts",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_analyticsview",
+      "target": "src_components_analyticsview_analyticsview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_analyticsview",
+      "target": "src_components_analyticsview_cardstyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L813",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_analyticsview",
+      "target": "src_components_analyticsview_sectionstyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L823",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_analyticsview",
+      "target": "src_components_analyticsview_sectiontitlestyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L831",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_analyticsview",
+      "target": "src_components_analyticsview_modaloverlaystyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L838",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_analyticsview",
+      "target": "src_components_analyticsview_modalcontentstyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L850",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_loginview",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LoginView.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_loginview",
+      "target": "src_hooks_usestore",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LoginView.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_loginview",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LoginView.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_loginview",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LoginView.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_loginview",
+      "target": "src_components_loginview_loginview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/LoginView.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview",
+      "target": "src_hooks_usestore",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview",
+      "target": "ref_jspdf",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview",
+      "target": "ref_jspdf_autotable",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview",
+      "target": "ref_sonner",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview",
+      "target": "ref_capacitor_filesystem",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview",
+      "target": "ref_capacitor_share",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview",
+      "target": "src_components_profileview_profileview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview",
+      "target": "src_components_profileview_labelstyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L479",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview",
+      "target": "src_components_profileview_inputstyle",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L489",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_progressview",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_progressview",
+      "target": "src_hooks_usestore",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_progressview",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_progressview",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_progressview",
+      "target": "ref_recharts",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_progressview",
+      "target": "ref_sonner",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_progressview",
+      "target": "src_utils_ui",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_progressview",
+      "target": "src_utils_ui_confirmaction",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_progressview",
+      "target": "src_components_progressview_progressview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_timer",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Timer.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_timer",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Timer.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_timer",
+      "target": "src_utils_notifications",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Timer.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_timer",
+      "target": "src_utils_notifications_schedulenotification",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Timer.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_timer",
+      "target": "src_utils_notifications_cancelnotification",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Timer.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_timer",
+      "target": "src_components_timer_timer",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/Timer.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "src_hooks_usestore",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "ref_lucide_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "src_components_timer",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "src_components_timer_timer",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "ref_recharts",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "ref_sonner",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "src_utils_ui",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "src_utils_ui_confirmaction",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "src_components_workoutview_fmtelapsed",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "src_components_workoutview_parserepsrange",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "src_components_workoutview_workoutview",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L39",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview",
+      "target": "src_components_workoutview_workoutdetails",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L470",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview_workoutview",
+      "target": "src_components_workoutview_fmtelapsed",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L138",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview_workoutdetails",
+      "target": "src_components_workoutview_parserepsrange",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L526",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview_workoutdetails",
+      "target": "src_components_workoutview_fmtelapsed",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L755",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_context_storecontext",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/context/StoreContext.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_context_storecontext",
+      "target": "src_supabase",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/context/StoreContext.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_context_storecontext",
+      "target": "src_supabase_supabase",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/context/StoreContext.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_context_storecontext",
+      "target": "src_context_storecontext_storecontext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/context/StoreContext.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_context_storecontext",
+      "target": "src_context_storecontext_storeprovider",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/context/StoreContext.jsx",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_context_storecontext",
+      "target": "src_context_storecontext_usestorecontext",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/context/StoreContext.jsx",
+      "source_location": "L554",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_data_routines",
+      "target": "src_data_routines_initial_routines",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/data/routines.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_hooks_usestore",
+      "target": "src_context_storecontext",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useStore.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_hooks_usestore",
+      "target": "src_context_storecontext_usestorecontext",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useStore.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_hooks_usestore",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/hooks/useStore.js",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "ref_react_dom_client",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "src_index",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "src_app",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "src_context_storecontext",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "src_context_storecontext_storeprovider",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_supabase",
+      "target": "ref_supabase_supabase_js",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/supabase.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_supabase",
+      "target": "src_supabase_supabase",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/supabase.js",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_notifications",
+      "target": "ref_capacitor_local_notifications",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_notifications",
+      "target": "ref_capacitor_core",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_notifications",
+      "target": "src_utils_notifications_createchannel",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_notifications",
+      "target": "src_utils_notifications_requestnotificationpermission",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_notifications",
+      "target": "src_utils_notifications_schedulenotification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_notifications",
+      "target": "src_utils_notifications_cancelnotification",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L67",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_notifications_requestnotificationpermission",
+      "target": "src_utils_notifications_createchannel",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L22",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_notifications_schedulenotification",
+      "target": "src_utils_notifications_requestnotificationpermission",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/notifications.js",
+      "source_location": "L37",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_ui",
+      "target": "ref_sonner",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/ui.jsx",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_utils_ui",
+      "target": "src_utils_ui_confirmaction",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "src/utils/ui.jsx",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "supabase_workout_sessions",
+      "target": "supabase_workout_sessions_workout_sessions",
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase_workout_sessions.sql",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "supabase_workout_sessions_workout_sessions",
+      "target": "supabase_workout_sessions_sql_users",
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "supabase_workout_sessions.sql",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "vite_config",
+      "target": "ref_vite",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "vite.config.js",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "vite_config",
+      "target": "ref_vitejs_plugin_react",
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "vite.config.js",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_main",
+      "target": "src_app_app",
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "src/main.jsx",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_app_app",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/App.jsx",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview_workoutdetails",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L482",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview_workoutdetails",
+      "target": "src_utils_ui_confirmaction",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L663",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_agendaview_agendaview",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/AgendaView.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_analyticsview_analyticsview",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/AnalyticsView.jsx",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_loginview_loginview",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/LoginView.jsx",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview_profileview",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_progressview_progressview",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_progressview_progressview",
+      "target": "src_utils_ui_confirmaction",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ProgressView.jsx",
+      "source_location": "L74",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_timer_timer",
+      "target": "src_utils_notifications_schedulenotification",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/Timer.jsx",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_timer_timer",
+      "target": "src_utils_notifications_cancelnotification",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/Timer.jsx",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_workoutview_workoutview",
+      "target": "src_hooks_usestore_usestore",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/WorkoutView.jsx",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_hooks_usestore_usestore",
+      "target": "src_context_storecontext_usestorecontext",
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/hooks/useStore.js",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast"
+    },
+    {
+      "source": "src_components_profileview_profileview",
+      "target": "package_dependencies_jspdf",
+      "relation": "references",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/ProfileView.jsx",
+      "source_location": "L57",
+      "weight": 1.0,
+      "_origin": "ast"
+    }
+  ],
+  "input_tokens": 0,
+  "output_tokens": 0
+}

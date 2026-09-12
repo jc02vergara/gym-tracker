@@ -1,0 +1,1 @@
+{"nodes": [{"id": "$graphify-root$_supabase_log_notes_sql", "label": "supabase_log_notes.sql", "file_type": "code", "source_file": "supabase_log_notes.sql", "source_location": null}, {"id": "logs", "label": "logs", "file_type": "code", "source_file": "", "source_location": "", "origin_file": "$graphify-root$/supabase_log_notes.sql"}], "edges": []}

@@ -1,0 +1,428 @@
+{
+  "communities": {
+    "0": [
+      "capacitor_android",
+      "capacitor_cli",
+      "capacitor_core",
+      "capacitor_filesystem",
+      "capacitor_local_notifications",
+      "jspdf",
+      "jspdf_autotable",
+      "lucide_react",
+      "package_dependencies",
+      "package_dependencies_capacitor_android",
+      "package_dependencies_capacitor_cli",
+      "package_dependencies_capacitor_core",
+      "package_dependencies_capacitor_filesystem",
+      "package_dependencies_capacitor_local_notifications",
+      "package_dependencies_capacitor_share",
+      "package_dependencies_jspdf",
+      "package_dependencies_jspdf_autotable",
+      "package_dependencies_lucide_react",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_recharts",
+      "package_dependencies_sonner",
+      "package_dependencies_supabase_supabase_js",
+      "react",
+      "react_dom",
+      "recharts",
+      "sonner",
+      "supabase_supabase_js"
+    ],
+    "1": [
+      "src_app",
+      "src_app_app",
+      "src_components_analyticsview_analyticsview",
+      "src_components_loginview",
+      "src_components_loginview_loginview",
+      "src_components_profileview",
+      "src_components_profileview_inputstyle",
+      "src_components_profileview_labelstyle",
+      "src_components_profileview_profileview",
+      "src_components_progressview",
+      "src_components_progressview_progressview",
+      "src_components_workoutview",
+      "src_components_workoutview_fmtelapsed",
+      "src_components_workoutview_parserepsrange",
+      "src_components_workoutview_workoutdetails",
+      "src_components_workoutview_workoutview",
+      "src_context_storecontext_usestorecontext",
+      "src_hooks_usestore",
+      "src_hooks_usestore_usestore",
+      "src_utils_ui",
+      "src_utils_ui_confirmaction"
+    ],
+    "2": [
+      "eslint",
+      "eslint_js",
+      "eslint_plugin_react_hooks",
+      "eslint_plugin_react_refresh",
+      "globals",
+      "package_devdependencies",
+      "package_devdependencies_eslint",
+      "package_devdependencies_eslint_js",
+      "package_devdependencies_eslint_plugin_react_hooks",
+      "package_devdependencies_eslint_plugin_react_refresh",
+      "package_devdependencies_globals",
+      "package_devdependencies_types_react",
+      "package_devdependencies_types_react_dom",
+      "package_devdependencies_vite",
+      "package_devdependencies_vitejs_plugin_react",
+      "types_react",
+      "types_react_dom",
+      "vite",
+      "vitejs_plugin_react"
+    ],
+    "3": [
+      "package",
+      "package_name",
+      "package_private",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_build_android",
+      "package_scripts_dev",
+      "package_scripts_lint",
+      "package_scripts_preview",
+      "package_type",
+      "package_version"
+    ],
+    "4": [
+      "src_components_timer",
+      "src_components_timer_timer",
+      "src_utils_notifications",
+      "src_utils_notifications_cancelnotification",
+      "src_utils_notifications_createchannel",
+      "src_utils_notifications_requestnotificationpermission",
+      "src_utils_notifications_schedulenotification"
+    ],
+    "5": [
+      "backend_database_schema",
+      "backend_database_schema_exercises",
+      "backend_database_schema_logs",
+      "backend_database_schema_measurements",
+      "backend_database_schema_routines",
+      "backend_database_schema_users"
+    ],
+    "6": [
+      "gym_tracker",
+      "gym_tracker_exercises",
+      "gym_tracker_logs",
+      "gym_tracker_measurements",
+      "gym_tracker_routines",
+      "gym_tracker_users"
+    ],
+    "7": [
+      "src_components_agendaview",
+      "src_components_agendaview_addbtnstyle",
+      "src_components_agendaview_agendaview",
+      "src_components_agendaview_days_of_week",
+      "src_components_agendaview_months",
+      "src_components_agendaview_navbtnstyle"
+    ],
+    "8": [
+      "src_components_analyticsview",
+      "src_components_analyticsview_cardstyle",
+      "src_components_analyticsview_modalcontentstyle",
+      "src_components_analyticsview_modaloverlaystyle",
+      "src_components_analyticsview_sectionstyle",
+      "src_components_analyticsview_sectiontitlestyle"
+    ],
+    "9": [
+      "src_context_storecontext",
+      "src_context_storecontext_storecontext",
+      "src_context_storecontext_storeprovider",
+      "src_main",
+      "src_supabase",
+      "src_supabase_supabase"
+    ],
+    "10": [
+      "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest",
+      "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_exampleinstrumentedtest",
+      "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_exampleinstrumentedtest_useappcontext",
+      "android_app_src_androidtest_java_com_getcapacitor_myapp_exampleinstrumentedtest_java_test",
+      "runwith"
+    ],
+    "11": [
+      "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest",
+      "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest_exampleunittest",
+      "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest_exampleunittest_addition_iscorrect",
+      "android_app_src_test_java_com_getcapacitor_myapp_exampleunittest_java_test"
+    ],
+    "12": [
+      "android_gradlew",
+      "android_gradlew__entry",
+      "android_gradlew_die",
+      "android_gradlew_warn"
+    ],
+    "13": [
+      "android_app_src_main_java_com_gymtracker_app_mainactivity",
+      "android_app_src_main_java_com_gymtracker_app_mainactivity_mainactivity",
+      "bridgeactivity"
+    ],
+    "14": [
+      "supabase_workout_sessions",
+      "supabase_workout_sessions_sql_users",
+      "supabase_workout_sessions_workout_sessions"
+    ],
+    "15": [
+      "src_data_routines",
+      "src_data_routines_initial_routines"
+    ],
+    "16": [
+      "android_app_build"
+    ],
+    "17": [
+      "android_app_capacitor_build"
+    ],
+    "18": [
+      "android_build"
+    ],
+    "19": [
+      "android_capacitor_settings"
+    ],
+    "20": [
+      "android_settings"
+    ],
+    "21": [
+      "android_variables"
+    ],
+    "22": [
+      "backend_auth"
+    ],
+    "23": [
+      "backend_config"
+    ],
+    "24": [
+      "backend_exercises"
+    ],
+    "25": [
+      "backend_logs"
+    ],
+    "26": [
+      "backend_measurements"
+    ],
+    "27": [
+      "backend_routines"
+    ],
+    "28": [
+      "eslint_config"
+    ],
+    "29": [
+      "measurements"
+    ],
+    "30": [
+      "public_users"
+    ],
+    "31": [
+      "routines"
+    ],
+    "32": [
+      "supabase_agenda_update"
+    ],
+    "33": [
+      "supabase_dynamic_measurements"
+    ],
+    "34": [
+      "supabase_dynamic_measurements_sql_users"
+    ],
+    "35": [
+      "supabase_fix_sessions_rls"
+    ],
+    "36": [
+      "supabase_log_notes"
+    ],
+    "37": [
+      "supabase_log_notes_sql_logs"
+    ],
+    "38": [
+      "supabase_report_update"
+    ],
+    "39": [
+      "supabase_report_update_sql_users"
+    ],
+    "40": [
+      "supabase_rest_time"
+    ],
+    "41": [
+      "supabase_update"
+    ],
+    "42": [
+      "supabase_update_sql_logs"
+    ],
+    "43": [
+      "update_db"
+    ],
+    "44": [
+      "update_logs_unit"
+    ],
+    "45": [
+      "update_logs_unit_sql_logs"
+    ],
+    "46": [
+      "vite_config"
+    ]
+  },
+  "cohesion": {
+    "0": 0.07407407407407407,
+    "1": 0.23333333333333334,
+    "2": 0.10526315789473684,
+    "3": 0.18181818181818182,
+    "4": 0.5714285714285714,
+    "5": 0.6666666666666666,
+    "6": 0.6666666666666666,
+    "7": 0.3333333333333333,
+    "8": 0.3333333333333333,
+    "9": 0.4666666666666667,
+    "10": 0.6,
+    "11": 0.6666666666666666,
+    "12": 0.8333333333333334,
+    "13": 1.0,
+    "14": 0.6666666666666666,
+    "15": 1.0,
+    "16": 1.0,
+    "17": 1.0,
+    "18": 1.0,
+    "19": 1.0,
+    "20": 1.0,
+    "21": 1.0,
+    "22": 1.0,
+    "23": 1.0,
+    "24": 1.0,
+    "25": 1.0,
+    "26": 1.0,
+    "27": 1.0,
+    "28": 1.0,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0,
+    "35": 1.0,
+    "36": 1.0,
+    "37": 1.0,
+    "38": 1.0,
+    "39": 1.0,
+    "40": 1.0,
+    "41": 1.0,
+    "42": 1.0,
+    "43": 1.0,
+    "44": 1.0,
+    "45": 1.0,
+    "46": 1.0
+  },
+  "gods": [
+    {
+      "id": "src_hooks_usestore_usestore",
+      "label": "useStore()",
+      "degree": 17
+    },
+    {
+      "id": "package_scripts",
+      "label": "scripts",
+      "degree": 6
+    },
+    {
+      "id": "src_components_workoutview_workoutdetails",
+      "label": "WorkoutDetails()",
+      "degree": 5
+    },
+    {
+      "id": "src_utils_ui_confirmaction",
+      "label": "confirmAction()",
+      "degree": 5
+    },
+    {
+      "id": "backend_database_schema_users",
+      "label": "users",
+      "degree": 4
+    },
+    {
+      "id": "gym_tracker_users",
+      "label": "`users`",
+      "degree": 4
+    },
+    {
+      "id": "src_components_profileview_profileview",
+      "label": "ProfileView()",
+      "degree": 4
+    },
+    {
+      "id": "src_components_progressview_progressview",
+      "label": "ProgressView()",
+      "degree": 4
+    },
+    {
+      "id": "src_components_timer_timer",
+      "label": "Timer()",
+      "degree": 4
+    },
+    {
+      "id": "src_components_workoutview_workoutview",
+      "label": "WorkoutView()",
+      "degree": 4
+    }
+  ],
+  "surprises": [
+    {
+      "source": "ProfileView()",
+      "target": "jspdf",
+      "source_files": [
+        "src/components/ProfileView.jsx",
+        "package.json"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "AgendaView()",
+      "target": "useStore()",
+      "source_files": [
+        "src/components/AgendaView.jsx",
+        "src/hooks/useStore.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities; peripheral node `AgendaView()` unexpectedly reaches hub `useStore()`"
+    },
+    {
+      "source": "App()",
+      "target": "useStore()",
+      "source_files": [
+        "src/App.jsx",
+        "src/hooks/useStore.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "cross-file semantic connection"
+    },
+    {
+      "source": "AnalyticsView()",
+      "target": "useStore()",
+      "source_files": [
+        "src/components/AnalyticsView.jsx",
+        "src/hooks/useStore.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "cross-file semantic connection"
+    },
+    {
+      "source": "LoginView()",
+      "target": "useStore()",
+      "source_files": [
+        "src/components/LoginView.jsx",
+        "src/hooks/useStore.js"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "cross-file semantic connection"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}
