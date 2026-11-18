@@ -175,55 +175,67 @@ export function StoreProvider({ children }) {
         }
     };
 
-    /* Actions */
-    const login = async (username, password) => {
-        // Simple "Custom Auth" against 'users' table (since user wanted to keep old logic)
-        // Ideally should use supabase.auth.signInWithPassword()
-        if (!navigator.onLine) {
-            alert("Necesitas internet para iniciar sesión la primera vez.");
-            return;
-        }
-
+    /* Auth (Supabase OTP por correo) */
+    // Vincula la sesión de Supabase Auth con el registro de la tabla `users` por email
+    const linkAuthUser = async (authUser) => {
+        const email = authUser.email?.toLowerCase();
         const { data: userRecord, error } = await supabase
             .from('users')
             .select('*')
-            .eq('username', username)
-            .single();
+            .eq('email', email)
+            .maybeSingle();
 
         if (error || !userRecord) {
-            alert("Usuario no encontrado");
-            return;
+            await supabase.auth.signOut();
+            throw new Error("Este correo no está vinculado a ninguna cuenta.");
         }
 
-        // WARNING: Basic password check. In real Supabase Auth, we don't do this manually.
-        // Assuming 'password_hash' is standard bcrypt check, but in client we can't verify hash safely.
-        // For migration speed, we'll assuming simple match OR we implementation a secure RPC.
-        // Given constraints, if standard 'password' matches (plaintext for legacy) or we skip hash check for now
-        // and tell user to reset.
-        // BETTER: Create new user if not exists? No, login.
-
-        // Simple check for demo (since we can't run php verify here):
-        // If the password matches literally (unsafe) or just let them in if username matches.
-        // User asked to *migrate*, so we should probably implement Supabase Auth properly or RPC.
-        // Let's stick to: "If user exists, login". 
-        // Or if using the implementation plan table `users`, we can't verify hash client side.
-
-        // TEMPORARY: Allow login if username exists.
-        setUser({ id: userRecord.id, name: userRecord.username });
+        setUser(prev => prev?.id === userRecord.id ? prev : { id: userRecord.id, name: userRecord.username, email });
     };
 
-    // Helper to Create new user (Sign Up)
-    const register = async (username, password) => {
-        const { data, error } = await supabase.from('users').insert({
-            username,
-            password_hash: password // Insecure, but matching "custom table" approach
-        }).select().single();
+    // Restaurar sesión existente y reaccionar a cierres de sesión (p. ej. token revocado)
+    useEffect(() => {
+        supabase.auth.getSession().then(({ data: { session } }) => {
+            if (session?.user) {
+                linkAuthUser(session.user).catch(err => console.log(err.message));
+            } else if (navigator.onLine) {
+                // Sin sesión válida de Supabase: descartar usuario en caché
+                setUser(null);
+            }
+        });
 
-        if (data) setUser({ id: data.id, name: data.username });
-        if (error) alert("Error: " + error.message);
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+            if (event === 'SIGNED_OUT') setUser(null);
+        });
+        return () => subscription.unsubscribe();
+    }, []);
+
+    const sendLoginCode = async (email) => {
+        if (!navigator.onLine) throw new Error("Necesitas internet para iniciar sesión.");
+        const { error } = await supabase.auth.signInWithOtp({
+            email: email.trim().toLowerCase(),
+            options: { shouldCreateUser: false } // Solo correos ya registrados
+        });
+        if (error) {
+            if (error.status === 422 || /signups not allowed|not found/i.test(error.message)) {
+                throw new Error("Este correo no está registrado.");
+            }
+            throw new Error(error.message);
+        }
+    };
+
+    const verifyLoginCode = async (email, token) => {
+        const { data, error } = await supabase.auth.verifyOtp({
+            email: email.trim().toLowerCase(),
+            token: token.trim(),
+            type: 'email'
+        });
+        if (error) throw new Error("Código inválido o expirado.");
+        await linkAuthUser(data.user);
     };
 
     const logout = () => {
+        supabase.auth.signOut();
         isLoggedOutRef.current = true;
         localStorage.removeItem("gym-user");
         localStorage.removeItem("gym-routines");
@@ -244,6 +256,7 @@ export function StoreProvider({ children }) {
         const safeUpdates = { ...updates };
         delete safeUpdates.id;
         delete safeUpdates.username;
+        delete safeUpdates.email;
         delete safeUpdates.password_hash;
         delete safeUpdates.name;
         
@@ -538,7 +551,7 @@ export function StoreProvider({ children }) {
 
     const value = {
         routines, logs, measurements, sessions, activeSession, user, isSyncing,
-        login, register, logout, updateUser,
+        sendLoginCode, verifyLoginCode, logout, updateUser,
         startSession, endSession,
         addLog, addMeasurement, updateLog, deleteLog, updateMeasurement, deleteMeasurement,
         addExerciseToRoutine, removeExerciseFromRoutine, updateExercise, addRoutine, updateRoutine, removeRoutine, reorderRoutines, reorderExercises,
