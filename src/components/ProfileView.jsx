@@ -4,8 +4,6 @@ import { User, FileText, Target, Activity, Calendar as CalendarIcon, Download, I
 import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 import { toast } from 'sonner';
-import { Filesystem, Directory } from '@capacitor/filesystem';
-import { Share } from '@capacitor/share';
 
 export function ProfileView() {
     const { user, updateUser, logs, routines, measurements } = useStore();
@@ -274,42 +272,32 @@ export function ProfileView() {
             doc.setTextColor(150, 150, 150);
             doc.text(`Generado el ${new Date().toLocaleString()} por Gym Tracker App`, pageWidth / 2, 290, { align: 'center' });
 
+            const fileName = `Reporte_Gym_${new Date().toISOString().split('T')[0]}.pdf`;
             const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || window.innerWidth <= 768;
             
             if (isMobile) {
                 const blob = doc.output('blob');
-                
-                // Convert Blob to Base64 (Capacitor Filesystem requires base64)
-                const reader = new FileReader();
-                const base64Promise = new Promise((resolve, reject) => {
-                    reader.onloadend = () => resolve(reader.result.split(',')[1]);
-                    reader.onerror = reject;
-                    reader.readAsDataURL(blob);
-                });
-                
-                const base64Data = await base64Promise;
-                const tempFileName = `Reporte_${new Date().getTime()}.pdf`;
-                
+                const file = new File([blob], fileName, { type: 'application/pdf' });
+
                 try {
-                    const savedFile = await Filesystem.writeFile({
-                        path: tempFileName,
-                        data: base64Data,
-                        directory: Directory.Cache
-                    });
-                    
-                    await Share.share({
-                        title: 'Reporte de Gimnasio',
-                        text: 'Aquí está mi reporte de progreso',
-                        url: savedFile.uri,
-                    });
-                    
+                    // Web Share API (compartir archivo desde el navegador móvil)
+                    if (navigator.canShare && navigator.canShare({ files: [file] })) {
+                        await navigator.share({
+                            title: 'Reporte de Gimnasio',
+                            text: 'Aquí está mi reporte de progreso',
+                            files: [file],
+                        });
+                    } else {
+                        doc.save(fileName);
+                    }
                     toast.success('Reporte listo. Revisa tu visor de PDF o menú de compartir.');
                 } catch (err) {
-                    console.error('Filesystem/Share error', err);
+                    if (err?.name === 'AbortError') return; // el usuario canceló el menú de compartir
+                    console.error('Share error', err);
                     const url = URL.createObjectURL(blob);
                     setPdfUrl(url);
                     window.open(url, '_blank');
-                    toast.error('Error al abrir nativo, intentando respaldo web...');
+                    toast.error('No se pudo compartir, abriendo el PDF en una pestaña...');
                 }
             } else {
                 doc.save(fileName);

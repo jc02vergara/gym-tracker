@@ -1,16 +1,37 @@
-# React + Vite
+# Gym Tracker
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicación web (React + Vite) para registrar rutinas, series y progreso. Los datos se guardan en Supabase y la app se publica en GitHub Pages.
 
-Currently, two official plugins are available:
+## Desarrollo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+```bash
+npm install
+npm run dev
+```
 
-## React Compiler
+La app se sirve en `http://localhost:5173/gym-tracker/`.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Despliegue (GitHub Pages)
 
-## Expanding the ESLint configuration
+Cada push a `main` ejecuta `.github/workflows/deploy.yml`, que compila y publica `dist/` en
+`https://jc02vergara.github.io/gym-tracker/`.
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Requisito único: en GitHub, **Settings → Pages → Source: GitHub Actions**.
+
+Si el repositorio cambia de nombre, actualiza `base` en `vite.config.js`.
+
+## Login (código OTP por correo)
+
+El acceso es solo mediante un código enviado al correo de un usuario ya registrado (no hay registro público).
+
+- La app llama a `signInWithOtp` con `shouldCreateUser: false` y luego a `verifyOtp`.
+- El usuario de Supabase Auth se vincula con la fila de `public.users` por la columna `email`.
+
+Configuración en Supabase:
+
+1. **Authentication → Email Templates → Magic Link**: el cuerpo debe incluir `{{ .Token }}` para que el correo traiga el código en vez de un enlace.
+2. **Authentication → Users → Add user**: crea el usuario con su correo (marcando *Auto Confirm User*) y pon ese mismo correo en `public.users.email`.
+
+## Seguridad (RLS)
+
+Todas las tablas tienen Row Level Security (`supabase_rls.sql`): cada sesión solo puede leer y modificar los datos del usuario de `public.users` cuyo `email` coincide con el correo verificado de la sesión. Sin sesión no se puede leer nada.
